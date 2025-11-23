@@ -55,7 +55,7 @@ Tampilan antarmuka dibuat konsisten, bersih, dan mendukung berbagai resolusi lay
 
 Untuk menjalankan proyek ini, Anda memerlukan:
 
--   PHP >= 8.3
+-   PHP >= 8.2
 -   Composer
 -   NPM
 -   Database server (MySQL, MariaDB, PostgreSQL, or SQLite)
