@@ -23,6 +23,10 @@ return new class extends Migration
             $table->text('address');
             $table->string('postal_code');
             $table->boolean('is_verified')->default(false);
+            $table->string('bank_name')->nullable();
+            $table->string('bank_account_name')->nullable();
+            $table->string('bank_account_number')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

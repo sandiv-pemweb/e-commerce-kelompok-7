@@ -48,28 +48,80 @@ class User extends Authenticatable
         ];
     }
 
-    // Helper methods
-    public function isAdmin()
+    /**
+     * Check if user is an admin
+     * 
+     * @return bool
+     */
+    public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    public function isMember()
+    /**
+     * Check if user is a member (default role)
+     * 
+     * @return bool
+     */
+    public function isMember(): bool
     {
         return $this->role === 'member';
     }
     
-    // Cek apakah user adalah seller (punya store yang verified)
-    public function isSeller()
+    /**
+     * Check if user is a verified seller
+     * More efficient: checks if store relationship is loaded first
+     * 
+     * @return bool
+     */
+    public function isSeller(): bool
     {
-        return $this->store()->exists() && $this->store->is_verified;
+        // If store is already loaded, use it
+        if ($this->relationLoaded('store')) {
+            return $this->store !== null && $this->store->is_verified;
+        }
+        
+        // Otherwise, check existence and verification in one query
+        return $this->store()->where('is_verified', true)->exists();
     }
-    // relationships can hava one store 
+
+    /**
+     * Check if user has a verified store (alias for isSeller)
+     * 
+     * @return bool
+     */
+    public function hasVerifiedStore(): bool
+    {
+        return $this->isSeller();
+    }
+
+    /**
+     * Check if user has a store (verified or not)
+     * 
+     * @return bool
+     */
+    public function hasStore(): bool
+    {
+        return $this->relationLoaded('store') 
+            ? $this->store !== null 
+            : $this->store()->exists();
+    }
+
+    /**
+     * Get the store owned by this user
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function store()
     {
         return $this->hasOne(Store::class);
     }
 
+    /**
+     * Get the buyer profile for this user
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function buyer()
     {
         return $this->hasOne(Buyer::class);
