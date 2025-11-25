@@ -11,7 +11,8 @@ class SellerStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // Any authenticated user can try to register/update store
+        // Admins cannot create or manage stores
+        return !auth()->user()->isAdmin();
     }
 
     /**
@@ -28,7 +29,7 @@ class SellerStoreRequest extends FormRequest
             'address' => ['required', 'string'],
             'city' => ['required', 'string', 'max:255'],
             'postal_code' => ['required', 'string', 'max:10'],
-            'address_id' => ['required', 'string', 'max:255'],
+            'address_id' => ['nullable', 'string', 'max:255'],
         ];
 
         if ($this->isMethod('post')) {

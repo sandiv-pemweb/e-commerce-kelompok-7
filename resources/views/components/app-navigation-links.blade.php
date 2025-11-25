@@ -46,8 +46,10 @@
             </x-dynamic-component>
         @endif
     @else
-        <x-dynamic-component :component="$linkComponent" :href="route('seller.stores.create')" :active="request()->routeIs('seller.stores.create')">
-            {{ __('Daftar Toko') }}
-        </x-dynamic-component>
+        @unless(Auth::user()->isAdmin())
+            <x-dynamic-component :component="$linkComponent" :href="route('seller.stores.create')" :active="request()->routeIs('seller.stores.create')">
+                {{ __('Daftar Toko') }}
+            </x-dynamic-component>
+        @endunless
     @endif
 @endauth

@@ -16,6 +16,12 @@ class SellerStoreController extends Controller
      */
     public function create()
     {
+        // Prevent admin from creating stores
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                           ->with('error', 'Admin tidak dapat memiliki toko.');
+        }
+
         // Check if user already has a store (including soft deleted ones)
         $store = auth()->user()->store()->withTrashed()->first();
 
@@ -36,6 +42,12 @@ class SellerStoreController extends Controller
      */
     public function store(SellerStoreRequest $request)
     {
+        // Prevent admin from creating stores
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                           ->with('error', 'Admin tidak dapat memiliki toko.');
+        }
+
         // Check if user already has a store (including soft deleted ones)
         $existingStore = auth()->user()->store()->withTrashed()->first();
 
@@ -52,9 +64,36 @@ class SellerStoreController extends Controller
         $validated = $request->validated();
 
         // Handle logo upload
-        if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('store-logos', 'public');
-            $validated['logo'] = $logoPath;
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            try {
+                // Laravel's recommended way - simple and clean
+                $logoPath = $request->file('logo')->store('store-logos', 'public');
+                
+                if (!$logoPath) {
+                    throw new \Exception('Failed to store file');
+                }
+                
+                $validated['logo'] = $logoPath;
+                
+            } catch (\Exception $e) {
+                \Log::error('File upload error', [
+                    'message' => $e->getMessage(),
+                    'type' => get_class($e)
+                ]);
+                
+                return redirect()->back()
+                               ->withInput()
+                               ->with('error', 'Gagal mengunggah logo. Error: ' . $e->getMessage());
+            }
+        } else {
+            return redirect()->back()
+                           ->withInput()
+                           ->with('error', 'Logo toko harus diunggah dan harus berupa file gambar yang valid.');
+        }
+
+        // Auto-generate address_id if not provided
+        if (empty($validated['address_id'])) {
+            $validated['address_id'] = 'ADDR-' . strtoupper(uniqid());
         }
 
         // Create store
@@ -72,6 +111,12 @@ class SellerStoreController extends Controller
      */
     public function edit()
     {
+        // Prevent admin from editing stores
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                           ->with('error', 'Admin tidak dapat memiliki toko.');
+        }
+
         $store = auth()->user()->store;
 
         if (!$store) {
@@ -93,6 +138,12 @@ class SellerStoreController extends Controller
      */
     public function update(SellerStoreRequest $request)
     {
+        // Prevent admin from updating stores
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                           ->with('error', 'Admin tidak dapat memiliki toko.');
+        }
+
         $store = auth()->user()->store;
 
         if (!$store) {
@@ -124,6 +175,12 @@ class SellerStoreController extends Controller
      */
     public function destroy()
     {
+        // Prevent admin from deleting stores
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                           ->with('error', 'Admin tidak dapat memiliki toko.');
+        }
+
         $store = auth()->user()->store;
 
         if (!$store) {
@@ -142,6 +199,12 @@ class SellerStoreController extends Controller
      */
     public function restore()
     {
+        // Prevent admin from restoring stores
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                           ->with('error', 'Admin tidak dapat memiliki toko.');
+        }
+
         $store = auth()->user()->store()->onlyTrashed()->first();
 
         if (!$store) {

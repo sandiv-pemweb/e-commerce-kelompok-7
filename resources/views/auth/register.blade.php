@@ -1,4 +1,14 @@
 <x-guest-layout>
+    <!-- Page Title -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 text-center">
+            Daftar Akun Baru
+        </h2>
+        <p class="mt-2 text-sm text-gray-600 text-center">
+            Bergabunglah dengan kami dan mulai berbelanja!
+        </p>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -39,14 +49,20 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
+        <div class="flex items-center justify-end mt-6">
+            <x-primary-button class="w-full sm:w-auto justify-center">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
     </form>
+
+    <!-- Login Link -->
+    <div class="mt-6 text-center border-t pt-4">
+        <p class="text-sm text-gray-600">
+            Sudah punya akun?
+            <a href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-md">
+                Masuk di sini
+            </a>
+        </p>
+    </div>
 </x-guest-layout>

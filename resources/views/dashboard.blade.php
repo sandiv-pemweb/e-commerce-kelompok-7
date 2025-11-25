@@ -6,9 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Welcome Message -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-2xl font-bold mb-2">Selamat datang, {{ Auth::user()->name }}! 👋</h3>
                     <p class="text-gray-600">
@@ -28,7 +28,7 @@
             @if(Auth::user()->isAdmin())
                 <!-- Admin Dashboard -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-lg font-semibold text-gray-900">Kelola Toko</h3>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-lg font-semibold text-gray-900">Kelola Pengguna</h3>
@@ -58,7 +58,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-lg font-semibold text-gray-900">Penarikan Saldo</h3>
@@ -84,7 +84,7 @@
                 @if(Auth::user()->store->is_verified)
                     <!-- Verified Seller Dashboard -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                             <div class="p-6">
                                 <div class="flex items-center justify-between mb-2">
                                     <h4 class="text-sm font-medium text-gray-600">Pesanan</h4>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
 
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                             <div class="p-6">
                                 <div class="flex items-center justify-between mb-2">
                                     <h4 class="text-sm font-medium text-gray-600">Produk</h4>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
 
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                             <div class="p-6">
                                 <div class="flex items-center justify-between mb-2">
                                     <h4 class="text-sm font-medium text-gray-600">Saldo</h4>
@@ -127,7 +127,7 @@
                     </div>
 
                     <!-- Quick Actions -->
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
+                    <div class="bg-white overflow-hidden shadow-sm rounded-lg mt-6">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -186,18 +186,20 @@
 
             @else
                 <!-- Member Dashboard (No Store) -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-center">
-                        <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Mulai Berjualan!</h3>
-                        <p class="text-gray-600 mb-6">Daftarkan toko Anda sekarang dan mulai menjual produk di platform kami.</p>
-                        <a href="{{ route('seller.stores.create') }}" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 font-medium">
-                            Daftar Toko Sekarang →
-                        </a>
+                @unless(Auth::user()->isAdmin())
+                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                        <div class="p-6 text-center">
+                            <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Mulai Berjualan!</h3>
+                            <p class="text-gray-600 mb-6">Daftarkan toko Anda sekarang dan mulai menjual produk di platform kami.</p>
+                            <a href="{{ route('seller.stores.create') }}" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 font-medium">
+                                Daftar Toko Sekarang →
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @endunless
             @endif
         </div>
     </div>

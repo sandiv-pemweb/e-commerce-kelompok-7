@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <div class="p-6 text-gray-900">
                     @if (session('success'))
                         <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
@@ -69,13 +69,15 @@
                             @enderror
                         </div>
 
-                        <!-- Address ID -->
+                        <!-- Address ID (Auto-generated, Read-only) -->
                         <div>
-                            <label for="address_id" class="block font-medium text-sm text-gray-700">ID Alamat</label>
-                            <input id="address_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="address_id" value="{{ old('address_id', $store->address_id) }}" required>
-                            @error('address_id')
-                                <span class="text-red-600 text-sm">{{ $message }}</span>
-                            @enderror
+                            <label for="address_id" class="block font-medium text-sm text-gray-700">
+                                ID Alamat <span class="text-gray-500 font-normal">(Auto-generated)</span>
+                            </label>
+                            <input id="address_id" class="block mt-1 w-full border-gray-300 bg-gray-100 cursor-not-allowed rounded-md shadow-sm" type="text" name="address_id" value="{{ old('address_id', $store->address_id) }}" readonly>
+                            <p class="mt-1 text-sm text-gray-500">
+                                ID unik untuk alamat toko ini. Dihasilkan otomatis oleh sistem.
+                            </p>
                         </div>
 
                         <!-- City -->
