@@ -55,7 +55,7 @@ Tampilan antarmuka dibuat konsisten, bersih, dan mendukung berbagai resolusi lay
 
 Untuk menjalankan proyek ini, Anda memerlukan:
 
--   PHP >= 8.2
+-   PHP >= 8.3
 -   Composer
 -   NPM
 -   Database server (MySQL, MariaDB, PostgreSQL, or SQLite)
@@ -69,20 +69,32 @@ Ikuti langkah-langkah berikut untuk melakukan instalasi dan menjalankan proyek d
 ```bash
 git clone https://github.com/mamelilea/e-commerce-uap-pemweb.git
 ```
-
-2. Instal dependensi PHP menggunakan Composer:
+2. masuk ke folder tersebut
+```bash
+cd e-commerce-uap-pemweb
+```
+3. Instal dependensi PHP menggunakan Composer:
 ```bash
 composer install
 ```
-3. Salin file .env.example menjadi .env lalu sesuaikan konfigurasi database:
+4. Salin file .env.example menjadi .env lalu sesuaikan konfigurasi database:
 ```bash
 cp .env.example .env
 ```
-4. Generate application key:
+5. Generate application key:
 ```bash
 php artisan key:generate
 ```
-5. Jalankan migrasi database:
+6. pastikan xampp menyala, dan di database local kamu sudah buat `database` dengan nama yang sama dengan .env :
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=e_commerce_uap
+DB_USERNAME=root
+DB_PASSWORD=
+```
+7. Jalankan migrasi database:
 ```bash
 php artisan migrate
 ```
@@ -90,20 +102,20 @@ Jika ingin menambahkan data dummy, gunakan:
 ```bash
 php artisan migrate --seed
 ```
-6. Jalankan development server Laravel:
+8. Jalankan development server Laravel:
 ```bash
 php artisan serve
 ```
-7. buka terminal yang lain (terminal ada 2), Pada terminal lain, install semua modul Node.js dan lakukan build:
+9. buka terminal yang lain (terminal ada 2), Pada terminal lain, install semua modul Node.js dan lakukan build:
 ```bash
 npm install
 npm run build
 ```
-8. Kompilasi asset dalam mode pengembangan:
+10. Kompilasi asset dalam mode pengembangan:
 ```bash
 npm run dev
 ```
-9. Buka browser dan akses aplikasi:
+11. Buka browser dan akses aplikasi:
 ```bash
 http://localhost:8000
 ```
