@@ -12,8 +12,17 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
+                serif: ['Playfair Display', ...defaultTheme.fontFamily.serif],
             },
+            colors: {
+                brand: {
+                    orange: '#F65D37',
+                    dark: '#1A1A2E',
+                    gray: '#F9F9F9',
+                    muted: '#8D8D8D',
+                }
+            }
         },
     },
 

@@ -12,6 +12,7 @@ class Store extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'slug',
         'logo',
         'about',
         'phone',
@@ -44,5 +45,10 @@ class Store extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

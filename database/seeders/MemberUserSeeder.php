@@ -16,30 +16,33 @@ class MemberUserSeeder extends Seeder
     public function run(): void
     {
         // Regular member 1
-        User::create([
+        $user1 = User::create([
             'name' => 'Andi Wijaya',
             'email' => 'buyer1@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',
             'email_verified_at' => now(),
         ]);
+        \App\Models\Buyer::create(['user_id' => $user1->id]);
 
         // Regular member 2
-        User::create([
+        $user2 = User::create([
             'name' => 'Rina Marlina',
             'email' => 'buyer2@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',
             'email_verified_at' => now(),
         ]);
+        \App\Models\Buyer::create(['user_id' => $user2->id]);
 
         // Regular member 3
-        User::create([
+        $user3 = User::create([
             'name' => 'Bambang Pamungkas',
             'email' => 'buyer3@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',
             'email_verified_at' => now(),
         ]);
+        \App\Models\Buyer::create(['user_id' => $user3->id]);
     }
 }

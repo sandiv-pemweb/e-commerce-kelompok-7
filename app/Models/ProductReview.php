@@ -8,6 +8,7 @@ class ProductReview extends Model
 {
     protected $fillable = [
         'transaction_id',
+        'buyer_id',
         'product_id',
         'rating',
         'review',
@@ -21,5 +22,16 @@ class ProductReview extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function buyer()
+    {
+        return $this->belongsTo(Buyer::class);
+    }
+
+    // Helper to get user who made the review
+    public function user()
+    {
+        return $this->buyer->user;
     }
 }

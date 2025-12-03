@@ -126,4 +126,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Buyer::class);
     }
+
+    /**
+     * Get the wishlists for this user
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }

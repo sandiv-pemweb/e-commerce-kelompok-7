@@ -17,5 +17,12 @@ class ProductImage extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    
+
+    public function getImageUrlAttribute()
+    {
+        if (\Illuminate\Support\Str::startsWith($this->image, ['http://', 'https://'])) {
+            return $this->image;
+        }
+        return \Illuminate\Support\Facades\Storage::url($this->image);
+    }
 }
