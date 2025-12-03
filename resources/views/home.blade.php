@@ -91,19 +91,22 @@
                         <!-- Partners -->
                         <div class="mt-12 pt-8 border-t border-gray-100">
                             <p class="text-sm text-gray-400 mb-4 font-medium">Our Trusted Partners</p>
-                            <div class="flex flex-wrap gap-6 items-center">
-                                <div class="px-4 py-2 bg-red-600 rounded-lg">
-                                    <span class="font-bold text-white text-sm">GRAMEDIA</span>
-                                </div>
-                                <div class="px-4 py-2 bg-blue-700 rounded-lg">
-                                    <span class="font-bold text-white text-sm">ERLANGGA</span>
-                                </div>
-                                <div class="px-4 py-2 bg-green-700 rounded-lg">
-                                    <span class="font-bold text-white text-sm">MIZAN</span>
-                                </div>
-                                <div class="px-4 py-2 bg-orange-600 rounded-lg">
-                                    <span class="font-bold text-white text-sm">BENTANG PUSTAKA</span>
-                                </div>
+                            <div class="flex flex-wrap gap-12 items-center">
+                                <a href="#" class="group transition-all duration-300 opacity-70 hover:opacity-100">
+                                    <img src="https://www.kompasgramedia.com/assets/photo/2018/09/06/822036325.png" 
+                                         alt="Gramedia" 
+                                         class="h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                </a>
+                                <a href="#" class="group transition-all duration-300 opacity-70 hover:opacity-100">
+                                    <img src="https://emir.co.id/wp-content/uploads/2016/11/RevisiOpsiLogo_10feb22-fix.png" 
+                                         alt="Erlangga" 
+                                         class="h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                </a>
+                                <a href="#" class="group transition-all duration-300 opacity-70 hover:opacity-100">
+                                    <img src="https://static.mizanstore.com/f/img/penerbit/2f8f39438e69753f6e600900d60a3b5a.png" 
+                                         alt="Mizan" 
+                                         class="h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                </a>
                             </div>
                         </div>
                     </div>

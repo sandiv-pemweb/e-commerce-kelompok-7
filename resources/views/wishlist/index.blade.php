@@ -10,7 +10,7 @@
             @endif
 
             @if($wishlists->count() > 0)
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach($wishlists as $item)
                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
                             <div class="relative aspect-[2/3] bg-gray-200 overflow-hidden">

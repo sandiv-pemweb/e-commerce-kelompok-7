@@ -275,20 +275,24 @@
                                             <h4 class="font-bold text-brand-dark leading-tight mb-1">
                                                 <a href="{{ route('products.show', ['store' => $related->store->slug, 'product' => $related->slug]) }}" class="hover:text-brand-orange transition-colors">{{ $related->name }}</a>
                                             </h4>
-                                            <p class="text-xs text-brand-orange uppercase font-bold tracking-wider mb-2">{{ $related->category->name ?? 'Genre' }}</p>
+                                            <p class="text-xs text-brand-orange uppercase font-bold tracking-wider mb-2">{{ $related->productCategory->name ?? 'Category' }}</p>
                                             <p class="font-bold text-brand-dark">{{ $related->formatted_price }}</p>
                                         </div>
-                                        <form action="{{ route('cart.add') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $related->id }}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <button type="submit" class="text-xs font-bold text-brand-orange border border-brand-orange rounded-lg px-3 py-1.5 hover:bg-brand-orange hover:text-white transition-colors flex items-center gap-1 w-max">
+                                        @auth
+                                            <button onclick="addToCart({{ $related->id }})" class="text-xs font-bold text-brand-orange border border-brand-orange rounded-lg px-3 py-1.5 hover:bg-brand-orange hover:text-white transition-colors flex items-center gap-1 w-max">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                                 </svg>
                                                 Add to cart
                                             </button>
-                                        </form>
+                                        @else
+                                            <a href="{{ route('login') }}" class="text-xs font-bold text-brand-orange border border-brand-orange rounded-lg px-3 py-1.5 hover:bg-brand-orange hover:text-white transition-colors flex items-center gap-1 w-max">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                                </svg>
+                                                Add to cart
+                                            </a>
+                                        @endauth
                                     </div>
                                 </div>
                             @endforeach

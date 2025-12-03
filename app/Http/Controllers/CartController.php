@@ -100,10 +100,29 @@ class CartController extends Controller
 
         // Check stock
         if (!$cart->product->isAvailable($request->quantity)) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => 'Stok produk tidak mencukupi'], 422);
+            }
             return redirect()->back()->with('error', 'Stok produk tidak mencukupi');
         }
 
         $cart->update(['quantity' => $request->quantity]);
+
+        if ($request->wantsJson()) {
+            $cartItems = Cart::where('user_id', Auth::id())->get();
+            $grandTotal = $cartItems->sum('subtotal');
+            $totalItems = $cartItems->sum('quantity'); // Or count() depending on requirement, usually sum of quantities
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Keranjang berhasil diperbarui',
+                'item_subtotal' => 'Rp ' . number_format($cart->subtotal, 0, ',', '.'),
+                'grand_total' => 'Rp ' . number_format($grandTotal, 0, ',', '.'),
+                'total_items' => $cartItems->count(), // Total unique items or sum of quantities? View uses sum(count) which is unique items count per store sum. Let's match view logic.
+                // View logic: $cartByStore->sum(function($items) { return $items->count(); }) which is basically total number of rows in cart table.
+                'cart_count' => $cartItems->sum('quantity') // This is usually for the badge
+            ]);
+        }
 
         return redirect()->route('cart.index')->with('success', 'Keranjang berhasil diperbarui');
     }

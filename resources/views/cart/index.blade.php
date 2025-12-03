@@ -59,20 +59,16 @@
                                                                 {{ $cart->product->name }}
                                                             </a>
                                                         </h4>
-                                                        <p class="font-bold text-brand-orange text-lg">Rp {{ number_format($cart->subtotal, 0, ',', '.') }}</p>
+                                                        <p class="font-bold text-brand-orange text-lg" id="item-subtotal-{{ $cart->id }}">Rp {{ number_format($cart->subtotal, 0, ',', '.') }}</p>
                                                     </div>
                                                     <p class="text-sm text-gray-500 mb-4">{{ $cart->product->formatted_price }} / unit</p>
 
                                                     <div class="flex items-center justify-between">
                                                         <!-- Quantity Controls -->
-                                                        <div class="flex items-center border border-gray-200 rounded-lg">
-                                                            <form action="{{ route('cart.update', $cart->id) }}" method="POST" class="flex items-center">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <input type="number" name="quantity" value="{{ $cart->quantity }}" min="1" max="{{ $cart->product->stock }}" 
-                                                                    class="w-16 text-center border-none focus:ring-0 p-2 text-sm font-bold text-gray-700"
-                                                                    onchange="this.form.submit()">
-                                                            </form>
+                                                        <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+                                                            <input type="number" value="{{ $cart->quantity }}" min="1" max="{{ $cart->product->stock }}" 
+                                                                class="w-16 text-center border-none focus:ring-0 p-2 text-sm font-bold text-gray-700"
+                                                                onchange="updateQuantity(this, {{ $cart->id }})">
                                                         </div>
 
                                                         <!-- Remove Button -->
@@ -138,6 +134,43 @@
                             document.getElementById('selectedStoresCount').textContent = selectedCount;
                         });
                     });
+
+                    function updateQuantity(input, cartId) {
+                        const quantity = input.value;
+                        
+                        fetch(`/cart/${cartId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                _method: 'PATCH',
+                                quantity: quantity
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Update DOM elements
+                                document.getElementById(`item-subtotal-${cartId}`).textContent = data.item_subtotal;
+                                document.getElementById('grandTotal').textContent = data.grand_total;
+                                document.getElementById('totalItems').textContent = data.total_items;
+                                
+                                // Optional: Show success toast
+                                // alert(data.message); 
+                            } else {
+                                alert(data.message || 'Error updating cart');
+                                // Reset input to previous value if possible, or reload
+                                location.reload(); 
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred');
+                        });
+                    }
                 </script>
             @else
                 <div class="bg-white rounded-xl shadow-sm p-16 text-center border border-gray-100">
