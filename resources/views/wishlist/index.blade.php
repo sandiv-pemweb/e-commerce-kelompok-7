@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="p-4">
-                                <div class="text-xs text-brand-orange font-medium mb-1">{{ $item->product->category->name ?? 'Uncategorized' }}</div>
+                                <div class="text-xs text-brand-orange font-medium mb-1">{{ $item->product->productCategory->name ?? 'Uncategorized' }}</div>
                                 <h3 class="font-bold text-brand-dark truncate mb-1">
                                     <a href="{{ route('products.show', ['store' => $item->product->store->slug, 'product' => $item->product->slug]) }}">{{ $item->product->name }}</a>
                                 </h3>

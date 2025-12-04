@@ -23,8 +23,8 @@
 
             <!-- Search Bar -->
             <div class="flex flex-1 items-center max-w-lg mx-4 md:mx-8 hidden md:flex">
-                <div class="relative w-full">
-                    <input type="text"
+                <form action="{{ route('products.index') }}" method="GET" class="relative w-full">
+                    <input type="text" name="search" value="{{ request('search') }}"
                         class="block w-full pl-10 pr-10 py-2.5 border-none bg-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-brand-orange focus:bg-white transition-colors placeholder-gray-400"
                         placeholder="Search books here...">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -34,7 +34,7 @@
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                </div>
+                </form>
             </div>
 
             <!-- Right Navigation -->
