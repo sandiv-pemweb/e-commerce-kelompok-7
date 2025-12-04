@@ -7,8 +7,21 @@
                     <h2 class="text-3xl font-serif font-bold text-brand-dark">Our Collection</h2>
                     <p class="mt-2 text-gray-500">Explore our wide range of books and products.</p>
                 </div>
-                <div class="flex items-center gap-4">
-                    <form id="sortForm" method="GET" action="{{ route('products.index') }}" class="relative">
+                <div class="grid grid-cols-2 gap-3 w-full md:flex md:w-auto md:items-center">
+                    <!-- Mobile Filter Toggle -->
+                    <button @click="showFilters = !showFilters" class="lg:hidden w-full bg-white border border-gray-200 text-brand-dark font-medium py-2.5 px-4 rounded-xl flex items-center justify-between shadow-sm hover:shadow-md transition-all h-11">
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-brand-orange">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                            </svg>
+                            <span>Filters</span>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{'rotate-180': showFilters}">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </button>
+
+                    <form id="sortForm" method="GET" action="{{ route('products.index') }}" class="relative w-full md:w-auto">
                         <!-- Preserve existing filters -->
                         @if(request('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
                         @if(request('categories')) 
@@ -19,8 +32,8 @@
                         @if(request('min_price')) <input type="hidden" name="min_price" value="{{ request('min_price') }}"> @endif
                         @if(request('max_price')) <input type="hidden" name="max_price" value="{{ request('max_price') }}"> @endif
 
-                        <div class="relative group">
-                            <select name="sort" onchange="document.getElementById('sortForm').submit()" class="appearance-none bg-white border border-gray-200 text-gray-700 py-2.5 pl-4 pr-10 rounded-xl leading-tight focus:outline-none focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange transition-all cursor-pointer text-sm font-medium shadow-sm hover:border-brand-orange/50">
+                        <div class="relative group w-full">
+                            <select name="sort" onchange="document.getElementById('sortForm').submit()" class="appearance-none w-full bg-white border border-gray-200 text-gray-700 py-2.5 pl-4 pr-10 rounded-xl leading-tight focus:outline-none focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange transition-all cursor-pointer text-sm font-medium shadow-sm hover:border-brand-orange/50 h-11">
                                 <option value="popularity" {{ request('sort') == 'popularity' ? 'selected' : '' }}>Sort by: Popularity</option>
                                 <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest Arrivals</option>
                                 <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
@@ -34,18 +47,7 @@
                 </div>
             </div>
 
-            <!-- Mobile Filter Toggle -->
-            <button @click="showFilters = !showFilters" class="lg:hidden w-full mb-6 bg-white border border-gray-200 text-brand-dark font-bold py-3 px-6 rounded-xl flex items-center justify-between shadow-sm hover:shadow-md transition-all">
-                <div class="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-brand-orange">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-                    </svg>
-                    <span>Filters</span>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-gray-400 transition-transform duration-200" :class="{'rotate-180': showFilters}">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
-            </button>
+
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 <!-- Sidebar Filters -->
