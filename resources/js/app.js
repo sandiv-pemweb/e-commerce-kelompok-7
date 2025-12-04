@@ -12,41 +12,69 @@ Alpine.start();
 
 // Toast Notification Logic
 window.showToast = function (message, type = 'success') {
+    console.log('[TOAST] showToast called:', { message, type });
+
     // Create toast container if it doesn't exist
     let container = document.getElementById('toast-container');
     if (!container) {
+        console.log('[TOAST] Creating container...');
         container = document.createElement('div');
         container.id = 'toast-container';
-        container.className = 'fixed bottom-4 right-4 z-50 flex flex-col gap-2';
+        // Use inline styles instead of Tailwind classes
+        container.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none;';
         document.body.appendChild(container);
+        console.log('[TOAST] Container created:', container);
     }
 
     // Create toast element
     const toast = document.createElement('div');
-    const bgColor = type === 'success' ? 'bg-green-500' : (type === 'error' ? 'bg-red-500' : 'bg-blue-500');
-    toast.className = `${bgColor} text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-y-10 opacity-0 flex items-center gap-2`;
+    const bgColor = type === 'success' ? '#10b981' : (type === 'error' ? '#ef4444' : '#3b82f6');
+
+    // Use inline styles for guaranteed visibility
+    toast.style.cssText = `
+        background-color: ${bgColor};
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        pointer-events: auto;
+        font-weight: 500;
+        min-width: 250px;
+        max-width: 90vw;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    `;
 
     // Icon based on type
     let icon = '';
     if (type === 'success') {
-        icon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+        icon = `<svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
     } else if (type === 'error') {
-        icon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+        icon = `<svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
     }
 
-    toast.innerHTML = `${icon} <span class="font-medium">${message}</span>`;
+    toast.innerHTML = `${icon} <span>${message}</span>`;
     container.appendChild(toast);
+    console.log('[TOAST] Toast created and appended:', toast);
 
-    // Animate in
-    requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-10', 'opacity-0');
-    });
+    // Animate in - use setTimeout to force reflow
+    setTimeout(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+        console.log('[TOAST] Animation triggered');
+    }, 10);
 
     // Remove after 3 seconds
     setTimeout(() => {
-        toast.classList.add('translate-y-10', 'opacity-0');
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(20px)';
         setTimeout(() => {
             toast.remove();
+            console.log('[TOAST] Toast removed');
         }, 300);
     }, 3000);
 };
@@ -57,12 +85,17 @@ window.toggleWishlist = function (button, productId) {
     button.classList.add('scale-75');
     setTimeout(() => button.classList.remove('scale-75'), 150);
 
-    fetch('/wishlist/toggle', {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    const baseUrl = document.querySelector('meta[name="base-url"]');
+
+    const url = baseUrl ? `${baseUrl.getAttribute('content')}/wishlist/toggle` : '/wishlist/toggle';
+
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
         },
         body: JSON.stringify({ product_id: productId })
     })
@@ -87,8 +120,8 @@ window.toggleWishlist = function (button, productId) {
                     }
                 }
 
-                // Update ALL wishlist counts in navbar (desktop & mobile if any)
-                const wishlistCounts = document.querySelectorAll('#wishlist-count');
+                // Update ALL wishlist counts in navbar
+                const wishlistCounts = document.querySelectorAll('.wishlist-count');
                 wishlistCounts.forEach(countEl => {
                     countEl.textContent = data.count;
                     countEl.style.display = data.count > 0 ? 'inline-flex' : 'none';
@@ -97,23 +130,25 @@ window.toggleWishlist = function (button, productId) {
                     countEl.classList.add('scale-125');
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
-
-                showToast(data.message, 'success');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showToast('Terjadi kesalahan, silakan coba lagi.', 'error');
+            console.error('[WISHLIST] Error:', error);
         });
 };
 
 window.addToCart = function (productId, quantity = 1) {
-    fetch('/cart/add', {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    const baseUrl = document.querySelector('meta[name="base-url"]');
+
+    const url = baseUrl ? `${baseUrl.getAttribute('content')}/cart/add` : '/cart/add';
+
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
         },
         body: JSON.stringify({
             product_id: productId,
@@ -124,7 +159,7 @@ window.addToCart = function (productId, quantity = 1) {
         .then(data => {
             if (data.success) {
                 // Update ALL cart counts in navbar
-                const cartCounts = document.querySelectorAll('#cart-count');
+                const cartCounts = document.querySelectorAll('.cart-count');
                 cartCounts.forEach(countEl => {
                     countEl.textContent = data.cartCount;
                     countEl.style.display = data.cartCount > 0 ? 'inline-flex' : 'none';
@@ -133,15 +168,10 @@ window.addToCart = function (productId, quantity = 1) {
                     countEl.classList.add('scale-125');
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
-
-                showToast(data.message, 'success');
-            } else {
-                showToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showToast('Terjadi kesalahan, silakan coba lagi.', 'error');
+            console.error('[CART] Error:', error);
         });
 };
 
@@ -154,7 +184,10 @@ window.removeFromWishlist = function (button, wishlistId) {
     button.innerHTML = '<svg class="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
     button.disabled = true;
 
-    fetch(`/wishlist/${wishlistId}`, {
+    const baseUrl = document.querySelector('meta[name="base-url"]');
+    const url = baseUrl ? `${baseUrl.getAttribute('content')}/wishlist/${wishlistId}` : `/wishlist/${wishlistId}`;
+
+    fetch(url, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -180,26 +213,22 @@ window.removeFromWishlist = function (button, wishlistId) {
                 }, 500);
 
                 // Update navbar counts
-                const wishlistCounts = document.querySelectorAll('#wishlist-count');
+                const wishlistCounts = document.querySelectorAll('.wishlist-count');
                 wishlistCounts.forEach(countEl => {
                     countEl.textContent = data.count;
                     countEl.style.display = data.count > 0 ? 'inline-flex' : 'none';
                     countEl.classList.add('scale-125');
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
-
-                showToast(data.message, 'success');
             } else {
                 button.innerHTML = originalContent;
                 button.disabled = false;
-                showToast('Gagal menghapus produk', 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
             button.innerHTML = originalContent;
             button.disabled = false;
-            showToast('Terjadi kesalahan', 'error');
         });
 };
 
@@ -211,7 +240,10 @@ window.removeFromCart = function (button, cartId) {
     button.innerHTML = '<svg class="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Removing...';
     button.disabled = true;
 
-    fetch(`/cart/${cartId}`, {
+    const baseUrl = document.querySelector('meta[name="base-url"]');
+    const url = baseUrl ? `${baseUrl.getAttribute('content')}/cart/${cartId}` : `/cart/${cartId}`;
+
+    fetch(url, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -260,7 +292,7 @@ window.removeFromCart = function (button, cartId) {
                 }, 500);
 
                 // Update navbar counts
-                const cartCounts = document.querySelectorAll('#cart-count');
+                const cartCounts = document.querySelectorAll('.cart-count');
                 cartCounts.forEach(countEl => {
                     countEl.textContent = data.cartCount;
                     countEl.style.display = data.cartCount > 0 ? 'inline-flex' : 'none';
@@ -274,18 +306,14 @@ window.removeFromCart = function (button, cartId) {
 
                 const totalItemsEl = document.getElementById('totalItems');
                 if (totalItemsEl) totalItemsEl.textContent = data.totalItems;
-
-                showToast(data.message, 'success');
             } else {
                 button.innerHTML = originalContent;
                 button.disabled = false;
-                showToast('Gagal menghapus produk', 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
             button.innerHTML = originalContent;
             button.disabled = false;
-            showToast('Terjadi kesalahan', 'error');
         });
 };

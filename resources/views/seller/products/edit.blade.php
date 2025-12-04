@@ -45,6 +45,45 @@
                                     @enderror
                                 </div>
 
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="author" class="block font-bold text-sm text-gray-700 mb-2">Author</label>
+                                        <input id="author" type="text" name="author" value="{{ old('author', $product->author) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="e.g. J.K. Rowling">
+                                        @error('author')
+                                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="publisher" class="block font-bold text-sm text-gray-700 mb-2">Publisher</label>
+                                        <input id="publisher" type="text" name="publisher" value="{{ old('publisher', $product->publisher) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="e.g. Bloomsbury">
+                                        @error('publisher')
+                                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="published_year" class="block font-bold text-sm text-gray-700 mb-2">Published Year</label>
+                                        <input id="published_year" type="number" name="published_year" value="{{ old('published_year', $product->published_year) }}" min="1900" max="{{ date('Y') + 1 }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="e.g. 2023">
+                                        @error('published_year')
+                                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="condition" class="block font-bold text-sm text-gray-700 mb-2">Condition</label>
+                                        <select id="condition" name="condition" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
+                                            <option value="new" {{ old('condition', $product->condition) == 'new' ? 'selected' : '' }}>New</option>
+                                            <option value="used" {{ old('condition', $product->condition) == 'used' ? 'selected' : '' }}>Used</option>
+                                        </select>
+                                        @error('condition')
+                                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
                                 <div>
                                     <label for="description" class="block font-bold text-sm text-gray-700 mb-2">Description</label>
                                     <textarea id="description" name="description" rows="4" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>{{ old('description', $product->description) }}</textarea>
@@ -53,7 +92,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label for="price" class="block font-bold text-sm text-gray-700 mb-2">Price (Rp)</label>
                                         <input id="price" type="number" name="price" value="{{ old('price', $product->price) }}" min="0" step="100" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
@@ -61,6 +100,17 @@
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                                         @enderror
                                     </div>
+
+                                    <div>
+                                        <label for="discount_price" class="block font-bold text-sm text-gray-700 mb-2">Discount Price (Rp) <span class="text-gray-400 font-normal text-xs">(Optional)</span></label>
+                                        <input id="discount_price" type="number" name="discount_price" value="{{ old('discount_price', $product->discount_price) }}" min="0" step="100" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
+                                        @error('discount_price')
+                                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                                     <div>
                                         <label for="stock" class="block font-bold text-sm text-gray-700 mb-2">Stock</label>

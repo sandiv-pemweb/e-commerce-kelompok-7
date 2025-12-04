@@ -12,6 +12,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::with(['store', 'productCategory', 'productImages', 'productReviews'])
+            ->whereHas('store', function($query) {
+                $query->where('is_verified', true)
+                      ->whereNotNull('slug');
+            })
             ->available();
 
         // Search functionality
@@ -83,6 +87,10 @@ class ProductController extends Controller
 
         // Get related products from same category
         $relatedProducts = Product::with(['store', 'productImages'])
+            ->whereHas('store', function($query) {
+                $query->where('is_verified', true)
+                      ->whereNotNull('slug');
+            })
             ->where('product_category_id', $product->product_category_id)
             ->where('id', '!=', $product->id)
             ->available()

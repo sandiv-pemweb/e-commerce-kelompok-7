@@ -51,4 +51,13 @@ class Store extends Model
     {
         return 'slug';
     }
+
+    protected static function booted()
+    {
+        static::creating(function ($store) {
+            if (empty($store->slug)) {
+                $store->slug = \Illuminate\Support\Str::slug($store->name) . '-' . \Illuminate\Support\Str::random(5);
+            }
+        });
+    }
 }

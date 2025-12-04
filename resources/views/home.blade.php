@@ -23,20 +23,20 @@
                                 {{ Str::limit($heroProduct->description, 200) }}
                             </p>
 
-                            <div class="mt-8 flex items-center gap-6">
+                            <div class="mt-8 flex flex-wrap items-center gap-6">
                                 <div>
                                     @if($heroProduct->discount_price > 0)
                                         <span
-                                            class="text-4xl font-bold text-brand-dark">{{ $heroProduct->formatted_discount_price }}</span>
+                                            class="text-2xl md:text-4xl font-bold text-brand-dark">{{ $heroProduct->formatted_discount_price }}</span>
                                         <div class="flex items-center gap-2 mt-1">
                                             <span
-                                                class="text-lg text-gray-400 line-through">{{ $heroProduct->formatted_price }}</span>
+                                                class="text-md text-gray-400 line-through">{{ $heroProduct->formatted_price }}</span>
                                             <span
                                                 class="px-2 py-0.5 bg-red-100 text-red-600 text-xs font-bold rounded">-{{ $heroProduct->discount_percentage }}%</span>
                                         </div>
                                     @else
                                         <span
-                                            class="text-4xl font-bold text-brand-dark">{{ $heroProduct->formatted_price }}</span>
+                                            class="text-2xl md:text-4xl font-bold text-brand-dark">{{ $heroProduct->formatted_price }}</span>
                                     @endif
                                 </div>
                                 <div class="h-10 w-px bg-gray-200"></div>
@@ -91,21 +91,21 @@
                         <!-- Partners -->
                         <div class="mt-12 pt-8 border-t border-gray-100">
                             <p class="text-sm text-gray-400 mb-4 font-medium">Our Trusted Partners</p>
-                            <div class="flex flex-wrap gap-12 items-center">
-                                <a href="#" class="group transition-all duration-300 opacity-70 hover:opacity-100">
+                            <div class="flex flex-nowrap overflow-x-auto gap-8 md:gap-12 items-center pb-2 no-scrollbar">
+                                <a href="#" class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
                                     <img src="https://www.kompasgramedia.com/assets/photo/2018/09/06/822036325.png" 
                                          alt="Gramedia" 
-                                         class="h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                         class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                                 </a>
-                                <a href="#" class="group transition-all duration-300 opacity-70 hover:opacity-100">
+                                <a href="#" class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
                                     <img src="https://emir.co.id/wp-content/uploads/2016/11/RevisiOpsiLogo_10feb22-fix.png" 
                                          alt="Erlangga" 
-                                         class="h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                         class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                                 </a>
-                                <a href="#" class="group transition-all duration-300 opacity-70 hover:opacity-100">
+                                <a href="#" class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
                                     <img src="https://static.mizanstore.com/f/img/penerbit/2f8f39438e69753f6e600900d60a3b5a.png" 
                                          alt="Mizan" 
-                                         class="h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                         class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                                 </a>
                             </div>
                         </div>

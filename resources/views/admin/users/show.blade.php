@@ -100,7 +100,7 @@
                     <div class="p-8">
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-2xl font-serif font-bold text-brand-dark">Store Information</h3>
-                            <a href="{{ route('admin.stores.show', $user->store) }}" class="text-brand-orange hover:text-brand-dark font-bold transition-colors flex items-center">
+                            <a href="{{ route('admin.stores.show', ['store' => $user->store->id]) }}" class="text-brand-orange hover:text-brand-dark font-bold transition-colors flex items-center">
                                 View Store Details 
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>

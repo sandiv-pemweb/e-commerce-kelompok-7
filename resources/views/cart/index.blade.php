@@ -66,7 +66,7 @@
                                                     <div class="flex items-center justify-between">
                                                         <!-- Quantity Controls -->
                                                         <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
-                                                            <input type="number" value="{{ $cart->quantity }}" min="1" max="{{ $cart->product->stock }}" 
+                                                            <input type="number" value="{{ $cart->quantity }}" min="0" max="{{ $cart->product->stock }}" 
                                                                 class="w-16 text-center border-none focus:ring-0 p-2 text-sm font-bold text-gray-700"
                                                                 onchange="updateQuantity(this, {{ $cart->id }})">
                                                         </div>
@@ -136,9 +136,21 @@
                     });
 
                     function updateQuantity(input, cartId) {
-                        const quantity = input.value;
+                        const quantity = parseInt(input.value);
                         
-                        fetch(`/cart/${cartId}`, {
+                        // If quantity is 0, remove the item instead
+                        if (quantity <= 0) {
+                            const removeButton = input.closest('.p-6').querySelector('button[onclick*="removeFromCart"]');
+                            if (removeButton) {
+                                removeButton.click();
+                            }
+                            return;
+                        }
+                        
+                        const baseUrl = document.querySelector('meta[name="base-url"]');
+                        const url = baseUrl ? `${baseUrl.getAttribute('content')}/cart/${cartId}` : `/cart/${cartId}`;
+                        
+                        fetch(url, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -157,18 +169,13 @@
                                 document.getElementById(`item-subtotal-${cartId}`).textContent = data.item_subtotal;
                                 document.getElementById('grandTotal').textContent = data.grand_total;
                                 document.getElementById('totalItems').textContent = data.total_items;
-                                
-                                // Optional: Show success toast
-                                // alert(data.message); 
                             } else {
-                                alert(data.message || 'Error updating cart');
-                                // Reset input to previous value if possible, or reload
+                                input.value = 1;
                                 location.reload(); 
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('An error occurred');
                         });
                     }
                 </script>

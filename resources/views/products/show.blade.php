@@ -57,15 +57,15 @@
                             <div class="flex items-center gap-4 text-sm text-gray-500">
                                 <span class="flex items-center gap-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                                    {{ $totalReviews }} Reviews
+                                    {{ $totalReviews }} <span class="hidden md:inline">Reviews</span>
                                 </span>
                                 <span class="flex items-center gap-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                                    {{ $product->wishlist_count }}+ Likes
+                                    {{ $product->wishlist_count }}+ <span class="hidden md:inline">Likes</span>
                                 </span>
                                 <span class="flex items-center gap-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                    {{ $product->sold_count }} Sold
+                                    {{ $product->sold_count }} <span class="hidden md:inline">Sold</span>
                                 </span>
                             </div>
                         </div>
@@ -92,8 +92,25 @@
                             <div>
                                 <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Store</p>
                                 <div class="flex items-center gap-2">
-                                    <img src="{{ $product->store->logo }}" alt="{{ $product->store->name }}" class="w-6 h-6 rounded-full object-cover">
-                                    <span class="font-bold text-brand-dark text-sm">{{ $product->store->name }}</span>
+                                    <div class="relative w-8 h-8 rounded-full overflow-hidden shrink-0" x-data="{ imageError: false }">
+                                        <img 
+                                            src="{{ str_starts_with($product->store->logo, 'http') ? $product->store->logo : asset('storage/' . $product->store->logo) }}" 
+                                            alt="{{ $product->store->name }}" 
+                                            class="w-full h-full object-cover"
+                                            x-on:error="imageError = true"
+                                            x-show="!imageError"
+                                        >
+                                        <div 
+                                            x-show="imageError" 
+                                            class="w-full h-full bg-gray-100 flex items-center justify-center text-xs font-serif font-bold text-brand-dark absolute inset-0"
+                                            style="display: none;"
+                                        >
+                                            {{ strtoupper(substr($product->store->name, 0, 1)) }}
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('stores.show', $product->store->slug) }}" class="font-bold text-brand-dark text-sm hover:text-brand-orange hover:underline">
+                                        {{ $product->store->name }}
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -107,27 +124,27 @@
                         <div class="mt-auto">
                             <div class="flex items-center gap-4 mb-8">
                                 @if($product->discount_price > 0)
-                                    <span class="text-4xl font-bold text-brand-dark">{{ $product->formatted_discount_price }}</span>
+                                    <span class="text-2xl md:text-3xl font-bold text-brand-dark">{{ $product->formatted_discount_price }}</span>
                                     <span class="text-lg text-gray-400 line-through decoration-red-500 decoration-2">
                                         {{ $product->formatted_price }}
                                     </span>
                                     <span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-bold rounded">-{{ $product->discount_percentage }}%</span>
                                 @else
-                                    <span class="text-4xl font-bold text-brand-dark">{{ $product->formatted_price }}</span>
+                                    <span class="text-2xl md:text-4xl font-bold text-brand-dark">{{ $product->formatted_price }}</span>
                                 @endif
                             </div>
 
-                            <div class="flex items-center gap-6">
+                            <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
                                 @auth
                                     @if($product->stock > 0)
                                         <!-- Quantity -->
-                                            <div class="flex items-center border border-gray-200 rounded-lg">
+                                            <div class="flex items-center justify-between md:justify-start border border-gray-200 rounded-lg w-full md:w-auto">
                                                 <button type="button" id="decrement-button" class="px-4 py-2 text-brand-orange text-xl font-bold hover:bg-gray-50 rounded-l-lg">-</button>
-                                                <input type="number" name="quantity" id="quantity-input" value="1" min="1" max="{{ $product->stock }}" class="w-12 text-center border-0 focus:ring-0 font-bold text-brand-dark p-0">
+                                                <input type="number" name="quantity" id="quantity-input" value="1" min="1" max="{{ $product->stock }}" class="w-full md:w-12 text-center border-0 focus:ring-0 font-bold text-brand-dark p-0">
                                                 <button type="button" id="increment-button" class="px-4 py-2 text-brand-orange text-xl font-bold hover:bg-gray-50 rounded-r-lg">+</button>
                                             </div>
 
-                                            <button type="button" onclick="addToCart({{ $product->id }}, document.getElementById('quantity-input').value)" class="flex-1 bg-brand-orange text-white px-8 py-3 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2">
+                                            <button type="button" onclick="addToCart({{ $product->id }}, document.getElementById('quantity-input').value)" class="w-full md:flex-1 bg-brand-orange text-white px-8 py-3 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                                 </svg>
@@ -155,7 +172,7 @@
                 <div class="lg:col-span-8">
                     <div class="bg-white rounded-3xl shadow-sm p-8 min-h-[500px]" x-data="{ activeTab: 'details' }">
                         <!-- Tabs -->
-                        <div class="flex items-center gap-8 border-b border-gray-100 mb-8">
+                        <div class="flex items-center gap-8 border-b border-gray-100 mb-8 overflow-x-auto no-scrollbar">
                             <button @click="activeTab = 'details'" 
                                 :class="{ 'border-brand-orange text-brand-dark': activeTab === 'details', 'border-transparent text-gray-400 hover:text-gray-600': activeTab !== 'details' }"
                                 class="pb-4 font-bold text-lg border-b-2 transition-colors">
@@ -201,7 +218,11 @@
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Store</span>
-                                    <span class="col-span-2 text-gray-500">{{ $product->store->name }}</span>
+                                    <span class="col-span-2 text-gray-500">
+                                        <a href="{{ route('stores.show', $product->store->slug) }}" class="text-brand-orange hover:underline font-bold">
+                                            {{ $product->store->name }}
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Tags</span>

@@ -101,7 +101,7 @@
                                                         @method('PATCH')
                                                     </form>
                                                 @else
-                                                    <a href="{{ route('admin.stores.show', $store) }}" class="text-brand-orange hover:text-brand-dark font-bold transition-colors">View Details</a>
+                                                    <a href="{{ route('admin.stores.show', ['store' => $store->id]) }}" class="text-brand-orange hover:text-brand-dark font-bold transition-colors">View Details</a>
                                                 @endif
                                             </td>
                                         </tr>

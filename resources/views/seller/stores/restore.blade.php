@@ -1,12 +1,8 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            {{ __('Restore Store') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="py-12 flex flex-col justify-center min-h-[80vh]">
+        <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                 <div class="p-8 text-center">
                     <div class="mb-8">

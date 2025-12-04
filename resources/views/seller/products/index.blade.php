@@ -54,14 +54,26 @@
                                 </div>
                                 
                                 <div class="flex gap-3 pt-4 border-t border-gray-100">
-                                    <a href="{{ route('seller.products.edit', $product) }}" class="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-brand-dark hover:text-white transition-colors">
-                                        Edit
-                                    </a>
-                                    <button type="button" 
-                                            onclick="document.getElementById('delete-product-{{ $product->id }}').classList.remove('hidden')"
-                                            class="flex-1 px-4 py-2 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-600 hover:text-white transition-colors">
-                                        Delete
-                                    </button>
+                                    @if($product->slug)
+                                        <a href="{{ route('seller.products.edit', $product) }}" class="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-brand-dark hover:text-white transition-colors">
+                                            Edit
+                                        </a>
+                                    @else
+                                        <button disabled class="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed" title="Product data incomplete (missing slug)">
+                                            Edit
+                                        </button>
+                                    @endif
+                                    @if($product->slug)
+                                        <button type="button" 
+                                                onclick="document.getElementById('delete-product-{{ $product->id }}').classList.remove('hidden')"
+                                                class="flex-1 px-4 py-2 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-600 hover:text-white transition-colors">
+                                            Delete
+                                        </button>
+                                    @else
+                                        <button disabled class="flex-1 px-4 py-2 bg-red-50 text-red-300 font-bold rounded-xl cursor-not-allowed" title="Product data incomplete (missing slug)">
+                                            Delete
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -77,17 +89,19 @@
 
     <!-- Delete Product Modals -->
     @foreach($products as $product)
-    <x-confirmation-modal 
-        id="delete-product-{{ $product->id }}"
-        type="danger" 
-        title="Delete Product" 
-        message="Are you sure you want to delete {{ $product->name }}? This action cannot be undone."
-        confirmText="Yes, Delete"
-        cancelText="Cancel">
-    </x-confirmation-modal>
-    <form id="delete-product-{{ $product->id }}-form" method="POST" action="{{ route('seller.products.destroy', $product) }}" class="hidden">
-        @csrf
-        @method('DELETE')
-    </form>
+        @if($product->slug)
+            <x-confirmation-modal 
+                id="delete-product-{{ $product->id }}"
+                type="danger" 
+                title="Delete Product" 
+                message="Are you sure you want to delete {{ $product->name }}? This action cannot be undone."
+                confirmText="Yes, Delete"
+                cancelText="Cancel">
+            </x-confirmation-modal>
+            <form id="delete-product-{{ $product->id }}-form" method="POST" action="{{ route('seller.products.destroy', $product) }}" class="hidden">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endif
     @endforeach
 </x-app-layout>

@@ -14,6 +14,10 @@ class CartController extends Controller
     public function index()
     {
         $cartItems = Cart::where('user_id', Auth::id())
+            ->whereHas('product.store', function($query) {
+                $query->where('is_verified', true)
+                      ->whereNotNull('slug');
+            })
             ->with(['product.store', 'product.productImages'])
             ->get();
 

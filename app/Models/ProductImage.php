@@ -23,6 +23,6 @@ class ProductImage extends Model
         if (\Illuminate\Support\Str::startsWith($this->image, ['http://', 'https://'])) {
             return $this->image;
         }
-        return \Illuminate\Support\Facades\Storage::url($this->image);
+        return asset('storage/' . $this->image);
     }
 }

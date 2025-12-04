@@ -33,8 +33,13 @@ class StoreProductRequest extends FormRequest
                 },
             ],
             'name' => ['required', 'string', 'max:255'],
+            'author' => ['nullable', 'string', 'max:255'],
+            'publisher' => ['nullable', 'string', 'max:255'],
+            'published_year' => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
+            'condition' => ['required', 'in:new,used'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
+            'discount_price' => ['nullable', 'numeric', 'min:0', 'lt:price'],
             'stock' => ['required', 'integer', 'min:0'],
             'weight' => ['required', 'numeric', 'min:0'],
         ];

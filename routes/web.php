@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminStoreController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminWithdrawalController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
@@ -26,6 +27,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Public product routes
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{store:slug}/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/stores/{store}', [StoreController::class, 'show'])->name('stores.show');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

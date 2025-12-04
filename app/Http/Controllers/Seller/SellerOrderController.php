@@ -61,6 +61,7 @@ class SellerOrderController extends Controller
 
         $validated = $request->validate([
             'order_status' => 'required|in:pending,processing,shipped,completed,cancelled',
+            'payment_status' => 'required|in:unpaid,paid',
             'tracking_number' => 'nullable|string|max:255',
         ]);
 

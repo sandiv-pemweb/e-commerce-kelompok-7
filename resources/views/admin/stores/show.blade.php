@@ -129,7 +129,7 @@
         confirmText="Yes, Verify"
         cancelText="Cancel">
     </x-confirmation-modal>
-    <form id="verify-modal-form" method="POST" action="{{ route('admin.stores.verify', $store) }}" class="hidden">
+    <form id="verify-modal-form" method="POST" action="{{ route('admin.stores.verify', ['store' => $store->id]) }}" class="hidden">
         @csrf
         @method('PATCH')
     </form>
@@ -143,7 +143,7 @@
         confirmText="Yes, Reject & Delete"
         cancelText="Cancel">
     </x-confirmation-modal>
-    <form id="reject-modal-form" method="POST" action="{{ route('admin.stores.reject', $store) }}" class="hidden">
+    <form id="reject-modal-form" method="POST" action="{{ route('admin.stores.reject', ['store' => $store->id]) }}" class="hidden">
         @csrf
         @method('DELETE')
     </form>
@@ -158,7 +158,7 @@
         confirmText="Yes, Delete"
         cancelText="Cancel">
     </x-confirmation-modal>
-    <form id="delete-modal-form" method="POST" action="{{ route('admin.stores.destroy', $store) }}" class="hidden">
+    <form id="delete-modal-form" method="POST" action="{{ route('admin.stores.destroy', ['store' => $store->id]) }}" class="hidden">
         @csrf
         @method('DELETE')
     </form>

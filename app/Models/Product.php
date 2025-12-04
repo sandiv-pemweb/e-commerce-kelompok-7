@@ -89,6 +89,11 @@ class Product extends Model
         return $this->productImages->first()?->image ?? '/images/no-image.png';
     }
 
+    public function getImageUrlAttribute()
+    {
+        return $this->productImages->first()?->image_url ?? asset('images/no-image.png');
+    }
+
     public function getWishlistCountAttribute()
     {
         return $this->wishlists()->count();
@@ -113,5 +118,14 @@ class Product extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = \Illuminate\Support\Str::slug($product->name) . '-' . \Illuminate\Support\Str::random(5);
+            }
+        });
     }
 }

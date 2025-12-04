@@ -63,8 +63,10 @@ class AdminStoreController extends Controller
     /**
      * Verify (approve) a store registration.
      */
-    public function verify(Store $store)
+    public function verify($id)
     {
+        $store = Store::findOrFail($id);
+
         if ($store->is_verified) {
             return back()->with('info', 'Toko sudah terverifikasi.');
         }
@@ -78,15 +80,17 @@ class AdminStoreController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.stores.show', $store)
+        return redirect()->route('admin.stores.show', ['store' => $store->id])
                        ->with('success', 'Toko berhasil diverifikasi.');
     }
 
     /**
      * Reject a store registration.
      */
-    public function reject(Store $store)
+    public function reject($id)
     {
+        $store = Store::findOrFail($id);
+
         if ($store->is_verified) {
             return back()->with('error', 'Toko yang sudah terverifikasi tidak dapat ditolak.');
         }
@@ -100,8 +104,9 @@ class AdminStoreController extends Controller
     /**
      * Remove the specified store from storage.
      */
-    public function destroy(Store $store)
+    public function destroy($id)
     {
+        $store = Store::findOrFail($id);
         $store->delete();
 
         return redirect()->route('admin.stores.index')

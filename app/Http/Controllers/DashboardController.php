@@ -20,6 +20,10 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
+        if (!$user->hasStore() && !$user->isAdmin()) {
+            return redirect()->route('home');
+        }
+
         // Eager load store with balance and counts for sellers/admins
         if ($user->hasStore() || $user->isAdmin()) {
             $user->load([

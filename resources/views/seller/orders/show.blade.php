@@ -40,6 +40,14 @@
                                         {{ $order->payment_status == 'paid' ? 'Paid' : 'Unpaid' }}
                                     </span>
                                 </div>
+                                @if($order->payment_proof)
+                                    <div class="md:col-span-2">
+                                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Payment Proof</p>
+                                        <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank" class="block">
+                                            <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Payment Proof" class="max-w-sm rounded-lg border-2 border-gray-200 hover:border-brand-orange transition-colors shadow-sm">
+                                        </a>
+                                    </div>
+                                @endif
                                 <div class="md:col-span-2">
                                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Shipping Address</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $order->address }}, {{ $order->city }}, {{ $order->postal_code }}</p>
@@ -105,6 +113,17 @@
                             <form method="POST" action="{{ route('seller.orders.update', $order) }}" class="space-y-6">
                                 @csrf
                                 @method('PATCH')
+
+                                <div>
+                                    <label for="payment_status" class="block font-bold text-sm text-gray-700 mb-2">Payment Status</label>
+                                    <select id="payment_status" name="payment_status" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
+                                        <option value="unpaid" {{ $order->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                                        <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
+                                    </select>
+                                    @error('payment_status')
+                                        <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
                                 <div>
                                     <label for="order_status" class="block font-bold text-sm text-gray-700 mb-2">Order Status</label>

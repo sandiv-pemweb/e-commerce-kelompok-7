@@ -39,8 +39,18 @@ class PaymentController extends Controller
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // For now, we'll add a note field to transactions table later
-        // This is a placeholder for future implementation
+        // Delete old proof if exists
+        if ($transaction->payment_proof) {
+            Storage::delete('public/' . $transaction->payment_proof);
+        }
+
+        // Store the new payment proof
+        $path = $request->file('payment_proof')->store('payment_proofs', 'public');
+        
+        // Update transaction with payment proof path
+        $transaction->update([
+            'payment_proof' => $path,
+        ]);
         
         return redirect()->route('payment.show', $transaction)
             ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu konfirmasi penjual.');
