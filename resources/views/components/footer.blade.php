@@ -13,8 +13,8 @@
                     <span class="font-serif text-xl font-bold text-brand-dark">BookLand</span>
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                    BookLand is a book store website that provides a wide variety of books from various genres. We are
-                    committed to providing the best service for our customers.
+                    BookLand adalah website toko buku yang menyediakan berbagai macam buku dari berbagai genre. Kami
+                    berkomitmen untuk memberikan pelayanan terbaik bagi pelanggan kami.
                 </p>
                 <div class="flex gap-4">
                     <!-- Social Icons -->
@@ -39,43 +39,44 @@
                 </div>
             </div>
             <div>
-                <h4 class="font-bold text-brand-dark mb-6">Quick Links</h4>
+                <h4 class="font-bold text-brand-dark mb-6">Tautan Cepat</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Products</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Login</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Sign Up</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Hubungi Kami</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Produk</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Masuk</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Daftar</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold text-brand-dark mb-6">Customer Area</h4>
+                <h4 class="font-bold text-brand-dark mb-6">Area Pelanggan</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">My Account</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Orders</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Tracking List</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Terms</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Akun Saya</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Pesanan</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Lacak Pesanan</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Syarat & Ketentuan</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Kebijakan Privasi</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold text-brand-dark mb-6">Vendor Area</h4>
+                <h4 class="font-bold text-brand-dark mb-6">Area Penjual</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Partner with us</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Training</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Procedures</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Terms</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Mitra Bersama Kami</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Pelatihan</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Prosedur</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Syarat & Ketentuan</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition-colors">Kebijakan Privasi</a></li>
                 </ul>
             </div>
         </div>
         <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-sm text-gray-400">© 2025 BookLand. All rights reserved.</p>
             <div class="flex flex-col md:flex-row gap-2 md:gap-6">
-                <span class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Diva Arviansyah</span> as
+                <span class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Diva Arviansyah</span>
+                    sebagai
                     Founder</span>
                 <span class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Ikhsan Naufal
-                        Rabani</span> as Co-Founder</span>
+                        Rabani</span> sebagai Co-Founder</span>
             </div>
         </div>
     </div>
