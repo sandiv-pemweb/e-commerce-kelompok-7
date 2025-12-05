@@ -41,79 +41,45 @@
             <div>
                 <h4 class="font-bold text-brand-dark mb-6">Tautan Cepat</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-<<<<<<< HEAD
-                    <li><a href="{{ route('home') }}" class="hover:text-brand-orange transition-colors">Home</a></li>
-                    <li><a href="{{ route('products.index') }}" class="hover:text-brand-orange transition-colors">Products</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-brand-orange transition-colors">Beranda</a></li>
+                    <li><a href="{{ route('products.index') }}" class="hover:text-brand-orange transition-colors">Produk</a></li>
                     @guest
-                        <li><a href="{{ route('login') }}" class="hover:text-brand-orange transition-colors">Login</a></li>
-                        <li><a href="{{ route('register') }}" class="hover:text-brand-orange transition-colors">Sign Up</a></li>
+                        <li><a href="{{ route('login') }}" class="hover:text-brand-orange transition-colors">Masuk</a></li>
+                        <li><a href="{{ route('register') }}" class="hover:text-brand-orange transition-colors">Daftar</a></li>
                     @else
                         <li><a href="{{ route('dashboard') }}" class="hover:text-brand-orange transition-colors">Dashboard</a></li>
                     @endguest
-=======
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Tentang Kami</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Hubungi Kami</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Produk</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Masuk</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Daftar</a></li>
->>>>>>> eksperimen
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-brand-dark mb-6">Area Pelanggan</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-<<<<<<< HEAD
-                    <li><a href="{{ route('profile.edit') }}" class="hover:text-brand-orange transition-colors">My Account</a></li>
-                    <li><a href="{{ route('orders.index') }}" class="hover:text-brand-orange transition-colors">Orders</a></li>
+                    <li><a href="{{ route('profile.edit') }}" class="hover:text-brand-orange transition-colors">Akun Saya</a></li>
+                    <li><a href="{{ route('orders.index') }}" class="hover:text-brand-orange transition-colors">Pesanan</a></li>
                     <li><a href="{{ route('wishlist.index') }}" class="hover:text-brand-orange transition-colors">Wishlist</a></li>
-                    <li><a href="{{ route('cart.index') }}" class="hover:text-brand-orange transition-colors">Cart</a></li>
-=======
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Akun Saya</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Pesanan</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Lacak Pesanan</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Syarat & Ketentuan</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Kebijakan Privasi</a></li>
->>>>>>> eksperimen
+                    <li><a href="{{ route('cart.index') }}" class="hover:text-brand-orange transition-colors">Keranjang</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-brand-dark mb-6">Area Penjual</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-<<<<<<< HEAD
-                    <li><a href="{{ route('seller.stores.create') }}" class="hover:text-brand-orange transition-colors">Partner with us</a></li>
-                    <li><a href="{{ route('seller.products.index') }}" class="hover:text-brand-orange transition-colors">Seller Dashboard</a></li>
-=======
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Mitra Bersama Kami</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Pelatihan</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Prosedur</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Syarat & Ketentuan</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition-colors">Kebijakan Privasi</a></li>
->>>>>>> eksperimen
+                    <li><a href="{{ route('seller.stores.create') }}" class="hover:text-brand-orange transition-colors">Mulai Berjualan</a></li>
+                    <li><a href="{{ route('seller.products.index') }}" class="hover:text-brand-orange transition-colors">Dashboard Penjual</a></li>
                 </ul>
             </div>
         </div>
         <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-<<<<<<< HEAD
-            <a href="https://github.com/sandiv-pemweb" target="_blank" rel="noopener noreferrer"><p class="text-sm text-gray-500">© 2025 BookLand. All rights reserved.</p></a>
+            <a href="https://github.com/sandiv-pemweb" target="_blank" rel="noopener noreferrer"><p class="text-sm text-gray-500">© 2025 BookLand. Hak cipta dilindungi.</p></a>
             <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6">
                 <span class="text-sm text-gray-500">
                     <a href="https://instagram.com/divarvian" target="_blank" rel="noopener noreferrer"
-                        class="font-semibold text-gray-700">Diva Arviansyah</a> as Founder
+                        class="font-semibold text-gray-700">Diva Arviansyah</a> sebagai Pendiri
                 </span>
                 <span class="hidden md:inline-block text-gray-300">|</span>
                 <span class="text-sm text-gray-500">
                     <a href="https://instagram.com/sann_kz" target="_blank" rel="noopener noreferrer"
-                        class="font-semibold text-gray-700">Ikhsan Naufal Rabani</a> as Co-Founder
+                        class="font-semibold text-gray-700">Ikhsan Naufal Rabani</a> sebagai Co-Founder
                 </span>
-=======
-            <p class="text-sm text-gray-400">© 2025 BookLand. All rights reserved.</p>
-            <div class="flex flex-col md:flex-row gap-2 md:gap-6">
-                <span class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Diva Arviansyah</span>
-                    sebagai
-                    Founder</span>
-                <span class="text-sm text-gray-500"><span class="font-semibold text-gray-700">Ikhsan Naufal
-                        Rabani</span> sebagai Co-Founder</span>
->>>>>>> eksperimen
             </div>
         </div>
     </div>
