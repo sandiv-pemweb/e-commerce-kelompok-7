@@ -3,9 +3,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-6 md:mb-8">
                 <h2 class="font-serif font-bold text-2xl md:text-3xl text-brand-dark leading-tight">
-                    {{ __('My Orders') }}
+                    Pesanan Saya
                 </h2>
-                <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-500">Track and manage your recent purchases.</p>
+                <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-500">Lacak dan kelola pembelian Anda.</p>
             </div>
 
             @if(session('success'))
@@ -23,22 +23,22 @@
                             <div class="bg-gray-50/50 px-4 md:px-6 py-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                 <div class="flex flex-wrap gap-x-6 gap-y-2 w-full md:w-auto">
                                     <div class="w-1/2 md:w-auto">
-                                        <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">Order Placed</p>
+                                        <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">Tanggal Pesan</p>
                                         <p class="text-sm font-semibold text-brand-dark">{{ $order->created_at->format('d M Y') }}</p>
                                     </div>
                                     <div class="w-1/2 md:w-auto">
-                                        <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">Order ID</p>
+                                        <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">ID Pesanan</p>
                                         <p class="text-sm font-semibold text-brand-dark">#{{ $order->code }}</p>
                                     </div>
                                     <div class="w-full md:w-auto mt-2 md:mt-0">
-                                        <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">Store</p>
+                                        <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">Toko</p>
                                         @if($order->store && $order->store->slug)
                                             <a href="{{ route('stores.show', $order->store) }}" class="text-sm font-semibold text-brand-orange truncate hover:underline">
                                                 {{ $order->store->name }}
                                             </a>
                                         @else
                                             <span class="text-sm font-semibold text-gray-500 truncate">
-                                                {{ $order->store->name ?? 'Unknown Store' }}
+                                                {{ $order->store->name ?? 'Toko Tidak Diketahui' }}
                                             </span>
                                         @endif
                                     </div>
@@ -89,16 +89,16 @@
                             <!-- Order Footer -->
                             <div class="bg-gray-50/50 px-4 md:px-6 py-4 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
                                 <div class="flex items-center justify-between w-full md:w-auto gap-2">
-                                    <span class="text-sm text-gray-500">Total Amount:</span>
+                                    <span class="text-sm text-gray-500">Total Pesanan:</span>
                                     <span class="font-bold text-lg md:text-xl text-brand-dark">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
                                     <a href="{{ route('orders.show', $order->id) }}" class="w-full md:w-auto text-center px-6 py-2.5 bg-white border border-gray-300 text-brand-dark font-semibold rounded-xl hover:bg-gray-50 hover:border-brand-orange hover:text-brand-orange transition-all duration-300 shadow-sm text-sm md:text-base">
-                                        View Details
+                                        Lihat Detail
                                     </a>
                                     @if($order->payment_status === 'unpaid')
                                         <a href="{{ route('payment.show', $order->id) }}" class="w-full md:w-auto text-center px-6 py-2.5 bg-brand-dark text-white font-semibold rounded-xl hover:bg-brand-orange transition-all duration-300 shadow-md transform hover:-translate-y-0.5 text-sm md:text-base">
-                                            Pay Now
+                                            Bayar Sekarang
                                         </a>
                                     @endif
                                 </div>
@@ -117,10 +117,10 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-dark mb-2">No orders yet</h3>
-                    <p class="text-sm md:text-base text-gray-500 mb-8 max-w-md mx-auto">Looks like you haven't placed any orders yet. Start exploring our collection to find your next favorite book!</p>
+                    <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-dark mb-2">Belum ada pesanan</h3>
+                    <p class="text-sm md:text-base text-gray-500 mb-8 max-w-md mx-auto">Sepertinya Anda belum melakukan pemesanan apapun. Mulai jelajahi koleksi kami untuk menemukan buku favorit Anda selanjutnya!</p>
                     <a href="{{ route('products.index') }}" class="inline-flex items-center px-6 md:px-8 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-all duration-300 shadow-lg transform hover:-translate-y-1 text-sm md:text-base">
-                        Start Shopping
+                        Mulai Belanja
                         <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </a>
                 </div>

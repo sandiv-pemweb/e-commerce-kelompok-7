@@ -8,7 +8,7 @@
                         <div
                             class="inline-flex items-center px-3 py-1 rounded-full border border-brand-orange/30 bg-brand-orange/5 text-brand-orange text-xs font-bold tracking-widest uppercase mb-6">
                             <span class="w-2 h-2 bg-brand-orange rounded-full mr-2"></span>
-                            Best Seller Book
+                            Buku Terlaris
                         </div>
                         @if($heroProduct)
                             <h1
@@ -55,11 +55,11 @@
                                     </div>
                                     <div class="flex items-center gap-3 text-xs text-gray-500 mt-1">
                                         <span>{{ number_format($rating, 1) }} ({{ $heroProduct->productReviews->count() }}
-                                            Reviews)</span>
+                                            Ulasan)</span>
                                         <span>&bull;</span>
-                                        <span>{{ $heroProduct->wishlist_count }}+ Likes</span>
+                                        <span>{{ $heroProduct->wishlist_count }}+ Suka</span>
                                         <span>&bull;</span>
-                                        <span>{{ $heroProduct->sold_count }} Sold</span>
+                                        <span>{{ $heroProduct->sold_count }} Terjual</span>
                                     </div>
                                 </div>
                             </div>
@@ -68,13 +68,13 @@
                                 <div class="rounded-xl shadow-lg shadow-brand-orange/20">
                                     <a href="{{ route('products.show', ['store' => $heroProduct->store->slug, 'product' => $heroProduct->slug]) }}"
                                         class="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-white bg-brand-dark hover:bg-brand-orange transition-all transform hover:-translate-y-1 md:text-lg md:px-10">
-                                        Buy Now
+                                        Beli Sekarang
                                     </a>
                                 </div>
                                 <div>
                                     <a href="{{ route('products.show', ['store' => $heroProduct->store->slug, 'product' => $heroProduct->slug]) }}"
                                         class="w-full flex items-center justify-center px-8 py-4 border border-gray-200 text-base font-bold rounded-xl text-brand-dark bg-white hover:bg-gray-50 hover:border-gray-300 transition-all md:text-lg md:px-10">
-                                        See Details
+                                        Lihat Detail
                                     </a>
                                 </div>
                             </div>
@@ -84,28 +84,32 @@
                                 <span class="block xl:inline">BookLand Store</span>
                             </h1>
                             <p class="mt-4 text-gray-500 text-base leading-relaxed max-w-lg">
-                                Discover the best books for your journey.
+                                Temukan buku terbaik untuk perjalanan Anda.
                             </p>
                         @endif
 
                         <!-- Partners -->
                         <div class="mt-12 pt-8 border-t border-gray-100">
-                            <p class="text-sm text-gray-400 mb-4 font-medium">Our Trusted Partners</p>
-                            <div class="flex flex-nowrap overflow-x-auto gap-8 md:gap-12 items-center pb-2 no-scrollbar">
-                                <a href="#" class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
-                                    <img src="https://www.kompasgramedia.com/assets/photo/2018/09/06/822036325.png" 
-                                         alt="Gramedia" 
-                                         class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                            <p class="text-sm text-gray-400 mb-4 font-medium">Mitra Terpercaya Kami</p>
+                            <div
+                                class="flex flex-nowrap overflow-x-auto gap-8 md:gap-12 items-center pb-2 no-scrollbar">
+                                <a href="#"
+                                    class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
+                                    <img src="https://www.kompasgramedia.com/assets/photo/2018/09/06/822036325.png"
+                                        alt="Gramedia"
+                                        class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                                 </a>
-                                <a href="#" class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
-                                    <img src="https://emir.co.id/wp-content/uploads/2016/11/RevisiOpsiLogo_10feb22-fix.png" 
-                                         alt="Erlangga" 
-                                         class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                <a href="#"
+                                    class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
+                                    <img src="https://emir.co.id/wp-content/uploads/2016/11/RevisiOpsiLogo_10feb22-fix.png"
+                                        alt="Erlangga"
+                                        class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                                 </a>
-                                <a href="#" class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
-                                    <img src="https://static.mizanstore.com/f/img/penerbit/2f8f39438e69753f6e600900d60a3b5a.png" 
-                                         alt="Mizan" 
-                                         class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
+                                <a href="#"
+                                    class="flex-shrink-0 group transition-all duration-300 opacity-70 hover:opacity-100">
+                                    <img src="https://static.mizanstore.com/f/img/penerbit/2f8f39438e69753f6e600900d60a3b5a.png"
+                                        alt="Mizan"
+                                        class="h-6 md:h-8 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                                 </a>
                             </div>
                         </div>
@@ -140,7 +144,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h4 class="font-bold text-sm text-brand-dark">Best Seller</h4>
+                        <h4 class="font-bold text-sm text-brand-dark">Terlaris</h4>
                         <p class="text-xs text-gray-500">#1 in {{ $heroProduct->productCategory->name ?? 'General' }}
                         </p>
                     </div>
@@ -158,7 +162,7 @@
                             src="https://ui-avatars.com/api/?name=Bob+Smith&background=random" alt="">
                     </div>
                     <p class="text-xs font-bold text-brand-dark mt-1">
-                        {{ $heroProduct->transaction_details_count ?? 0 }}+ Sold
+                        {{ $heroProduct->transaction_details_count ?? 0 }}+ Terjual
                     </p>
                 </div>
             </div>
@@ -169,10 +173,10 @@
     <section class="py-16 bg-brand-gray">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-serif font-bold text-brand-dark">Popular This Week</h2>
+                <h2 class="text-3xl font-serif font-bold text-brand-dark">Populer Minggu Ini</h2>
                 <p class="mt-4 text-gray-500 max-w-2xl mx-auto">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.
+                    Temukan buku-buku terpopuler minggu ini yang paling banyak diminati oleh pembaca. Koleksi pilihan
+                    dari berbagai genre untuk menemani hari Anda.
                 </p>
             </div>
 
@@ -223,7 +227,7 @@
                                 <a
                                     href="{{ route('products.show', ['store' => $product->store->slug, 'product' => $product->slug]) }}">{{ $product->name }}</a>
                             </h3>
-                            <p class="text-xs text-gray-500 mb-2">{{ $product->store->name ?? 'Unknown Store' }}</p>
+                            <p class="text-xs text-gray-500 mb-2">{{ $product->store->name ?? 'Toko Tidak Diketahui' }}</p>
                             <div class="flex items-center gap-1 mb-3">
                                 <div class="flex text-brand-orange text-sm">
                                     @php
@@ -239,7 +243,7 @@
                                 </div>
                                 <span class="text-xs text-gray-400">({{ number_format($rating, 1) }})</span>
                                 <span class="text-xs text-gray-300 mx-1">&bull;</span>
-                                <span class="text-xs text-gray-500">{{ $product->sold_count }} Sold</span>
+                                <span class="text-xs text-gray-500">{{ $product->sold_count }} Terjual</span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-brand-dark">{{ $product->formatted_price }}</span>
@@ -271,7 +275,7 @@
             <div class="mt-12 text-center">
                 <a href="{{ route('products.index') }}"
                     class="inline-block px-8 py-3 border border-brand-dark text-brand-dark font-medium rounded-md hover:bg-brand-dark hover:text-white transition-colors">
-                    View All Products
+                    Lihat Semua Produk
                 </a>
             </div>
         </div>

@@ -5,8 +5,8 @@
             <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
                 <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                     <div class="sm:text-center lg:text-left">
-                        <span class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Best
-                            Seller</span>
+                        <span
+                            class="text-brand-orange font-bold tracking-widest uppercase text-sm mb-4 block">Terlaris</span>
                         <h1
                             class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl font-serif">
                             <span class="block xl:inline">Think and Grow Rich</span>
@@ -31,25 +31,25 @@
                             <div class="rounded-md shadow">
                                 <a href="#"
                                     class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-dark hover:bg-brand-orange transition-colors md:py-4 md:text-lg md:px-10">
-                                    Buy Now
+                                    Beli Sekarang
                                 </a>
                             </div>
                             <div class="rounded-md shadow">
                                 <a href="#"
                                     class="w-full flex items-center justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-brand-dark bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                                    See Details
+                                    Lihat Detail
                                 </a>
                             </div>
                         </div>
 
                         <!-- Creator Identity -->
                         <div class="mt-10">
-                            <p class="text-sm text-gray-400 mb-4">Created by</p>
+                            <p class="text-sm text-gray-400 mb-4">Dibuat oleh</p>
                             <div class="flex flex-col gap-2">
                                 <span class="text-sm text-gray-600"><span class="font-bold text-brand-dark">Diva
-                                        Arviansyah</span> as Founder</span>
+                                        Arviansyah</span> sebagai Founder</span>
                                 <span class="text-sm text-gray-600"><span class="font-bold text-brand-dark">Ikhsan
-                                        Naufal Rabani</span> as Co-Founder</span>
+                                        Naufal Rabani</span> sebagai Co-Founder</span>
                             </div>
                         </div>
                     </div>
@@ -92,10 +92,10 @@
     <section class="py-16 bg-brand-gray">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-serif font-bold text-brand-dark">Popular This Week</h2>
+                <h2 class="text-3xl font-serif font-bold text-brand-dark">Populer Minggu Ini</h2>
                 <p class="mt-4 text-gray-500 max-w-2xl mx-auto">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.
+                    Temukan buku-buku terpopuler minggu ini yang paling banyak diminati oleh pembaca. Koleksi pilihan
+                    dari berbagai genre untuk menemani hari Anda.
                 </p>
             </div>
 
@@ -135,7 +135,7 @@
                         </div>
                         <div class="p-4">
                             <h3 class="font-bold text-brand-dark truncate">{{ $product->name }}</h3>
-                            <p class="text-xs text-gray-500 mb-2">{{ $product->author ?? 'Unknown Author' }}</p>
+                            <p class="text-xs text-gray-500 mb-2">{{ $product->author ?? 'Penulis Tidak Diketahui' }}</p>
                             <div class="flex items-center gap-1 mb-3">
                                 <span class="text-brand-orange text-xs">★★★★★</span>
                                 <span class="text-xs text-gray-400">(4.0)</span>
@@ -170,7 +170,7 @@
             <div class="mt-12 text-center">
                 <a href="{{ route('products.index') }}"
                     class="inline-block px-8 py-3 border border-brand-dark text-brand-dark font-medium rounded-md hover:bg-brand-dark hover:text-white transition-colors">
-                    View All Products
+                    Lihat Semua Produk
                 </a>
             </div>
         </div>
