@@ -17,17 +17,18 @@
                 <div class="p-8 md:flex md:items-center md:justify-between relative z-10">
                     <div>
                         <h3 class="text-3xl font-serif font-bold text-brand-dark mb-2">Selamat datang kembali,
-                            {{ Auth::user()->name }}! 👋</h3>
+                            {{ Auth::user()->name }}! 👋
+                        </h3>
                         <p class="text-gray-500 text-lg">
                             @if(Auth::user()->isAdmin())
-                                You are logged in as <span class="font-bold text-brand-orange">Administrator</span>
+                                Anda masuk sebagai <span class="font-bold text-brand-orange">Administrator</span>
                             @elseif(Auth::user()->store && Auth::user()->store->is_verified)
-                                You are logged in as <span class="font-bold text-green-600">Verified Seller</span>
+                                Anda masuk sebagai <span class="font-bold text-green-600">Penjual Terverifikasi</span>
                             @elseif(Auth::user()->store)
-                                You are logged in as <span class="font-bold text-yellow-600">Seller (Pending
-                                    Verification)</span>
+                                Anda masuk sebagai <span class="font-bold text-yellow-600">Penjual (Menunggu
+                                    Verifikasi)</span>
                             @else
-                                You are logged in as <span class="font-bold text-blue-600">Member</span>
+                                Anda masuk sebagai <span class="font-bold text-blue-600">Member</span>
                             @endif
                         </p>
                     </div>
@@ -149,7 +150,8 @@
                             <div class="relative z-10">
                                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Total Pesanan</p>
                                 <h4 class="text-4xl font-bold text-brand-dark mb-2">
-                                    {{ Auth::user()->store->transactions_count ?? 0 }}</h4>
+                                    {{ Auth::user()->store->transactions_count ?? 0 }}
+                                </h4>
                                 <a href="{{ route('seller.orders.index') }}"
                                     class="text-blue-600 text-sm font-bold hover:underline flex items-center">
                                     Lihat Pesanan <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor"
@@ -169,7 +171,8 @@
                             <div class="relative z-10">
                                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Total Produk</p>
                                 <h4 class="text-4xl font-bold text-brand-dark mb-2">
-                                    {{ Auth::user()->store->products_count ?? 0 }}</h4>
+                                    {{ Auth::user()->store->products_count ?? 0 }}
+                                </h4>
                                 <a href="{{ route('seller.products.index') }}"
                                     class="text-brand-orange text-sm font-bold hover:underline flex items-center">
                                     Kelola Produk <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor"
@@ -189,7 +192,8 @@
                             <div class="relative z-10">
                                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Saldo Aktif</p>
                                 <h4 class="text-4xl font-bold text-brand-dark mb-2">Rp
-                                    {{ number_format(Auth::user()->store->storeBalance->balance ?? 0, 0, ',', '.') }}</h4>
+                                    {{ number_format(Auth::user()->store->storeBalance->balance ?? 0, 0, ',', '.') }}
+                                </h4>
                                 <a href="{{ route('seller.balance.index') }}"
                                     class="text-green-600 text-sm font-bold hover:underline flex items-center">
                                     Lihat Detail <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor"

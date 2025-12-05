@@ -67,7 +67,7 @@
                     <h3 class="text-lg font-bold text-gray-900">Wishlist Anda kosong</h3>
                     <p class="mt-2 text-gray-500">Mulai tambahkan buku yang Anda sukai ke wishlist!</p>
                     <a href="{{ route('products.index') }}"
-                        class="mt-6 inline-block text-brand-orange font-medium hover:underline">Jelajahi Produk</a>
+                        class="mt-6 inline-block bg-brand-orange text-white px-8 py-3 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20">Jelajahi Produk</a>
                 </div>
             @endif
         </div>
