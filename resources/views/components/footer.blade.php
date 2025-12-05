@@ -69,11 +69,11 @@
             </div>
         </div>
         <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <a href="https://github.com/sandiv-pemweb" target="_blank" rel="noopener noreferrer"><p class="text-sm text-gray-500">© 2025 BookLand. Hak cipta dilindungi.</p></a>
+            <a href="https://github.com/sandiv-pemweb" target="_blank" rel="noopener noreferrer"><p class="text-sm text-gray-500">© 2025 BookLand. All rights reserved.</p></a>
             <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6">
                 <span class="text-sm text-gray-500">
                     <a href="https://instagram.com/divarvian" target="_blank" rel="noopener noreferrer"
-                        class="font-semibold text-gray-700">Diva Arviansyah</a> sebagai Pendiri
+                        class="font-semibold text-gray-700">Diva Arviansyah</a> sebagai Founder
                 </span>
                 <span class="hidden md:inline-block text-gray-300">|</span>
                 <span class="text-sm text-gray-500">
