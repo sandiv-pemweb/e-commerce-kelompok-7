@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            Manajemen Pengguna
+            {{ __('Manajemen Pengguna') }}
         </h2>
     </x-slot>
 
@@ -13,11 +13,10 @@
                     <form method="GET" action="{{ route('admin.users.index') }}"
                         class="flex flex-col md:flex-row gap-4">
                         <div class="flex-grow">
-                            <select name="role"
-                                class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
-                                <option value="">Semua Role</option>
+                            <select name="role" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
+                                <option value="">Semua Peran</option>
                                 <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="member" {{ request('role') == 'member' ? 'selected' : '' }}>Member</option>
+                                <option value="member" {{ request('role') == 'member' ? 'selected' : '' }}>Anggota</option>
                             </select>
                         </div>
 
@@ -51,24 +50,12 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-brand-dark">
                                 <tr>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Nama</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Email</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Role</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Toko</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Tanggal Bergabung</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Aksi</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Nama</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Peran</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Toko</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Tanggal Bergabung</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -79,9 +66,20 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $user->email }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $user->role == 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
-                                                {{ ucfirst($user->role) }}
+                                            @php
+                                                $badgeClass = match(true) {
+                                                    $user->role == 'admin' => 'bg-purple-100 text-purple-800',
+                                                    $user->role == 'member' && $user->store => 'bg-brand-orange/10 text-brand-orange',
+                                                    default => 'bg-blue-100 text-blue-800',
+                                                };
+                                                $roleLabel = match(true) {
+                                                    $user->role == 'admin' => 'Admin',
+                                                    $user->role == 'member' && $user->store => 'Penjual',
+                                                    default => 'Anggota',
+                                                };
+                                            @endphp
+                                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $badgeClass }}">
+                                                {{ $roleLabel }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -90,9 +88,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $user->created_at->format('d M Y') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('admin.users.show', $user) }}"
-                                                class="text-brand-orange hover:text-brand-dark font-bold transition-colors">Lihat
-                                                Detail</a>
+                                            <a href="{{ route('admin.users.show', $user) }}" class="text-brand-orange hover:text-brand-dark font-bold transition-colors">Lihat Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -28,7 +28,7 @@
                                 Anda masuk sebagai <span class="font-bold text-yellow-600">Penjual (Menunggu
                                     Verifikasi)</span>
                             @else
-                                Anda masuk sebagai <span class="font-bold text-blue-600">Member</span>
+                                You are logged in as <span class="font-bold text-blue-600">Member</span>
                             @endif
                         </p>
                     </div>

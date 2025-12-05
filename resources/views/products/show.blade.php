@@ -68,27 +68,15 @@
                             </div>
                             <div class="flex items-center gap-4 text-sm text-gray-500">
                                 <span class="flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
-                                        </path>
-                                    </svg>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
                                     {{ $totalReviews }} <span class="hidden md:inline">Ulasan</span>
                                 </span>
                                 <span class="flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                                        </path>
-                                    </svg>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                     {{ $product->wishlist_count }}+ <span class="hidden md:inline">Suka</span>
                                 </span>
                                 <span class="flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                                        </path>
-                                    </svg>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                     {{ $product->sold_count }} <span class="hidden md:inline">Terjual</span>
                                 </span>
                             </div>
@@ -97,8 +85,7 @@
                         <!-- Meta Info -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 border-y border-gray-100 py-6">
                             <div>
-                                <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Ditulis oleh
-                                </p>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Penulis</p>
                                 <div class="flex items-center gap-2">
                                     <div
                                         class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">
@@ -110,13 +97,11 @@
                             </div>
                             <div>
                                 <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Penerbit</p>
-                                <span
-                                    class="font-bold text-brand-dark text-sm">{{ $product->publisher ?? $product->store->name }}</span>
+                                <span class="font-bold text-brand-dark text-sm">{{ $product->publisher ?? $product->store->name }}</span>
                             </div>
                             <div>
                                 <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Tahun</p>
-                                <span
-                                    class="font-bold text-brand-dark text-sm">{{ $product->published_year ?? $product->created_at->format('Y') }}</span>
+                                <span class="font-bold text-brand-dark text-sm">{{ $product->published_year ?? $product->created_at->format('Y') }}</span>
                             </div>
                             <div>
                                 <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Toko</p>
@@ -177,25 +162,19 @@
                                                 class="px-4 py-2 text-brand-orange text-xl font-bold hover:bg-gray-50 rounded-r-lg">+</button>
                                         </div>
 
-                                        <button type="button"
-                                            onclick="addToCart({{ $product->id }}, document.getElementById('quantity-input').value)"
-                                            class="w-full md:flex-1 bg-brand-orange text-white px-8 py-3 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                            </svg>
-                                            Tambah ke Keranjang
-                                        </button>
+                                            <button type="button" onclick="addToCart({{ $product->id }}, document.getElementById('quantity-input').value)" class="w-full md:flex-1 bg-brand-orange text-white px-8 py-3 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                                </svg>
+                                                Tambah ke Keranjang
+                                            </button>
                                     @else
-                                        <button disabled
-                                            class="w-full bg-gray-100 text-gray-400 px-8 py-4 rounded-xl font-bold text-lg cursor-not-allowed border border-gray-200">
+                                        <button disabled class="w-full bg-gray-100 text-gray-400 px-8 py-4 rounded-xl font-bold text-lg cursor-not-allowed border border-gray-200">
                                             Stok Habis
                                         </button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login') }}"
-                                        class="block w-full bg-brand-orange text-white text-center px-8 py-4 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20">
+                                    <a href="{{ route('login') }}" class="block w-full bg-brand-orange text-white text-center px-8 py-4 rounded-xl hover:bg-brand-dark transition-all font-bold text-lg shadow-lg shadow-brand-orange/20">
                                         Masuk untuk Membeli
                                     </a>
                                 @endauth
@@ -235,8 +214,7 @@
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Penulis</span>
-                                    <span
-                                        class="col-span-2 text-gray-500">{{ $product->author ?? $product->store->name }}</span>
+                                    <span class="col-span-2 text-gray-500">{{ $product->author ?? $product->store->name }}</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">ISBN</span>
@@ -244,21 +222,29 @@
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Bahasa Edisi</span>
-                                    <span class="col-span-2 text-gray-500">Bahasa Inggris</span>
+                                    <span class="col-span-2 text-gray-500">Inggris</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Format Buku</span>
                                     <span class="col-span-2 text-gray-500">Paperback, {{ $product->weight }}g</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
+                                    <span class="font-bold text-brand-dark">Kondisi</span>
+                                    <span class="col-span-2 text-gray-500">
+                                        {{ match($product->condition) {
+                                            'new' => 'Baru',
+                                            'second' => 'Bekas',
+                                            default => ucfirst($product->condition)
+                                        } }}
+                                    </span>
+                                </div>
+                                <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Tanggal Terbit</span>
-                                    <span
-                                        class="col-span-2 text-gray-500">{{ $product->published_year ?? $product->created_at->format('Y') }}</span>
+                                    <span class="col-span-2 text-gray-500">{{ $product->published_year ?? $product->created_at->format('Y') }}</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Penerbit</span>
-                                    <span
-                                        class="col-span-2 text-gray-500">{{ $product->publisher ?? $product->store->name }}</span>
+                                    <span class="col-span-2 text-gray-500">{{ $product->publisher ?? $product->store->name }}</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Toko</span>
@@ -368,7 +354,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                                 </svg>
-                                                Tambah ke keranjang
+                                                Tambah ke Keranjang
                                             </button>
                                         @else
                                             <a href="{{ route('login') }}"
@@ -378,7 +364,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                                 </svg>
-                                                Tambah ke keranjang
+                                                Tambah ke Keranjang
                                             </a>
                                         @endauth
                                     </div>

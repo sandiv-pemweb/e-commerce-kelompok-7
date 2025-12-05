@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            {{ __('Store Balance') }}
+            {{ __('Saldo Toko') }}
         </h2>
     </x-slot>
 
@@ -26,19 +26,19 @@
                 <div class="p-8">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                         <div>
-                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Current Balance</h3>
+                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Saldo Saat Ini</h3>
                             <p class="text-4xl font-bold text-brand-dark">Rp {{ number_format($storeBalance->balance, 0, ',', '.') }}</p>
                         </div>
                         <div>
                             @if($hasPendingWithdrawal)
                                 <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-3 rounded-xl flex items-center shadow-sm">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <p class="font-bold text-sm">Withdrawal in process</p>
+                                    <p class="font-bold text-sm">Penarikan sedang diproses</p>
                                 </div>
                             @else
                                 <a href="{{ route('seller.withdrawals.create') }}" class="inline-flex items-center px-6 py-3 bg-brand-dark border border-transparent rounded-xl font-bold text-sm text-white uppercase tracking-widest hover:bg-brand-orange transition-colors shadow-md transform hover:-translate-y-0.5">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                    Withdraw Funds
+                                    Tarik Dana
                                 </a>
                             @endif
                         </div>
@@ -51,10 +51,10 @@
                 <div class="border-b border-gray-100">
                     <nav class="-mb-px flex" aria-label="Tabs">
                         <button onclick="showTab('history')" id="tab-history" class="tab-button border-b-2 border-brand-orange text-brand-orange w-1/2 py-4 px-1 text-center font-bold text-sm transition-colors">
-                            Balance History
+                            Riwayat Saldo
                         </button>
                         <button onclick="showTab('withdrawal')" id="tab-withdrawal" class="tab-button border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/2 py-4 px-1 text-center font-bold text-sm transition-colors">
-                            Withdrawal History
+                            Riwayat Penarikan
                         </button>
                     </nav>
                 </div>
@@ -64,17 +64,17 @@
                     @if($balanceHistory->isEmpty())
                         <div class="text-center py-12">
                             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                            <p class="text-lg font-medium text-gray-500">No transaction history found.</p>
+                            <p class="text-lg font-medium text-gray-500">Tidak ada riwayat transaksi ditemukan.</p>
                         </div>
                     @else
                         <div class="overflow-x-auto rounded-xl border border-gray-200">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-brand-dark text-white">
                                     <tr>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Date</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Type</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Amount</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Remarks</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Tanggal</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Tipe</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Jumlah</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -83,7 +83,11 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $history->created_at->format('d M Y H:i') }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                 <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $history->type == 'credit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                    {{ ucfirst($history->type) }}
+                                                    {{ match($history->type) {
+                                                    'income' => 'Pemasukan',
+                                                    'withdraw' => 'Penarikan',
+                                                    default => ucfirst($history->type)
+                                                } }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm {{ $history->type == 'credit' ? 'text-green-600' : 'text-red-600' }} font-bold">
@@ -107,19 +111,19 @@
                     @if($withdrawals->isEmpty())
                         <div class="text-center py-12">
                             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            <p class="text-lg font-medium text-gray-500">No withdrawal history found.</p>
+                            <p class="text-lg font-medium text-gray-500">Tidak ada riwayat penarikan ditemukan.</p>
                         </div>
                     @else
                         <div class="overflow-x-auto rounded-xl border border-gray-200">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-brand-dark text-white">
                                     <tr>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Date</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Amount</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Tanggal</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Jumlah</th>
                                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Bank</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Account No.</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">No. Rekening</th>
                                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Action</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -135,7 +139,12 @@
                                                     @elseif($withdrawal->status == 'rejected') bg-red-100 text-red-800
                                                     @else bg-yellow-100 text-yellow-800
                                                     @endif">
-                                                    {{ ucfirst($withdrawal->status) }}
+                                                    {{ match($withdrawal->status) {
+                                                    'pending' => 'Menunggu',
+                                                    'approved' => 'Disetujui',
+                                                    'rejected' => 'Ditolak',
+                                                    default => ucfirst($withdrawal->status)
+                                                } }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -143,7 +152,7 @@
                                                     <button type="button"
                                                             onclick="document.getElementById('cancel-withdrawal-{{ $withdrawal->id }}').classList.remove('hidden')"
                                                             class="text-red-600 hover:text-red-800 font-bold transition-colors">
-                                                        Cancel
+                                                        Batalkan
                                                     </button>
                                                 @else
                                                     <span class="text-gray-400">-</span>
@@ -170,10 +179,10 @@
         <x-confirmation-modal 
             id="cancel-withdrawal-{{ $withdrawal->id }}"
             type="warning" 
-            title="Cancel Withdrawal Request" 
-            message="Are you sure you want to cancel the withdrawal request of Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}?"
-            confirmText="Yes, Cancel"
-            cancelText="Back">
+            title="Batalkan Permintaan Penarikan" 
+            message="Apakah Anda yakin ingin membatalkan permintaan penarikan sebesar Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}?"
+            confirmText="Ya, Batalkan"
+            cancelText="Kembali">
         </x-confirmation-modal>
         <form id="cancel-withdrawal-{{ $withdrawal->id }}-form" method="POST" action="{{ route('seller.withdrawals.destroy', $withdrawal) }}" class="hidden">
             @csrf

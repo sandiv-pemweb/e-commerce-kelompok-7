@@ -28,12 +28,14 @@ class SellerProductImageController extends Controller
         // But we handle file upload manually as we need the path
 
         // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('product-images', 'public');
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('product-images', 'public');
 
-            $product->productImages()->create([
-                'image' => $imagePath,
-            ]);
+                $product->productImages()->create([
+                    'image' => $imagePath,
+                ]);
+            }
         }
 
         return back()->with('success', 'Gambar produk berhasil ditambahkan.');

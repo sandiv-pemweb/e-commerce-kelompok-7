@@ -9,10 +9,10 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         </a>
                         <h2 class="font-serif font-bold text-3xl text-brand-dark leading-tight">
-                            Payment
+                            Pembayaran
                         </h2>
                     </div>
-                    <p class="text-gray-500 ml-9">Order ID: <span class="font-mono font-bold text-brand-dark">#{{ $transaction->code }}</span></p>
+                    <p class="text-gray-500 ml-9">ID Pesanan: <span class="font-mono font-bold text-brand-dark">#{{ $transaction->code }}</span></p>
                 </div>
             </div>
 
@@ -29,34 +29,44 @@
                     <!-- Payment Status -->
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h3 class="font-bold text-lg text-brand-dark">Payment Status</h3>
+                            <h3 class="font-bold text-lg text-brand-dark">Status Pembayaran</h3>
                         </div>
                         <div class="p-6">
                             @if($transaction->payment_status === 'unpaid')
-                                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
-                                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-600">
-                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                @if($transaction->payment_proof)
+                                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
+                                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
+                                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <h4 class="text-xl font-bold text-blue-800 mb-2">Menunggu Konfirmasi</h4>
+                                        <p class="text-blue-700">Bukti pembayaran Anda sedang diverifikasi oleh penjual.</p>
                                     </div>
-                                    <h4 class="text-xl font-bold text-yellow-800 mb-2">Payment Required</h4>
-                                    <p class="text-yellow-700">Please complete your payment to process the order.</p>
-                                </div>
+                                @else
+                                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+                                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-600">
+                                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </div>
+                                        <h4 class="text-xl font-bold text-yellow-800 mb-2">Pembayaran Diperlukan</h4>
+                                        <p class="text-yellow-700">Silakan selesaikan pembayaran Anda untuk memproses pesanan.</p>
+                                    </div>
+                                @endif
                             @else
                                 <div class="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
                                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
                                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                     </div>
-                                    <h4 class="text-xl font-bold text-green-800 mb-2">Payment Received</h4>
-                                    <p class="text-green-700">Thank you! Your payment has been verified.</p>
+                                    <h4 class="text-xl font-bold text-green-800 mb-2">Pembayaran Diterima</h4>
+                                    <p class="text-green-700">Terima kasih! Pembayaran Anda telah diverifikasi.</p>
                                 </div>
                             @endif
                         </div>
                     </div>
 
-                    @if($transaction->payment_status === 'unpaid')
+                    @if($transaction->payment_status === 'unpaid' && !$transaction->payment_proof)
                         <!-- Payment Instructions -->
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                             <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                                <h3 class="font-bold text-lg text-brand-dark">Payment Instructions</h3>
+                                <h3 class="font-bold text-lg text-brand-dark">Instruksi Pembayaran</h3>
                             </div>
                             <div class="p-6 space-y-6">
                                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
@@ -65,17 +75,17 @@
                                             <span class="font-bold text-blue-800">BCA</span>
                                         </div>
                                         <div>
-                                            <h4 class="font-bold text-blue-900">Bank Transfer</h4>
-                                            <p class="text-sm text-blue-700">Manual verification required</p>
+                                            <h4 class="font-bold text-blue-900">Transfer Bank</h4>
+                                            <p class="text-sm text-blue-700">Verifikasi manual diperlukan</p>
                                         </div>
                                     </div>
                                     <div class="space-y-2 pl-16">
                                         <div class="flex justify-between items-center border-b border-blue-200 pb-2">
-                                            <span class="text-blue-800">Account Number</span>
+                                            <span class="text-blue-800">Nomor Rekening</span>
                                             <span class="font-mono font-bold text-blue-900 text-lg">1234567890</span>
                                         </div>
                                         <div class="flex justify-between items-center pt-2">
-                                            <span class="text-blue-800">Account Name</span>
+                                            <span class="text-blue-800">Atas Nama</span>
                                             <span class="font-bold text-blue-900">E-Commerce Platform</span>
                                         </div>
                                     </div>
@@ -88,7 +98,7 @@
                                         </div>
                                         <div>
                                             <h4 class="font-bold text-gray-900">QRIS / E-Wallet</h4>
-                                            <p class="text-sm text-gray-600">Coming soon - Automated payment</p>
+                                            <p class="text-sm text-gray-600">Segera hadir - Pembayaran otomatis</p>
                                         </div>
                                     </div>
                                 </div>
@@ -98,14 +108,24 @@
                         <!-- Upload Proof -->
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                             <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                                <h3 class="font-bold text-lg text-brand-dark">Upload Payment Proof</h3>
+                                <h3 class="font-bold text-lg text-brand-dark">Unggah Bukti Pembayaran</h3>
                             </div>
                             <div class="p-6">
+                                @if($transaction->payment_proof)
+                                    <div class="mb-6">
+                                        <p class="text-sm font-bold text-gray-700 mb-2">Bukti Pembayaran Terkirim:</p>
+                                        <div class="relative aspect-video w-full max-w-md rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+                                            <img src="{{ asset('storage/' . $transaction->payment_proof) }}" class="w-full h-full object-contain">
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-2">Ingin mengganti bukti pembayaran? Silakan unggah file baru di bawah ini.</p>
+                                    </div>
+                                @endif
+
                                 <form action="{{ route('payment.upload', $transaction->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                                     @csrf
                                     <div>
                                         <label class="block text-sm font-bold text-gray-700 mb-2">
-                                            Payment Proof Image
+                                            Gambar Bukti Pembayaran
                                         </label>
                                         <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-brand-orange transition-colors group">
                                             <div class="space-y-1 text-center">
@@ -114,13 +134,13 @@
                                                 </svg>
                                                 <div class="flex text-sm text-gray-600">
                                                     <label for="payment_proof" class="relative cursor-pointer bg-white rounded-md font-medium text-brand-orange hover:text-brand-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-orange">
-                                                        <span>Upload a file</span>
+                                                        <span>Unggah file</span>
                                                         <input id="payment_proof" name="payment_proof" type="file" class="sr-only" accept="image/jpeg,image/png,image/jpg" required>
                                                     </label>
-                                                    <p class="pl-1">or drag and drop</p>
+                                                    <p class="pl-1">atau seret dan lepas</p>
                                                 </div>
                                                 <p class="text-xs text-gray-500">
-                                                    PNG, JPG, JPEG up to 2MB
+                                                    PNG, JPG, JPEG hingga 2MB
                                                 </p>
                                             </div>
                                         </div>
@@ -130,14 +150,14 @@
                                     </div>
 
                                     <button type="submit" class="w-full bg-brand-dark text-white font-bold py-3 px-4 rounded-xl hover:bg-brand-orange transition-all duration-300 shadow-md transform hover:-translate-y-0.5">
-                                        Submit Payment Proof
+                                        Kirim Bukti Pembayaran
                                     </button>
                                 </form>
 
                                 <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex gap-3">
                                     <svg class="w-5 h-5 text-yellow-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <p class="text-sm text-yellow-700">
-                                        <strong>Note:</strong> After uploading, please wait for seller confirmation. You will be notified via email once your payment is verified.
+                                        <strong>Catatan:</strong> Setelah mengunggah, mohon tunggu konfirmasi penjual. Anda akan diberitahu melalui email setelah pembayaran Anda diverifikasi.
                                     </p>
                                 </div>
                             </div>
@@ -149,7 +169,7 @@
                 <div class="space-y-8">
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                            <h3 class="font-bold text-lg text-brand-dark">Order Summary</h3>
+                            <h3 class="font-bold text-lg text-brand-dark">Ringkasan Pesanan</h3>
                         </div>
                         <div class="p-6">
                             <div class="space-y-4 mb-6">
@@ -177,11 +197,11 @@
                                     <span>Rp {{ number_format($transaction->grand_total - $transaction->shipping_cost - $transaction->tax, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm text-gray-600">
-                                    <span>Shipping</span>
+                                    <span>Pengiriman</span>
                                     <span>Rp {{ number_format($transaction->shipping_cost, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm text-gray-600">
-                                    <span>Tax (11%)</span>
+                                    <span>Pajak (11%)</span>
                                     <span>Rp {{ number_format($transaction->tax, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="border-t border-dashed border-gray-200 pt-4 mt-2 flex justify-between items-center">

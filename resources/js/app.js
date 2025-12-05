@@ -99,7 +99,13 @@ window.toggleWishlist = function (button, productId) {
         },
         body: JSON.stringify({ product_id: productId })
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = '/login';
+                throw new Error('Unauthorized');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 // Update icon
@@ -133,7 +139,9 @@ window.toggleWishlist = function (button, productId) {
             }
         })
         .catch(error => {
-            console.error('[WISHLIST] Error:', error);
+            if (error.message !== 'Unauthorized') {
+                console.error('[WISHLIST] Error:', error);
+            }
         });
 };
 
@@ -155,7 +163,13 @@ window.addToCart = function (productId, quantity = 1) {
             quantity: quantity
         })
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = '/login';
+                throw new Error('Unauthorized');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 // Update ALL cart counts in navbar
@@ -171,7 +185,9 @@ window.addToCart = function (productId, quantity = 1) {
             }
         })
         .catch(error => {
-            console.error('[CART] Error:', error);
+            if (error.message !== 'Unauthorized') {
+                console.error('[CART] Error:', error);
+            }
         });
 };
 

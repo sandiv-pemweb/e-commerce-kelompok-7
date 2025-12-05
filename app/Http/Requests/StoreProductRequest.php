@@ -36,12 +36,14 @@ class StoreProductRequest extends FormRequest
             'author' => ['nullable', 'string', 'max:255'],
             'publisher' => ['nullable', 'string', 'max:255'],
             'published_year' => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
-            'condition' => ['required', 'in:new,used'],
+            'condition' => ['required', 'in:new,second'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'discount_price' => ['nullable', 'numeric', 'min:0', 'lt:price'],
             'stock' => ['required', 'integer', 'min:0'],
             'weight' => ['required', 'numeric', 'min:0'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
 

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            {{ __('Store Details: ') . $store->name }}
+            {{ __('Detail Toko: ') . $store->name }}
         </h2>
     </x-slot>
 
@@ -32,9 +32,9 @@
             <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                 <div class="p-8">
                     <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-6">
-                        <h3 class="text-2xl font-serif font-bold text-brand-dark">Store Information</h3>
+                        <h3 class="text-2xl font-serif font-bold text-brand-dark">Informasi Toko</h3>
                         <span class="px-4 py-2 inline-flex text-sm leading-5 font-bold rounded-full {{ $store->is_verified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                            {{ $store->is_verified ? 'Verified' : 'Pending Verification' }}
+                            {{ $store->is_verified ? 'Terverifikasi' : 'Menunggu Verifikasi' }}
                         </span>
                     </div>
                     
@@ -54,33 +54,33 @@
                         <div class="md:col-span-2 space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Store Name</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Nama Toko</p>
                                     <p class="text-lg font-bold text-brand-dark">{{ $store->name }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Owner</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Pemilik</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $store->user->name }}</p>
                                     <p class="text-sm text-gray-500">{{ $store->user->email }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Phone Number</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Nomor Telepon</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $store->phone }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Total Products</p>
-                                    <p class="text-lg font-medium text-gray-900">{{ $store->products->count() }} products</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Total Produk</p>
+                                    <p class="text-lg font-medium text-gray-900">{{ $store->products->count() }} produk</p>
                                 </div>
                                 <div class="md:col-span-2">
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Address</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Alamat</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $store->address }}, {{ $store->city }}, {{ $store->postal_code }}</p>
                                 </div>
                                 <div class="md:col-span-2">
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">About Store</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tentang Toko</p>
                                     <p class="text-base text-gray-700 leading-relaxed">{{ $store->about }}</p>
                                 </div>
                                 @if($store->storeBalance)
                                     <div class="md:col-span-2">
-                                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Store Balance</p>
+                                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Saldo Toko</p>
                                         <p class="text-2xl font-bold text-green-600">Rp {{ number_format($store->storeBalance->balance, 0, ',', '.') }}</p>
                                     </div>
                                 @endif
@@ -92,24 +92,24 @@
                                     <button type="button" 
                                             onclick="document.getElementById('verify-modal').classList.remove('hidden')"
                                             class="px-6 py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                                        Verify Store
+                                        Verifikasi Toko
                                     </button>
 
                                     <button type="button" 
                                             onclick="document.getElementById('reject-modal').classList.remove('hidden')"
                                             class="px-6 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                                        Reject Store
+                                        Tolak Toko
                                     </button>
                                 @endif
 
                                 <button type="button" 
                                         onclick="document.getElementById('delete-modal').classList.remove('hidden')"
                                         class="px-6 py-3 bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-700 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                                    Delete Store
+                                    Hapus Toko
                                 </button>
                                 
                                 <a href="{{ route('admin.stores.index') }}" class="px-6 py-3 bg-white border border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors">
-                                    Back to List
+                                    Kembali ke Daftar
                                 </a>
                             </div>
                         </div>
@@ -124,10 +124,10 @@
     <x-confirmation-modal 
         id="verify-modal"
         type="success" 
-        title="Verify Store" 
-        message="Are you sure you want to verify {{ $store->name }}? The store will get full access to start selling."
-        confirmText="Yes, Verify"
-        cancelText="Cancel">
+        title="Verifikasi Toko" 
+        message="Apakah Anda yakin ingin memverifikasi {{ $store->name }}? Toko akan mendapatkan akses penuh untuk mulai berjualan."
+        confirmText="Ya, Verifikasi"
+        cancelText="Batal">
     </x-confirmation-modal>
     <form id="verify-modal-form" method="POST" action="{{ route('admin.stores.verify', ['store' => $store->id]) }}" class="hidden">
         @csrf
@@ -138,10 +138,10 @@
     <x-confirmation-modal 
         id="reject-modal"
         type="danger" 
-        title="Reject Store Application" 
-        message="Are you sure you want to reject and delete {{ $store->name }}? This action cannot be undone."
-        confirmText="Yes, Reject & Delete"
-        cancelText="Cancel">
+        title="Tolak Pengajuan Toko" 
+        message="Apakah Anda yakin ingin menolak dan menghapus {{ $store->name }}? Tindakan ini tidak dapat dibatalkan."
+        confirmText="Ya, Tolak & Hapus"
+        cancelText="Batal">
     </x-confirmation-modal>
     <form id="reject-modal-form" method="POST" action="{{ route('admin.stores.reject', ['store' => $store->id]) }}" class="hidden">
         @csrf
@@ -153,10 +153,10 @@
     <x-confirmation-modal 
         id="delete-modal"
         type="danger" 
-        title="Delete Store" 
-        message="Are you sure you want to delete {{ $store->name }}? All related data will be deleted and this action cannot be undone."
-        confirmText="Yes, Delete"
-        cancelText="Cancel">
+        title="Hapus Toko" 
+        message="Apakah Anda yakin ingin menghapus {{ $store->name }}? Semua data terkait akan dihapus dan tindakan ini tidak dapat dibatalkan."
+        confirmText="Ya, Hapus"
+        cancelText="Batal">
     </x-confirmation-modal>
     <form id="delete-modal-form" method="POST" action="{{ route('admin.stores.destroy', ['store' => $store->id]) }}" class="hidden">
         @csrf

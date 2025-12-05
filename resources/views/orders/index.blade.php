@@ -47,14 +47,25 @@
                                     <span class="px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold border
                                         @if($order->payment_status === 'paid') bg-green-50 text-green-700 border-green-200
                                         @else bg-yellow-50 text-yellow-700 border-yellow-200 @endif">
-                                        {{ ucfirst($order->payment_status) }}
+                                        {{ match($order->payment_status) {
+                                            'paid' => 'Lunas',
+                                            'unpaid' => 'Belum Dibayar',
+                                            default => ucfirst($order->payment_status)
+                                        } }}
                                     </span>
                                     <span class="px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold border
                                         @if($order->order_status === 'completed') bg-green-50 text-green-700 border-green-200
                                         @elseif($order->order_status === 'cancelled') bg-red-50 text-red-700 border-red-200
                                         @elseif($order->order_status === 'shipped') bg-blue-50 text-blue-700 border-blue-200
                                         @else bg-gray-50 text-gray-700 border-gray-200 @endif">
-                                        {{ ucfirst($order->order_status) }}
+                                        {{ match($order->order_status) {
+                                            'pending' => 'Menunggu',
+                                            'processing' => 'Diproses',
+                                            'shipped' => 'Dikirim',
+                                            'completed' => 'Selesai',
+                                            'cancelled' => 'Dibatalkan',
+                                            default => ucfirst($order->order_status)
+                                        } }}
                                     </span>
                                 </div>
                             </div>

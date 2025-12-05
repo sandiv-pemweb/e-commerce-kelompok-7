@@ -36,8 +36,11 @@
                             </p>
                         </div>
                     </div>
-                    @if($store->description)
-                        <p class="text-gray-600 max-w-3xl leading-relaxed">{{ $store->description }}</p>
+                    @if($store->about)
+                        <div class="mt-6 pt-6 border-t border-gray-100">
+                            <h3 class="font-serif font-bold text-lg text-brand-dark mb-2">Tentang Toko</h3>
+                            <p class="text-gray-600 max-w-3xl leading-relaxed">{{ $store->about }}</p>
+                        </div>
                     @endif
                 </div>
             </div>

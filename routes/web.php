@@ -61,6 +61,9 @@ Route::middleware('auth')->group(function () {
     // Order routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    
+    // Review routes
+    Route::post('/reviews', [App\Http\Controllers\Buyer\ProductReviewController::class, 'store'])->name('reviews.store');
 });
 
 // Seller Routes (available to all authenticated users)

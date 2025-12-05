@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            {{ __('Edit Product: ') . $product->name }}
+            {{ __('Edit Produk: ') . $product->name }}
         </h2>
     </x-slot>
 
@@ -19,14 +19,14 @@
                 <div class="lg:col-span-2">
                     <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                         <div class="p-8">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Product Information</h3>
+                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Informasi Produk</h3>
                             
                             <form method="POST" action="{{ route('seller.products.update', $product) }}" class="space-y-6">
                                 @csrf
                                 @method('PATCH')
 
                                 <div>
-                                    <label for="product_category_id" class="block font-bold text-sm text-gray-700 mb-2">Category</label>
+                                    <label for="product_category_id" class="block font-bold text-sm text-gray-700 mb-2">Kategori</label>
                                     <select id="product_category_id" name="product_category_id" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('product_category_id', $product->product_category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
@@ -38,7 +38,7 @@
                                 </div>
 
                                 <div>
-                                    <label for="name" class="block font-bold text-sm text-gray-700 mb-2">Product Name</label>
+                                    <label for="name" class="block font-bold text-sm text-gray-700 mb-2">Nama Produk</label>
                                     <input id="name" type="text" name="name" value="{{ old('name', $product->name) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
                                     @error('name')
                                         <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -47,7 +47,7 @@
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label for="author" class="block font-bold text-sm text-gray-700 mb-2">Author</label>
+                                        <label for="author" class="block font-bold text-sm text-gray-700 mb-2">Penulis</label>
                                         <input id="author" type="text" name="author" value="{{ old('author', $product->author) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="e.g. J.K. Rowling">
                                         @error('author')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -55,7 +55,7 @@
                                     </div>
 
                                     <div>
-                                        <label for="publisher" class="block font-bold text-sm text-gray-700 mb-2">Publisher</label>
+                                        <label for="publisher" class="block font-bold text-sm text-gray-700 mb-2">Penerbit</label>
                                         <input id="publisher" type="text" name="publisher" value="{{ old('publisher', $product->publisher) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="e.g. Bloomsbury">
                                         @error('publisher')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -65,7 +65,7 @@
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label for="published_year" class="block font-bold text-sm text-gray-700 mb-2">Published Year</label>
+                                        <label for="published_year" class="block font-bold text-sm text-gray-700 mb-2">Tahun Terbit</label>
                                         <input id="published_year" type="number" name="published_year" value="{{ old('published_year', $product->published_year) }}" min="1900" max="{{ date('Y') + 1 }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="e.g. 2023">
                                         @error('published_year')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -73,10 +73,10 @@
                                     </div>
 
                                     <div>
-                                        <label for="condition" class="block font-bold text-sm text-gray-700 mb-2">Condition</label>
+                                        <label for="condition" class="block font-bold text-sm text-gray-700 mb-2">Kondisi</label>
                                         <select id="condition" name="condition" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
-                                            <option value="new" {{ old('condition', $product->condition) == 'new' ? 'selected' : '' }}>New</option>
-                                            <option value="used" {{ old('condition', $product->condition) == 'used' ? 'selected' : '' }}>Used</option>
+                                            <option value="new" {{ old('condition', $product->condition) == 'new' ? 'selected' : '' }}>Baru</option>
+                                            <option value="second" {{ old('condition', $product->condition) == 'second' ? 'selected' : '' }}>Bekas</option>
                                         </select>
                                         @error('condition')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -85,7 +85,7 @@
                                 </div>
 
                                 <div>
-                                    <label for="description" class="block font-bold text-sm text-gray-700 mb-2">Description</label>
+                                    <label for="description" class="block font-bold text-sm text-gray-700 mb-2">Deskripsi</label>
                                     <textarea id="description" name="description" rows="4" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>{{ old('description', $product->description) }}</textarea>
                                     @error('description')
                                         <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -94,7 +94,7 @@
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label for="price" class="block font-bold text-sm text-gray-700 mb-2">Price (Rp)</label>
+                                        <label for="price" class="block font-bold text-sm text-gray-700 mb-2">Harga (Rp)</label>
                                         <input id="price" type="number" name="price" value="{{ old('price', $product->price) }}" min="0" step="100" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
                                         @error('price')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -102,7 +102,7 @@
                                     </div>
 
                                     <div>
-                                        <label for="discount_price" class="block font-bold text-sm text-gray-700 mb-2">Discount Price (Rp) <span class="text-gray-400 font-normal text-xs">(Optional)</span></label>
+                                        <label for="discount_price" class="block font-bold text-sm text-gray-700 mb-2">Harga Diskon (Rp) <span class="text-gray-400 font-normal text-xs">(Opsional)</span></label>
                                         <input id="discount_price" type="number" name="discount_price" value="{{ old('discount_price', $product->discount_price) }}" min="0" step="100" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
                                         @error('discount_price')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -113,7 +113,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                                     <div>
-                                        <label for="stock" class="block font-bold text-sm text-gray-700 mb-2">Stock</label>
+                                        <label for="stock" class="block font-bold text-sm text-gray-700 mb-2">Stok</label>
                                         <input id="stock" type="number" name="stock" value="{{ old('stock', $product->stock) }}" min="0" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
                                         @error('stock')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -121,7 +121,7 @@
                                     </div>
 
                                     <div>
-                                        <label for="weight" class="block font-bold text-sm text-gray-700 mb-2">Weight (gram)</label>
+                                        <label for="weight" class="block font-bold text-sm text-gray-700 mb-2">Berat (gram)</label>
                                         <input id="weight" type="number" name="weight" value="{{ old('weight', $product->weight) }}" min="0" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" required>
                                         @error('weight')
                                             <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -130,7 +130,7 @@
                                 </div>
 
                                 <div class="pt-6 border-t border-gray-100">
-                                    <button type="submit" class="w-full px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md">Update Product</button>
+                                    <button type="submit" class="w-full px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md">Perbarui Produk</button>
                                 </div>
                             </form>
                         </div>
@@ -141,19 +141,22 @@
                 <div>
                     <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                         <div class="p-8">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Product Images</h3>
+                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Gambar Produk</h3>
                             
                             <!-- Upload Form -->
                             <form method="POST" action="{{ route('seller.product-images.store', $product) }}" enctype="multipart/form-data" class="mb-8">
                                 @csrf
                                 <div class="mb-4">
-                                    <label for="image" class="block font-bold text-sm text-gray-700 mb-2">Add Image</label>
-                                    <input id="image" type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-orange file:text-white hover:file:bg-brand-dark transition-colors" required>
-                                    @error('image')
+                                    <label for="images" class="block font-bold text-sm text-gray-700 mb-2">Tambah Gambar</label>
+                                    <input id="images" type="file" name="images[]" multiple accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-orange file:text-white hover:file:bg-brand-dark transition-colors" required>
+                                    @error('images')
+                                        <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
+                                    @enderror
+                                    @error('images.*')
                                         <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <button type="submit" class="w-full px-4 py-2 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-sm">Upload Image</button>
+                                <button type="submit" class="w-full px-4 py-2 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-sm">Unggah Gambar</button>
                             </form>
 
                             <!-- Image List -->
@@ -172,7 +175,7 @@
                                 @empty
                                     <div class="text-center py-8 bg-gray-50 rounded-xl border border-dashed border-gray-300">
                                         <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                        <p class="text-sm text-gray-500 mt-2">No images yet</p>
+                                        <p class="text-sm text-gray-500 mt-2">Belum ada gambar</p>
                                     </div>
                                 @endforelse
                             </div>
@@ -188,10 +191,10 @@
     <x-confirmation-modal 
         id="delete-image-{{ $image->id }}"
         type="danger" 
-        title="Delete Image" 
-        message="Are you sure you want to delete this image? This action cannot be undone."
-        confirmText="Yes, Delete"
-        cancelText="Cancel">
+        title="Hapus Gambar" 
+        message="Apakah Anda yakin ingin menghapus gambar ini? Tindakan ini tidak dapat dibatalkan."
+        confirmText="Ya, Hapus"
+        cancelText="Batal">
     </x-confirmation-modal>
     <form id="delete-image-{{ $image->id }}-form" method="POST" action="{{ route('seller.product-images.destroy', [$product, $image]) }}" class="hidden">
         @csrf

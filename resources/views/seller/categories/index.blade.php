@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-                {{ __('Category Management') }}
+                {{ __('Manajemen Kategori') }}
             </h2>
             <a href="{{ route('seller.categories.create') }}" class="px-6 py-3 bg-brand-orange border border-transparent rounded-full font-bold text-sm text-white uppercase tracking-widest hover:bg-brand-dark transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Add Category
+                Tambah Kategori
             </a>
         </div>
     </x-slot>
@@ -32,10 +32,10 @@
                     @if($categories->isEmpty())
                         <div class="text-center py-12">
                             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                            <p class="text-lg font-medium text-gray-500 mb-4">No categories found.</p>
+                            <p class="text-lg font-medium text-gray-500 mb-4">Tidak ada kategori ditemukan.</p>
                             <a href="{{ route('seller.categories.create') }}" class="inline-flex items-center px-6 py-3 bg-brand-dark border border-transparent rounded-xl font-bold text-sm text-white uppercase tracking-widest hover:bg-brand-orange transition-colors shadow-md">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                Add First Category
+                                Tambah Kategori Pertama
                             </a>
                         </div>
                     @else
@@ -43,9 +43,9 @@
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-brand-dark text-white">
                                     <tr>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Category Name</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Product Count</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Actions</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Nama Kategori</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Jumlah Produk</th>
+                                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -54,7 +54,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-brand-dark">{{ $category->name }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 <span class="px-3 py-1 bg-gray-100 rounded-full text-xs font-bold text-gray-600">
-                                                    {{ $category->products_count }} products
+                                                    {{ $category->products_count }} produk
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
@@ -64,7 +64,7 @@
                                                 <button type="button"
                                                         onclick="document.getElementById('delete-category-{{ $category->id }}').classList.remove('hidden')"
                                                         class="flex-1 text-center px-4 py-2 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-600 hover:text-white transition-colors">
-                                                    Delete
+                                                    Hapus
                                                 </button>
                                             </td>
                                         </tr>
@@ -87,10 +87,10 @@
     <x-confirmation-modal 
         id="delete-category-{{ $category->id }}"
         type="danger" 
-        title="Delete Category?" 
-        message="Are you sure you want to delete category '{{ $category->name }}'? This category contains {{ $category->products_count }} products. This action cannot be undone."
-        confirmText="Yes, Delete"
-        cancelText="Cancel">
+        title="Hapus Kategori?" 
+        message="Apakah Anda yakin ingin menghapus kategori '{{ $category->name }}'? Kategori ini berisi {{ $category->products_count }} produk. Tindakan ini tidak dapat dibatalkan."
+        confirmText="Ya, Hapus"
+        cancelText="Batal">
     </x-confirmation-modal>
     <form id="delete-category-{{ $category->id }}-form" method="POST" action="{{ route('seller.categories.destroy', $category) }}" class="hidden">
         @csrf
