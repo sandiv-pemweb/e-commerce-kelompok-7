@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-                {{ __('Product Management') }}
+                {{ __('Manajemen Produk') }}
             </h2>
             <a href="{{ route('seller.products.create') }}" class="inline-flex items-center px-6 py-3 bg-brand-orange border border-transparent rounded-full font-bold text-sm text-white uppercase tracking-widest hover:bg-brand-dark transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Add Product
+                Tambah Produk
             </a>
         </div>
     </x-slot>
@@ -23,10 +23,10 @@
             @if($products->isEmpty())
                 <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100 p-12 text-center">
                     <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">No products yet</h3>
-                    <p class="text-gray-500 mb-6">Start selling by adding your first product.</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Belum ada produk</h3>
+                    <p class="text-gray-500 mb-6">Mulai berjualan dengan menambahkan produk pertama Anda.</p>
                     <a href="{{ route('seller.products.create') }}" class="inline-flex items-center px-6 py-3 bg-brand-dark border border-transparent rounded-xl font-bold text-white hover:bg-brand-orange transition-colors">
-                        Add First Product
+                        Tambah Produk Pertama
                     </a>
                 </div>
             @else
@@ -42,7 +42,7 @@
                                     </div>
                                 @endif
                                 <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-brand-dark shadow-sm">
-                                    Stock: {{ $product->stock }}
+                                    Stok: {{ $product->stock }}
                                 </div>
                             </div>
                             
@@ -59,7 +59,7 @@
                                             Edit
                                         </a>
                                     @else
-                                        <button disabled class="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed" title="Product data incomplete (missing slug)">
+                                        <button disabled class="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed" title="Data produk tidak lengkap (slug hilang)">
                                             Edit
                                         </button>
                                     @endif
@@ -67,11 +67,11 @@
                                         <button type="button" 
                                                 onclick="document.getElementById('delete-product-{{ $product->id }}').classList.remove('hidden')"
                                                 class="flex-1 px-4 py-2 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-600 hover:text-white transition-colors">
-                                            Delete
+                                            Hapus
                                         </button>
                                     @else
-                                        <button disabled class="flex-1 px-4 py-2 bg-red-50 text-red-300 font-bold rounded-xl cursor-not-allowed" title="Product data incomplete (missing slug)">
-                                            Delete
+                                        <button disabled class="flex-1 px-4 py-2 bg-red-50 text-red-300 font-bold rounded-xl cursor-not-allowed" title="Data produk tidak lengkap (slug hilang)">
+                                            Hapus
                                         </button>
                                     @endif
                                 </div>
@@ -93,10 +93,10 @@
             <x-confirmation-modal 
                 id="delete-product-{{ $product->id }}"
                 type="danger" 
-                title="Delete Product" 
-                message="Are you sure you want to delete {{ $product->name }}? This action cannot be undone."
-                confirmText="Yes, Delete"
-                cancelText="Cancel">
+                title="Hapus Produk" 
+                message="Apakah Anda yakin ingin menghapus {{ $product->name }}? Tindakan ini tidak dapat dibatalkan."
+                confirmText="Ya, Hapus"
+                cancelText="Batal">
             </x-confirmation-modal>
             <form id="delete-product-{{ $product->id }}-form" method="POST" action="{{ route('seller.products.destroy', $product) }}" class="hidden">
                 @csrf

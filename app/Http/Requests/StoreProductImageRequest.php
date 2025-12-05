@@ -22,7 +22,8 @@ class StoreProductImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'images' => ['required', 'array', 'min:1'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
 
@@ -34,10 +35,12 @@ class StoreProductImageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'image.required' => 'Gambar produk harus diunggah.',
-            'image.image' => 'File harus berupa gambar.',
-            'image.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif.',
-            'image.max' => 'Ukuran gambar maksimal 2MB.',
+            'images.required' => 'Minimal satu gambar produk harus diunggah.',
+            'images.array' => 'Format data gambar tidak valid.',
+            'images.min' => 'Minimal satu gambar produk harus diunggah.',
+            'images.*.image' => 'File harus berupa gambar.',
+            'images.*.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif.',
+            'images.*.max' => 'Ukuran gambar maksimal 2MB.',
         ];
     }
 }

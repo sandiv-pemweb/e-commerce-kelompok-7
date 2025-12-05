@@ -48,8 +48,16 @@ class SellerProductController extends Controller
 
         $product = $store->products()->create($validated);
 
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $product->productImages()->create([
+                    'image' => $image->store('product-images', 'public')
+                ]);
+            }
+        }
+
         return redirect()->route('seller.products.edit', $product)
-                       ->with('success', 'Produk berhasil dibuat. Silakan tambahkan gambar produk.');
+                       ->with('success', 'Produk berhasil dibuat.');
     }
 
     /**

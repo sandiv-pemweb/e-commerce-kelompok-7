@@ -20,14 +20,14 @@
                             {{ Auth::user()->name }}! 👋</h3>
                         <p class="text-gray-500 text-lg">
                             @if(Auth::user()->isAdmin())
-                                You are logged in as <span class="font-bold text-brand-orange">Administrator</span>
+                                Anda masuk sebagai <span class="font-bold text-brand-orange">Administrator</span>
                             @elseif(Auth::user()->store && Auth::user()->store->is_verified)
-                                You are logged in as <span class="font-bold text-green-600">Verified Seller</span>
+                                Anda masuk sebagai <span class="font-bold text-green-600">Penjual Terverifikasi</span>
                             @elseif(Auth::user()->store)
-                                You are logged in as <span class="font-bold text-yellow-600">Seller (Pending
-                                    Verification)</span>
+                                Anda masuk sebagai <span class="font-bold text-yellow-600">Penjual (Menunggu
+                                    Verifikasi)</span>
                             @else
-                                You are logged in as <span class="font-bold text-blue-600">Member</span>
+                                Anda masuk sebagai <span class="font-bold text-blue-600">Anggota</span>
                             @endif
                         </p>
                     </div>

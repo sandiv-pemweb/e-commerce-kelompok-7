@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            {{ __('Edit Category') }}
+            {{ __('Edit Kategori') }}
         </h2>
     </x-slot>
 
@@ -21,7 +21,7 @@
                         @method('PUT')
 
                         <div>
-                            <label for="name" class="block font-bold text-sm text-gray-700 mb-2">Category Name</label>
+                            <label for="name" class="block font-bold text-sm text-gray-700 mb-2">Nama Kategori</label>
                             <input id="name" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" type="text" name="name" value="{{ old('name', $category->name) }}" required autofocus>
                             @error('name')
                                 <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -30,11 +30,11 @@
 
                         <div class="flex items-center justify-between pt-4">
                             <a href="{{ route('seller.categories.index') }}" class="px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">
-                                Cancel
+                                Batal
                             </a>
 
                             <button type="submit" class="px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md transform hover:-translate-y-0.5">
-                                Update Category
+                                Perbarui Kategori
                             </button>
                         </div>
                     </form>

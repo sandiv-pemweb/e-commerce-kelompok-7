@@ -18,26 +18,26 @@
                         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                             <div class="flex items-center gap-3 mb-6">
                                 <div class="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold">1</div>
-                                <h3 class="text-xl font-bold text-brand-dark">Shipping Address</h3>
+                                <h3 class="text-xl font-bold text-brand-dark">Alamat Pengiriman</h3>
                             </div>
                             
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Address *</label>
-                                    <textarea name="address" rows="3" required class="w-full rounded-lg border-gray-200 focus:border-brand-orange focus:ring-brand-orange transition-colors" placeholder="Enter your full street address">{{ old('address') }}</textarea>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap *</label>
+                                    <textarea name="address" rows="3" required class="w-full rounded-lg border-gray-200 focus:border-brand-orange focus:ring-brand-orange transition-colors" placeholder="Masukkan alamat lengkap Anda">{{ old('address') }}</textarea>
                                     @error('address')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">City *</label>
-                                        <input type="text" name="city" value="{{ old('city') }}" required class="w-full rounded-lg border-gray-200 focus:border-brand-orange focus:ring-brand-orange transition-colors" placeholder="City">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Kota *</label>
+                                        <input type="text" name="city" value="{{ old('city') }}" required class="w-full rounded-lg border-gray-200 focus:border-brand-orange focus:ring-brand-orange transition-colors" placeholder="Kota">
                                         @error('city')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Postal Code *</label>
-                                        <input type="text" name="postal_code" value="{{ old('postal_code') }}" required class="w-full rounded-lg border-gray-200 focus:border-brand-orange focus:ring-brand-orange transition-colors" placeholder="Postal Code">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Kode Pos *</label>
+                                        <input type="text" name="postal_code" value="{{ old('postal_code') }}" required class="w-full rounded-lg border-gray-200 focus:border-brand-orange focus:ring-brand-orange transition-colors" placeholder="Kode Pos">
                                         @error('postal_code')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                             <div class="flex items-center gap-3 mb-6">
                                 <div class="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold">2</div>
-                                <h3 class="text-xl font-bold text-brand-dark">Order Details & Shipping</h3>
+                                <h3 class="text-xl font-bold text-brand-dark">Detail Pesanan & Pengiriman</h3>
                             </div>
 
                             <div class="space-y-8">
@@ -88,10 +88,10 @@
                                         <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
                                             <input type="hidden" name="stores[{{ $loop->index }}][store_id]" value="{{ $storeId }}">
                                             
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Shipping Method</label>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Metode Pengiriman</label>
                                             <select name="stores[{{ $loop->index }}][shipping_type]" class="shipping-select w-full rounded-lg border-gray-300 text-sm focus:border-brand-orange focus:ring-brand-orange" data-index="{{ $loop->index }}" required>
-                                                <option value="regular" data-cost="10000">Regular (Rp 10.000) - 3-5 days</option>
-                                                <option value="express" data-cost="25000">Express (Rp 25.000) - 1-2 days</option>
+                                                <option value="regular" data-cost="10000">Reguler (Rp 10.000) - 3-5 hari</option>
+                                                <option value="express" data-cost="25000">Express (Rp 25.000) - 1-2 hari</option>
                                                 <option value="same_day" data-cost="50000">Same Day (Rp 50.000)</option>
                                             </select>
                                             <input type="hidden" name="stores[{{ $loop->index }}][shipping_cost]" class="shipping-cost" value="10000">
@@ -101,11 +101,11 @@
                                                 <span class="font-bold text-brand-dark">Rp {{ number_format($storeSubtotal, 0, ',', '.') }}</span>
                                             </div>
                                             <div class="flex justify-between text-sm mt-1">
-                                                <span class="text-gray-600">Shipping</span>
+                                                <span class="text-gray-600">Pengiriman</span>
                                                 <span class="font-bold text-brand-dark shipping-cost-display">Rp 10.000</span>
                                             </div>
                                             <div class="flex justify-between text-sm mt-1">
-                                                <span class="text-gray-600">Tax (11%)</span>
+                                                <span class="text-gray-600">Pajak (11%)</span>
                                                 <span class="font-bold text-brand-dark">Rp {{ number_format($storeSubtotal * 0.11, 0, ',', '.') }}</span>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                     <!-- Order Summary -->
                     <div class="lg:col-span-1">
                         <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 border border-gray-100">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6">Order Summary</h3>
+                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>
                             
                             <div class="space-y-3 mb-6 text-sm">
                                 <div class="flex justify-between text-gray-600">
@@ -126,24 +126,24 @@
                                     <span id="summarySubtotal" class="font-medium">Rp {{ number_format($grandTotal, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between text-gray-600">
-                                    <span>Total Shipping</span>
+                                    <span>Total Pengiriman</span>
                                     <span id="summaryShipping" class="font-medium">Rp 10.000</span>
                                 </div>
                                 <div class="flex justify-between text-gray-600">
-                                    <span>Total Tax (11%)</span>
+                                    <span>Total Pajak (11%)</span>
                                     <span id="summaryTax" class="font-medium">Rp {{ number_format($grandTotal * 0.11, 0, ',', '.') }}</span>
                                 </div>
                             </div>
 
                             <div class="border-t border-gray-100 pt-6 mb-8">
                                 <div class="flex justify-between items-end">
-                                    <span class="text-gray-600 font-medium">Total Payment</span>
+                                    <span class="text-gray-600 font-medium">Total Pembayaran</span>
                                     <span class="text-2xl font-bold text-brand-orange" id="grandTotal">Rp {{ number_format($grandTotal + 10000 + ($grandTotal * 0.11), 0, ',', '.') }}</span>
                                 </div>
                             </div>
 
                             <button type="submit" class="w-full bg-brand-dark text-white px-6 py-4 rounded-xl hover:bg-brand-orange transition-colors font-bold text-lg shadow-lg shadow-brand-orange/10">
-                                Place Order
+                                Buat Pesanan
                             </button>
                             
                             <div class="mt-6 flex items-center justify-center gap-4 text-gray-400">

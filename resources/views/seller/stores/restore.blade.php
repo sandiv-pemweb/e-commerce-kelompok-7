@@ -11,10 +11,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-serif font-bold text-brand-dark mb-4">Store Deactivated</h3>
+                        <h3 class="text-2xl font-serif font-bold text-brand-dark mb-4">Toko Dinonaktifkan</h3>
                         <p class="text-gray-600 leading-relaxed">
-                            Your store <strong>{{ $store->name }}</strong> is currently deactivated. 
-                            You can restore it to start selling again. All your products and data are safe.
+                            Toko Anda <strong>{{ $store->name }}</strong> saat ini dinonaktifkan. 
+                            Anda dapat memulihkannya untuk mulai berjualan lagi. Semua produk dan data Anda aman.
                         </p>
                     </div>
 
@@ -24,10 +24,10 @@
                         
                         <div class="flex flex-col sm:flex-row justify-center gap-4">
                             <a href="{{ route('dashboard') }}" class="px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">
-                                Back to Dashboard
+                                Kembali ke Dashboard
                             </a>
                             <button type="submit" class="px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md transform hover:-translate-y-0.5">
-                                Restore My Store
+                                Pulihkan Toko Saya
                             </button>
                         </div>
                     </form>

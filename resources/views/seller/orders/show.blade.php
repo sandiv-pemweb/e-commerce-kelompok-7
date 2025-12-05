@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
-            {{ __('Order Details #') . $order->code }}
+            {{ __('Detail Pesanan #') . $order->code }}
         </h2>
     </x-slot>
 
@@ -20,40 +20,44 @@
                     <!-- Order Info -->
                     <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                         <div class="p-8">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Order Information</h3>
+                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Informasi Pesanan</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Order Code</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Kode Pesanan</p>
                                     <p class="text-lg font-bold text-brand-dark">#{{ $order->code }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Order Date</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tanggal Pesanan</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $order->created_at->format('d M Y H:i') }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Buyer</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Pembeli</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $order->buyer->user->name }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Payment Status</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Status Pembayaran</p>
                                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                        {{ $order->payment_status == 'paid' ? 'Paid' : 'Unpaid' }}
+                                        {{ match($order->payment_status) {
+                                            'paid' => 'Lunas',
+                                            'unpaid' => 'Belum Dibayar',
+                                            default => ucfirst($order->payment_status)
+                                        } }}
                                     </span>
                                 </div>
                                 @if($order->payment_proof)
                                     <div class="md:col-span-2">
-                                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Payment Proof</p>
+                                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bukti Pembayaran</p>
                                         <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank" class="block">
                                             <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Payment Proof" class="max-w-sm rounded-lg border-2 border-gray-200 hover:border-brand-orange transition-colors shadow-sm">
                                         </a>
                                     </div>
                                 @endif
                                 <div class="md:col-span-2">
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Shipping Address</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Alamat Pengiriman</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $order->address }}, {{ $order->city }}, {{ $order->postal_code }}</p>
                                 </div>
                                 <div class="md:col-span-2">
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Shipping Method</p>
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Metode Pengiriman</p>
                                     <p class="text-lg font-medium text-gray-900">{{ $order->shipping }} - {{ $order->shipping_type }}</p>
                                 </div>
                             </div>
@@ -63,14 +67,14 @@
                     <!-- Order Items -->
                     <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                         <div class="p-8">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Order Items</h3>
+                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Item Pesanan</h3>
                             <div class="overflow-x-auto rounded-xl border border-gray-200">
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="bg-brand-dark text-white">
                                         <tr>
-                                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Product</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Price</th>
-                                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Qty</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Produk</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Harga</th>
+                                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Jml</th>
                                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Subtotal</th>
                                         </tr>
                                     </thead>
@@ -86,11 +90,11 @@
                                     </tbody>
                                     <tfoot class="bg-gray-50">
                                         <tr>
-                                            <td colspan="3" class="px-6 py-3 text-right text-sm font-bold text-gray-700">Shipping Cost:</td>
+                                            <td colspan="3" class="px-6 py-3 text-right text-sm font-bold text-gray-700">Biaya Pengiriman:</td>
                                             <td class="px-6 py-3 text-sm font-bold text-gray-900">Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" class="px-6 py-3 text-right text-sm font-bold text-gray-700">Tax:</td>
+                                            <td colspan="3" class="px-6 py-3 text-right text-sm font-bold text-gray-700">Pajak:</td>
                                             <td class="px-6 py-3 text-sm font-bold text-gray-900">Rp {{ number_format($order->tax, 0, ',', '.') }}</td>
                                         </tr>
                                         <tr class="bg-brand-dark text-white">
@@ -108,17 +112,17 @@
                 <div>
                     <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100 sticky top-6">
                         <div class="p-8">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Update Order Status</h3>
+                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6 border-b border-gray-100 pb-4">Perbarui Status Pesanan</h3>
                             
                             <form method="POST" action="{{ route('seller.orders.update', $order) }}" class="space-y-6">
                                 @csrf
                                 @method('PATCH')
 
                                 <div>
-                                    <label for="payment_status" class="block font-bold text-sm text-gray-700 mb-2">Payment Status</label>
+                                    <label for="payment_status" class="block font-bold text-sm text-gray-700 mb-2">Status Pembayaran</label>
                                     <select id="payment_status" name="payment_status" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
-                                        <option value="unpaid" {{ $order->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                                        <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
+                                        <option value="unpaid" {{ $order->payment_status == 'unpaid' ? 'selected' : '' }}>Belum Dibayar</option>
+                                        <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Dibayar</option>
                                     </select>
                                     @error('payment_status')
                                         <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -126,13 +130,13 @@
                                 </div>
 
                                 <div>
-                                    <label for="order_status" class="block font-bold text-sm text-gray-700 mb-2">Order Status</label>
+                                    <label for="order_status" class="block font-bold text-sm text-gray-700 mb-2">Status Pesanan</label>
                                     <select id="order_status" name="order_status" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
-                                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                        <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                        <option value="completed" {{ $order->order_status == 'completed' ? 'selected' : '' }}>Completed</option>
-                                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Menunggu</option>
+                                        <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Diproses</option>
+                                        <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Dikirim</option>
+                                        <option value="completed" {{ $order->order_status == 'completed' ? 'selected' : '' }}>Selesai</option>
+                                        <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
                                     </select>
                                     @error('order_status')
                                         <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
@@ -140,15 +144,15 @@
                                 </div>
 
                                 <div>
-                                    <label for="tracking_number" class="block font-bold text-sm text-gray-700 mb-2">Tracking Number <span class="text-gray-400 font-normal">(Required if Shipped)</span></label>
-                                    <input id="tracking_number" type="text" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="Enter tracking number">
+                                    <label for="tracking_number" class="block font-bold text-sm text-gray-700 mb-2">Nomor Resi <span class="text-gray-400 font-normal">(Wajib jika Dikirim)</span></label>
+                                    <input id="tracking_number" type="text" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="Masukkan nomor resi">
                                     @error('tracking_number')
                                         <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                                     @enderror
                                 </div>
 
                                 <button type="submit" class="w-full px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md">
-                                    Update Status
+                                    Perbarui Status
                                 </button>
                             </form>
                         </div>
