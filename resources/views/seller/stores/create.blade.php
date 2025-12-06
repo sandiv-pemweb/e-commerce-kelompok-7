@@ -1,8 +1,8 @@
 <x-store-layout>
-    <div class="py-12 bg-brand-gray min-h-screen">
+    <div class="py-6 bg-brand-gray min-h-screen">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-8 text-center">
-                <h2 class="font-serif font-bold text-3xl text-brand-dark leading-tight">
+                <h2 class=" font-bold text-3xl text-brand-dark leading-tight">
                     {{ __('Daftarkan Toko Anda') }}
                 </h2>
                 <p class="mt-2 text-gray-500 max-w-2xl mx-auto">Mulai perjalanan Anda sebagai penjual di platform kami. Isi detail di bawah ini untuk membuat toko Anda dan menjangkau lebih banyak pelanggan.</p>
@@ -104,29 +104,50 @@
                             </h3>
                             <div>
                                 <label class="block font-bold text-sm text-gray-700 mb-2">Logo Toko</label>
-                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-brand-orange transition-colors group bg-gray-50 hover:bg-orange-50/30">
-                                    <div class="space-y-1 text-center">
-                                        <svg class="mx-auto h-12 w-12 text-gray-400 group-hover:text-brand-orange transition-colors"
-                                            stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                            <path
-                                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <div class="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-brand-orange transition-colors">
+                                    
+                                    <!-- Image Preview -->
+                                    <img id="logo-preview" src="#" alt="Logo Preview" class="h-32 w-32 object-cover rounded-xl shadow-md mb-4 hidden">
+
+                                    <!-- Placeholder SVG -->
+                                    <div id="logo-placeholder">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <div class="flex text-sm text-gray-600 justify-center">
-                                            <label for="logo" class="relative cursor-pointer bg-white rounded-md font-medium text-brand-orange hover:text-brand-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-orange">
-                                                <span>Unggah file</span>
-                                                <input id="logo" name="logo" type="file" class="sr-only" accept="image/*" required>
-                                            </label>
-                                            <p class="pl-1">atau seret dan lepas</p>
-                                        </div>
-                                        <p class="text-xs text-gray-500">
-                                            PNG, JPG, GIF hingga 2MB
-                                        </p>
                                     </div>
+
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="logo" class="relative cursor-pointer bg-white rounded-md font-medium text-brand-orange hover:text-brand-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-orange">
+                                            <span id="logo-label-text">Unggah logo baru</span>
+                                            <input id="logo" name="logo" type="file" class="sr-only" accept="image/*" required onchange="previewLogo(this)">
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">PNG, JPG, GIF hingga 2MB</p>
                                 </div>
                                 @error('logo')
                                     <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                                 @enderror
+
+                                <script>
+                                    function previewLogo(input) {
+                                        const preview = document.getElementById('logo-preview');
+                                        const placeholder = document.getElementById('logo-placeholder');
+                                        const labelText = document.getElementById('logo-label-text');
+
+                                        if (input.files && input.files[0]) {
+                                            const reader = new FileReader();
+                                            
+                                            reader.onload = function(e) {
+                                                preview.src = e.target.result;
+                                                preview.classList.remove('hidden');
+                                                placeholder.classList.add('hidden');
+                                                labelText.textContent = 'Ganti logo';
+                                            }
+                                            
+                                            reader.readAsDataURL(input.files[0]);
+                                        }
+                                    }
+                                </script>
                             </div>
                         </div>
 

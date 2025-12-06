@@ -1,5 +1,5 @@
 <x-store-layout>
-    <div class="py-12 bg-brand-gray min-h-screen">
+    <div class="py-6 bg-brand-gray min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Store Header -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
@@ -9,7 +9,7 @@
                         <div class="w-32 h-32 bg-white rounded-full shadow-lg p-1.5 border-4 border-white ring-1 ring-black/5 relative overflow-hidden shrink-0" x-data="{ imageError: false }">
                             @if($store->logo)
                                 <img 
-                                    src="{{ str_starts_with($store->logo, 'http') ? $store->logo : asset('storage/' . $store->logo) }}" 
+                                    src="{{ $store->logo_url }}" 
                                     alt="{{ $store->name }}" 
                                     class="w-full h-full object-cover rounded-full"
                                     x-on:error="imageError = true"
@@ -17,19 +17,19 @@
                                 >
                                 <div 
                                     x-show="imageError" 
-                                    class="w-full h-full bg-gray-100 rounded-full flex items-center justify-center text-5xl font-serif font-bold text-brand-dark absolute inset-0 m-1.5"
+                                    class="w-full h-full bg-gray-100 rounded-full flex items-center justify-center text-5xl  font-bold text-brand-dark absolute inset-0 m-1.5"
                                     style="display: none;"
                                 >
                                     {{ strtoupper(substr($store->name, 0, 1)) }}
                                 </div>
                             @else
-                                <div class="w-full h-full bg-gray-100 rounded-full flex items-center justify-center text-5xl font-serif font-bold text-brand-dark">
+                                <div class="w-full h-full bg-gray-100 rounded-full flex items-center justify-center text-5xl  font-bold text-brand-dark">
                                     {{ strtoupper(substr($store->name, 0, 1)) }}
                                 </div>
                             @endif
                         </div>
                         <div class="mb-1 md:mt-12">
-                            <h1 class="text-3xl font-serif font-bold text-brand-dark mb-1 leading-tight">{{ $store->name }}</h1>
+                            <h1 class="text-3xl  font-bold text-brand-dark mb-1 leading-tight">{{ $store->name }}</h1>
                             <p class="text-gray-500 text-sm flex items-center justify-center md:justify-start gap-2">
                                 <svg class="w-4 h-4 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 Member since {{ $store->created_at->format('F Y') }}
@@ -38,7 +38,7 @@
                     </div>
                     @if($store->about)
                         <div class="mt-6 pt-6 border-t border-gray-100">
-                            <h3 class="font-serif font-bold text-lg text-brand-dark mb-2">Tentang Toko</h3>
+                            <h3 class=" font-bold text-lg text-brand-dark mb-2">Tentang Toko</h3>
                             <p class="text-gray-600 max-w-3xl leading-relaxed">{{ $store->about }}</p>
                         </div>
                     @endif
@@ -47,7 +47,7 @@
 
             <!-- Store Products -->
             <div class="mb-6">
-                <h2 class="font-serif font-bold text-2xl text-brand-dark mb-4">Products</h2>
+                <h2 class=" font-bold text-2xl text-brand-dark mb-4">Products</h2>
                 @if($products->count() > 0)
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                         @foreach($products as $product)

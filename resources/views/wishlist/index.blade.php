@@ -1,7 +1,7 @@
 <x-store-layout>
-    <div class="bg-brand-gray min-h-screen py-12">
+    <div class="bg-brand-gray min-h-screen py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-serif font-bold text-brand-dark mb-8">Wishlist Saya</h1>
+            <h1 class="text-3xl  font-bold text-brand-dark mb-8">Wishlist Saya</h1>
 
             @if($wishlists->count() > 0)
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

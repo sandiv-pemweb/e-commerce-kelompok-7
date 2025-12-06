@@ -1,5 +1,5 @@
 <x-store-layout>
-    <div class="py-12 bg-gray-50 min-h-screen">
+    <div class="py-6 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -8,7 +8,7 @@
                         <a href="{{ route('orders.index') }}" class="text-gray-400 hover:text-brand-orange transition-colors">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         </a>
-                        <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight flex items-center gap-2">
+                        <h2 class=" font-bold text-2xl text-brand-dark leading-tight flex items-center gap-2">
                             <span class="text-gray-400">#</span>{{ $order->code }}
                         </h2>
                     </div>

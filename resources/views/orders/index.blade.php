@@ -1,8 +1,8 @@
 <x-store-layout>
-    <div class="py-6 md:py-12 bg-brand-gray min-h-screen">
+    <div class="py-6 md:py-6 bg-brand-gray min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-6 md:mb-8">
-                <h2 class="font-serif font-bold text-2xl md:text-3xl text-brand-dark leading-tight">
+                <h2 class=" font-bold text-2xl md:text-3xl text-brand-dark leading-tight">
                     Pesanan Saya
                 </h2>
                 <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-500">Lacak dan kelola pembelian Anda.</p>
@@ -131,7 +131,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-dark mb-2">Belum ada pesanan</h3>
+                    <h3 class="text-xl md:text-2xl  font-bold text-brand-dark mb-2">Belum ada pesanan</h3>
                     <p class="text-sm md:text-base text-gray-500 mb-8 max-w-md mx-auto">Sepertinya Anda belum melakukan pemesanan apapun. Mulai jelajahi koleksi kami untuk menemukan buku favorit Anda selanjutnya!</p>
                     <a href="{{ route('products.index') }}" class="inline-flex items-center px-6 md:px-8 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-all duration-300 shadow-lg transform hover:-translate-y-1 text-sm md:text-base">
                         Mulai Belanja

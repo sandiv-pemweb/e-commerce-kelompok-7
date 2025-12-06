@@ -43,9 +43,9 @@ class ProductSeeder extends Seeder
         $catEnglish = ProductCategory::firstOrCreate(['store_id' => $periplus->id, 'name' => 'English Books', 'slug' => 'english-books']);
         $catBio = ProductCategory::firstOrCreate(['store_id' => $periplus->id, 'name' => 'Biography', 'slug' => 'biography']);
 
-        // Indie Categories
-        $catSocial = ProductCategory::firstOrCreate(['store_id' => $indie->id, 'name' => 'Social & Politics', 'slug' => 'social-politics']);
-        $catLit = ProductCategory::firstOrCreate(['store_id' => $indie->id, 'name' => 'Literature', 'slug' => 'literature']);
+        // Indie Categories -> Now Moved to Gramedia (since Indie is unverified)
+        $catSocial = ProductCategory::firstOrCreate(['store_id' => $gramedia->id, 'name' => 'Social & Politics', 'slug' => 'social-politics']);
+        $catLit = ProductCategory::firstOrCreate(['store_id' => $gramedia->id, 'name' => 'Literature', 'slug' => 'literature']);
 
         // 3. Define Books Data
         $books = [
@@ -185,9 +185,9 @@ class ProductSeeder extends Seeder
                 'image' => 'https://upload.wikimedia.org/wikipedia/id/thumb/e/e4/Steve_Jobs_by_Walter_Isaacson.jpg/250px-Steve_Jobs_by_Walter_Isaacson.jpg'
             ],
 
-            // Indie Book Corner (Niche)
+            // Indie Book Corner -> Moved to Gramedia
             [
-                'store_id' => $indie->id,
+                'store_id' => $gramedia->id,
                 'category_id' => $catSocial->id,
                 'name' => 'Madilog',
                 'author' => 'Tan Malaka',
@@ -200,7 +200,7 @@ class ProductSeeder extends Seeder
                 'image' => 'https://cdn.gramedia.com/uploads/products/ogimsi-ozs.jpg'
             ],
             [
-                'store_id' => $indie->id,
+                'store_id' => $gramedia->id,
                 'category_id' => $catLit->id,
                 'name' => 'Orang-Orang Bloomington',
                 'author' => 'Budi Darma',

@@ -1,119 +1,123 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
+        <h2 class=" font-bold text-2xl text-brand-dark leading-tight">
             {{ __('Manajemen Toko') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Filter Form -->
-            <div class="bg-white overflow-hidden shadow-lg rounded-2xl mb-8 border border-gray-100">
-                <div class="p-6">
-                    <form method="GET" action="{{ route('admin.stores.index') }}" class="flex flex-col md:flex-row gap-4">
-                        <div class="flex-grow">
-                            <select name="status" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm">
+            <!-- Header & Filter -->
+            <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100 mb-8">
+                <div class="p-8">
+                    <form method="GET" action="{{ route('admin.stores.index') }}" class="flex flex-col md:flex-row gap-4 items-end">
+                         <div class="w-full md:w-1/3">
+                            <label for="search" class="block font-bold text-sm text-gray-700 mb-2">Cari Toko</label>
+                            <input type="text" name="q" id="search" value="{{ request('q') }}" placeholder="Nama toko..." class="w-full border-gray-200 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm bg-gray-50/50">
+                        </div>
+                        <div class="w-full md:w-1/4">
+                            <label for="status" class="block font-bold text-sm text-gray-700 mb-2">Status</label>
+                            <select name="status" id="status" class="w-full border-gray-200 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm cursor-pointer bg-gray-50/50">
                                 <option value="">Semua Status</option>
                                 <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu Verifikasi</option>
                                 <option value="verified" {{ request('status') == 'verified' ? 'selected' : '' }}>Terverifikasi</option>
-                                <option value="deleted" {{ request('status') == 'deleted' ? 'selected' : '' }}>Dihapus</option>
+                                <option value="deleted" {{ request('status') == 'deleted' ? 'selected' : '' }}>Dihapus (Nonaktif)</option>
                             </select>
                         </div>
-
-                        <button type="submit" class="px-6 py-2 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md">
-                            Filter
-                        </button>
-                        <a href="{{ route('admin.stores.index') }}" class="px-6 py-2 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors text-center">
-                            Reset
-                        </a>
+                        <div class="w-full md:w-auto flex gap-3">
+                            <button type="submit" class="px-6 py-2.5 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                Filter
+                            </button>
+                             <a href="{{ route('admin.stores.index') }}" class="px-6 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors">
+                                Reset
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Stores List -->
-            <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
-                <div class="p-6">
-                    @if (session('success'))
-                        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    @if($stores->isEmpty())
-                        <div class="text-center py-12">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada toko ditemukan</h3>
-                            <p class="mt-1 text-sm text-gray-500">Coba sesuaikan pencarian atau filter Anda untuk menemukan apa yang Anda cari.</p>
-                        </div>
-                    @else
-                        <div class="overflow-x-auto rounded-xl border border-gray-200">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-brand-dark">
-                                    <tr>
-                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Nama Toko</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Pemilik</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Kota</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Tanggal Bergabung</th>
-                                        <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($stores as $store)
-                                        <tr class="hover:bg-blue-50 transition-colors duration-150">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-brand-dark">{{ $store->name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $store->user->name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $store->city }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                @if($store->trashed())
-                                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-red-100 text-red-800">
-                                                        Dihapus
-                                                    </span>
+            <!-- Stores Table -->
+            <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100">
+                <div class="p-8">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="border-b border-gray-100">
+                                     <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider pl-4">Toko</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Pemilik</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Saldo</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Bergabung</th>
+                                    <th class="px-6 py-4 text-right text-xs font-bold text-gray-400 uppercase tracking-wider pr-4">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                @foreach ($stores as $store)
+                                    <tr class="hover:bg-blue-50/50 transition-colors duration-200 group">
+                                         <td class="px-6 py-4 whitespace-nowrap pl-4">
+                                            <div class="flex items-center gap-4">
+                                                 @if($store->logo)
+                                                    <img src="{{ $store->logo_url }}" alt="{{ $store->name }}" class="w-10 h-10 rounded-full object-cover border border-white shadow-sm">
                                                 @else
-                                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $store->is_verified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                                        {{ $store->is_verified ? 'Terverifikasi' : 'Menunggu' }}
-                                                    </span>
+                                                    <div class="w-10 h-10 rounded-full bg-brand-orange text-white flex items-center justify-center text-sm font-bold shadow-sm">
+                                                        {{ substr($store->name, 0, 1) }}
+                                                    </div>
                                                 @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $store->created_at->format('d M Y') }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div>
+                                                    <div class="text-sm font-bold text-gray-900">{{ $store->name }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="text-sm font-medium text-gray-600">{{ $store->user->name }}</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if($store->trashed())
+                                                 <span class="px-3 py-1 inline-flex items-center gap-1.5 text-xs font-bold rounded-full bg-red-50 text-red-700 border border-red-100">
+                                                    Nonaktif
+                                                </span>
+                                            @elseif($store->is_verified)
+                                                <span class="px-3 py-1 inline-flex items-center gap-1.5 text-xs font-bold rounded-full bg-green-50 text-green-700 border border-green-100">
+                                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                    Terverifikasi
+                                                </span>
+                                            @else
+                                                 <span class="px-3 py-1 inline-flex items-center gap-1.5 text-xs font-bold rounded-full bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                                    Belum Verifikasi
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="text-sm font-bold text-gray-700">Rp {{ number_format($store->storeBalance ? $store->storeBalance->balance : 0, 0, ',', '.') }}</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $store->created_at->format('d M Y') }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium pr-4">
+                                            <div class="flex items-center justify-end gap-2">
                                                 @if($store->trashed())
-                                                    <button type="button" 
-                                                            onclick="document.getElementById('restore-modal-{{ $store->id }}').classList.remove('hidden')"
-                                                            class="text-green-600 hover:text-green-900 font-bold transition-colors">
-                                                        Pulihkan
-                                                    </button>
-                                                    
-                                                    <x-confirmation-modal 
-                                                        id="restore-modal-{{ $store->id }}"
-                                                        type="success"
-                                                        title="Pulihkan Toko"
-                                                        message="Apakah Anda yakin ingin memulihkan '{{ $store->name }}'? Toko akan aktif kembali."
-                                                        confirmText="Ya, Pulihkan"
-                                                        cancelText="Batal" />
-                                                    
-                                                    <form id="restore-modal-{{ $store->id }}-form" 
-                                                          action="{{ route('admin.stores.restore', $store->id) }}" 
-                                                          method="POST" 
-                                                          class="hidden">
+                                                    <form method="POST" action="{{ route('admin.stores.restore', $store) }}">
                                                         @csrf
                                                         @method('PATCH')
+                                                        <button type="submit" class="px-4 py-2 bg-green-50 text-green-700 font-bold rounded-xl hover:bg-green-100 transition-colors border border-green-200 text-xs shadow-sm">
+                                                            Aktifkan Kembali
+                                                        </button>
                                                     </form>
                                                 @else
-                                                    <a href="{{ route('admin.stores.show', ['store' => $store->id]) }}" class="text-brand-orange hover:text-brand-dark font-bold transition-colors">Lihat Detail</a>
+                                                     <a href="{{ route('admin.stores.show', $store) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-brand-dark hover:text-white hover:border-brand-dark transition-all shadow-sm group-hover:shadow-md">
+                                                        Detail
+                                                    </a>
                                                 @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="mt-6">
-                            {{ $stores->links() }}
-                        </div>
-                    @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-8 px-4 border-t border-gray-100 pt-6">
+                        {{ $stores->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -126,7 +126,7 @@ class SellerOrderController extends Controller
                     // Record deduction history
                     StoreBalanceHistory::create([
                         'store_balance_id' => $order->store->storeBalance->id,
-                        'type' => 'withdraw', // Using 'withdraw' as a debit operation
+                        'type' => 'withdrawal', // Using 'withdrawal' as a debit operation
                         'amount' => $sellerIncome,
                         'reference_id' => $order->id,
                         'reference_type' => Transaction::class,

@@ -122,11 +122,11 @@ Route::prefix('seller')->name('seller.')->middleware(['auth', 'verified'])->grou
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'admin'])->group(function () {
     // Stores
     Route::get('/stores', [AdminStoreController::class, 'index'])->name('stores.index');
-    Route::get('/stores/{store}', [AdminStoreController::class, 'show'])->name('stores.show');
+    Route::get('/stores/{store}', [AdminStoreController::class, 'show'])->name('stores.show')->withTrashed();
     Route::patch('/stores/{store}/verify', [AdminStoreController::class, 'verify'])->name('stores.verify');
     Route::delete('/stores/{store}/reject', [AdminStoreController::class, 'reject'])->name('stores.reject');
     Route::delete('/stores/{store}', [AdminStoreController::class, 'destroy'])->name('stores.destroy');
-    Route::patch('/stores/{store}/restore', [AdminStoreController::class, 'restore'])->name('stores.restore');
+    Route::patch('/stores/{store}/restore', [AdminStoreController::class, 'restore'])->name('stores.restore')->withTrashed();
 
     // Orders (New)
     Route::get('/orders', [App\Http\Controllers\Admin\AdminOrderController::class, 'index'])->name('orders.index');

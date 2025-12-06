@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight flex items-center gap-2">
+                <h2 class=" font-bold text-2xl text-brand-dark leading-tight flex items-center gap-2">
                     <span class="text-gray-400">#</span>{{ $order->code }}
                 </h2>
                 <p class="text-sm text-gray-500 mt-1">Dipesan pada {{ $order->created_at->format('d M Y, H:i') }}</p>
@@ -28,7 +28,7 @@
         </div>
     </x-slot>
 
-    <div class="py-12 bg-gray-50 min-h-screen">
+    <div class="py-6 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {{-- Success Message --}}
             @if (session('success'))
@@ -42,70 +42,68 @@
                 <!-- Left Column: Order Items & details -->
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Tracking Number -->
+                    <!-- Tracking Number -->
                     @if($order->tracking_number)
-                        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 flex items-start gap-4">
-                            <div class="p-3 bg-blue-100 rounded-xl text-blue-600">
+                        <div class="bg-gradient-to-r from-blue-50 to-white border border-blue-100 rounded-3xl p-6 flex items-start gap-4">
+                            <div class="p-3 bg-blue-100 rounded-2xl text-blue-600">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             </div>
                             <div>
                                 <h4 class="font-bold text-blue-900 text-lg mb-1">Nomor Resi</h4>
-                                <p class="text-blue-800 font-mono text-xl">{{ $order->tracking_number }}</p>
-                                <p class="text-sm text-blue-600 mt-2">Nomor resi pengiriman paket.</p>
+                                <p class="text-blue-800 font-mono text-2xl tracking-wider">{{ $order->tracking_number }}</p>
+                                <p class="text-sm text-blue-600 mt-2 font-medium">Pengiriman via Ekspedisi</p>
                             </div>
                         </div>
                     @endif
 
                     <!-- Products Card -->
-                    <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
-                        <div class="p-6 border-b border-gray-100 bg-white">
-                            <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                </svg>
-                                Item Pesanan
-                            </h3>
+                    <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100">
+                        <div class="p-8 border-b border-gray-50 flex items-center justify-between">
+                            <h3 class=" font-bold text-xl text-brand-dark">Item Pesanan</h3>
+                            <span class="text-sm text-gray-400 font-bold">{{ $order->transactionDetails->count() }} Item</span>
                         </div>
-                        <div class="p-6 space-y-6">
+                        <div class="p-8 space-y-8">
                             @foreach($order->transactionDetails as $detail)
-                                <div class="flex gap-4 items-start">
-                                    <div class="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
+                                <div class="flex gap-6 items-start">
+                                    <div class="w-24 h-24 flex-shrink-0 bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
                                         @if($detail->product->productImages->first())
                                             <img src="{{ $detail->product->productImages->first()->image_url }}" 
                                                  alt="{{ $detail->product->name }}" 
                                                  class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                            <div class="w-full h-full flex items-center justify-center text-gray-300">
                                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-bold text-gray-900 text-lg leading-tight mb-1">{{ $detail->product->name }}</h4>
-                                        <p class="text-sm text-gray-500 mb-2">{{ $detail->qty }} x Rp {{ number_format($detail->product->price, 0, ',', '.') }}</p>
+                                    <div class="flex-1 min-w-0 py-1">
+                                        <h4 class="font-bold text-brand-dark text-lg leading-tight mb-2">{{ $detail->product->name }}</h4>
+                                        <p class="text-sm text-gray-500 mb-1 font-medium">{{ $detail->qty }} x Rp {{ number_format($detail->product->price, 0, ',', '.') }}</p>
+                                        <p class="text-xs text-brand-orange font-bold uppercase tracking-wider">{{ $detail->product->productCategory->name ?? 'General' }}</p>
                                     </div>
-                                    <div class="font-bold text-lg text-gray-900">
+                                    <div class="font-bold text-lg text-brand-dark py-1">
                                         Rp {{ number_format($detail->subtotal, 0, ',', '.') }}
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                         
-                        <div class="bg-gray-50 p-6 border-t border-gray-100 space-y-3">
+                        <div class="bg-gray-50/50 p-8 border-t border-gray-50 space-y-4">
                              <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Subtotal Produk</span>
-                                <span class="font-medium">Rp {{ number_format($order->grand_total - $order->shipping_cost - $order->tax, 0, ',', '.') }}</span>
+                                <span class="text-gray-500 font-medium">Subtotal Produk</span>
+                                <span class="font-bold text-gray-700">Rp {{ number_format($order->grand_total - $order->shipping_cost - $order->tax, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Biaya Pengiriman</span>
-                                <span class="font-medium">Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                                <span class="text-gray-500 font-medium">Biaya Pengiriman</span>
+                                <span class="font-bold text-gray-700">Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
                             </div>
                              <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Pajak (PPN)</span>
-                                <span class="font-medium">Rp {{ number_format($order->tax, 0, ',', '.') }}</span>
+                                <span class="text-gray-500 font-medium">Pajak (PPN)</span>
+                                <span class="font-bold text-gray-700">Rp {{ number_format($order->tax, 0, ',', '.') }}</span>
                             </div>
-                            <div class="pt-3 border-t border-gray-200 flex justify-between items-center">
-                                <span class="font-bold text-brand-dark">Total Pembayaran</span>
-                                <span class="font-bold text-2xl text-brand-orange">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</span>
+                            <div class="pt-6 border-t border-gray-200 mt-2 flex justify-between items-center">
+                                <span class="font-bold text-xl text-brand-dark">Total Pembayaran</span>
+                                <span class="font-bold text-3xl text-brand-orange">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</span>
                             </div>
                         </div>
                     </div>
@@ -114,12 +112,12 @@
                 <!-- Right Column: Info & Actions -->
                 <div class="space-y-6">
                     <!-- Update Status Card (Seller Feature) -->
-                    <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6">
-                        <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <div class="bg-white shadow-sm rounded-3xl border border-gray-100 p-8">
+                        <h3 class=" font-bold text-lg text-brand-dark mb-6 flex items-center gap-2">
                             <svg class="w-5 h-5 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
-                            Perbarui Status Pesanan
+                            Perbarui Status
                         </h3>
 
                         <form method="POST" action="{{ route('seller.orders.update', $order) }}" class="space-y-6" x-data="{ status: '{{ $order->order_status }}' }">
@@ -133,7 +131,7 @@
                                         {{ match($order->payment_status) {
                                             'paid' => 'Lunas',
                                             'unpaid' => 'Belum Dibayar',
-                                            'refunded' => 'Dikembalikan (Refunded)',
+                                            'refunded' => 'Dikembalikan',
                                             'waiting' => 'Menunggu Verifikasi',
                                             default => ucfirst($order->payment_status)
                                         } }}
@@ -181,7 +179,7 @@
 
                                 @else
                                     {{-- Processing Status: Allow update --}}
-                                    <select x-model="status" name="order_status" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm cursor-pointer">
+                                    <select x-model="status" name="order_status" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm cursor-pointer bg-gray-50/50">
                                         <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Diproses Penjual</option>
                                         <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Dikirim</option>
                                         <option value="cancelled">Dibatalkan</option>
@@ -196,7 +194,7 @@
 
                             <div x-show="status == 'shipped'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-2" x-transition:enter-end="opacity-100 transform translate-y-0">
                                 <label for="tracking_number" class="block font-bold text-sm text-gray-700 mb-2">Nomor Resi <span class="text-gray-400 font-normal">(Wajib)</span></label>
-                                <input id="tracking_number" type="text" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm" placeholder="Masukkan nomor resi" {{ $order->order_status == 'shipped' ? 'readonly' : '' }} :required="status == 'shipped'">
+                                <input id="tracking_number" type="text" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}" class="w-full border-gray-300 focus:border-brand-orange focus:ring-brand-orange rounded-xl shadow-sm bg-gray-50/50" placeholder="Masukkan nomor resi" {{ $order->order_status == 'shipped' ? 'readonly' : '' }} :required="status == 'shipped'">
                                 @error('tracking_number')
                                     <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                                 @enderror
@@ -204,7 +202,7 @@
 
                             {{-- Button only for Processing status --}}
                             @if($order->order_status === 'processing')
-                                <button type="submit" class="w-full px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-colors shadow-md">
+                                <button type="submit" class="w-full px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                                     Perbarui Status
                                 </button>
                             @endif
@@ -212,26 +210,21 @@
                     </div>
 
                     <!-- Customer Info -->
-                    <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6">
-                        <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Informasi Pembeli
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name={{ $order->buyer->user->name }}&background=random" class="w-10 h-10 rounded-full">
+                    <div class="bg-white shadow-sm rounded-3xl border border-gray-100 p-8">
+                        <h3 class=" font-bold text-lg text-brand-dark mb-6">Informasi Pembeli</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <img src="https://ui-avatars.com/api/?name={{ $order->buyer->user->name }}&background=random" class="w-12 h-12 rounded-full border-2 border-gray-100">
                                 <div>
-                                    <p class="font-bold text-gray-900 text-sm">{{ $order->buyer->user->name }}</p>
-                                    <p class="text-xs text-gray-500">{{ $order->buyer->user->email }}</p>
+                                    <p class="font-bold text-brand-dark">{{ $order->buyer->user->name }}</p>
+                                    <p class="text-xs text-gray-500 font-medium">{{ $order->buyer->user->email }}</p>
                                 </div>
                             </div>
-                            <div class="border-t border-gray-100 pt-3 mt-3">
-                                <p class="text-xs font-bold text-gray-500 uppercase mb-1">Alamat Pengiriman</p>
-                                <p class="text-sm text-gray-700 leading-relaxed">
+                            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                                <p class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Alamat Pengiriman</p>
+                                <p class="text-sm text-gray-700 leading-relaxed font-medium">
                                     {{ $order->address }}<br>
-                                    {{ $order->city }}, {{ $order->postal_code }}
+                                    {{ $order->city }} {{ $order->postal_code }}
                                 </p>
                             </div>
                         </div>

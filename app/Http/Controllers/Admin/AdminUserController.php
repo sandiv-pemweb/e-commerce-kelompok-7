@@ -18,9 +18,24 @@ class AdminUserController extends Controller
     {
         $query = User::with('store')->latest();
 
+        // Filter by search query
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
         // Filter by role
         if ($request->filled('role')) {
-            $query->where('role', $request->role);
+            if ($request->role === 'admin') {
+                $query->where('role', 'admin');
+            } elseif ($request->role === 'seller') {
+                $query->whereHas('store');
+            } elseif ($request->role === 'buyer') {
+                $query->where('role', 'member')->whereDoesntHave('store');
+            }
         }
 
         $users = $query->paginate(20);
@@ -56,6 +71,11 @@ class AdminUserController extends Controller
         $validated = $request->validate([
             'role' => 'required|in:admin,member',
         ]);
+
+        // Prevent store owners from becoming admins
+        if ($validated['role'] === 'admin' && $user->store()->exists()) {
+            return back()->with('error', 'Pengguna yang memiliki toko tidak dapat dijadikan Administrator.');
+        }
 
         $user->update($validated);
 

@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
+        <h2 class=" font-bold text-2xl text-brand-dark leading-tight">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
-    <div class="py-12 bg-brand-gray min-h-screen">
+    <div class="py-6 bg-brand-gray min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Welcome Section -->
-            <div class="bg-white overflow-hidden shadow-lg rounded-2xl mb-8 border border-gray-100 relative">
+            <div class="bg-white overflow-hidden shadow-sm rounded-3xl mb-8 border border-gray-100 relative">
                 <!-- Decorative Blob -->
                 <div
                     class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-brand-orange rounded-full opacity-10 blur-2xl">
@@ -16,7 +16,7 @@
 
                 <div class="p-8 md:flex md:items-center md:justify-between relative z-10">
                     <div>
-                        <h3 class="text-3xl font-serif font-bold text-brand-dark mb-2">Selamat datang kembali,
+                        <h3 class="text-3xl  font-bold text-brand-dark mb-2">Selamat datang kembali,
                             {{ Auth::user()->name }}! 👋
                         </h3>
                         <p class="text-gray-500 text-lg">
@@ -46,10 +46,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Store Management Card -->
                     <div
-                        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group border border-gray-100">
+                        class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-6">
-                                <div class="p-3 bg-indigo-50 rounded-xl group-hover:bg-indigo-100 transition-colors">
+                                <div class="p-3 bg-indigo-50 rounded-2xl group-hover:bg-indigo-100 transition-colors">
                                     <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -75,10 +75,10 @@
 
                     <!-- User Management Card -->
                     <div
-                        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group border border-gray-100">
+                        class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-6">
-                                <div class="p-3 bg-purple-50 rounded-xl group-hover:bg-purple-100 transition-colors">
+                                <div class="p-3 bg-purple-50 rounded-2xl group-hover:bg-purple-100 transition-colors">
                                     <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -104,10 +104,10 @@
 
                     <!-- Order Management Card -->
                     <div
-                        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group border border-gray-100">
+                        class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-6">
-                                <div class="p-3 bg-red-50 rounded-xl group-hover:bg-red-100 transition-colors">
+                                <div class="p-3 bg-red-50 rounded-2xl group-hover:bg-red-100 transition-colors">
                                     <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -132,10 +132,10 @@
 
                     <!-- Withdrawal Management Card -->
                     <div
-                        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group border border-gray-100">
+                        class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-6">
-                                <div class="p-3 bg-green-50 rounded-xl group-hover:bg-green-100 transition-colors">
+                                <div class="p-3 bg-green-50 rounded-2xl group-hover:bg-green-100 transition-colors">
                                     <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -171,7 +171,7 @@
                     <!-- Verified Seller Dashboard -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                         <!-- Total Orders -->
-                        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
+                        <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-50 rounded-full opacity-50 group-hover:scale-110 transition-transform">
                             </div>
@@ -192,7 +192,7 @@
                         </div>
 
                         <!-- Total Products -->
-                        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
+                        <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-brand-orange/10 rounded-full opacity-50 group-hover:scale-110 transition-transform">
                             </div>
@@ -213,7 +213,7 @@
                         </div>
 
                         <!-- Total Balance -->
-                        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
+                        <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-50 rounded-full opacity-50 group-hover:scale-110 transition-transform">
                             </div>
@@ -235,10 +235,10 @@
                     </div>
 
                     <!-- Quick Actions -->
-                    <h3 class="text-xl font-serif font-bold text-brand-dark mb-6">Aksi Cepat</h3>
+                    <h3 class="text-xl  font-bold text-brand-dark mb-6">Aksi Cepat</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                         <a href="{{ route('seller.products.create') }}"
-                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-2xl hover:border-brand-orange hover:shadow-lg transition-all group">
+                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-3xl hover:border-brand-orange hover:shadow-md transition-all group">
                             <div
                                 class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-brand-orange group-hover:text-white transition-colors text-gray-400">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,7 +249,7 @@
                             <span class="font-bold text-gray-700 group-hover:text-brand-orange">Tambah Produk</span>
                         </a>
                         <a href="{{ route('seller.categories.create') }}"
-                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-2xl hover:border-brand-orange hover:shadow-lg transition-all group">
+                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-3xl hover:border-brand-orange hover:shadow-md transition-all group">
                             <div
                                 class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-brand-orange group-hover:text-white transition-colors text-gray-400">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -261,7 +261,7 @@
                             <span class="font-bold text-gray-700 group-hover:text-brand-orange">Tambah Kategori</span>
                         </a>
                         <a href="{{ route('seller.withdrawals.create') }}"
-                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-2xl hover:border-brand-orange hover:shadow-lg transition-all group">
+                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-3xl hover:border-brand-orange hover:shadow-md transition-all group">
                             <div
                                 class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-brand-orange group-hover:text-white transition-colors text-gray-400">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -273,7 +273,7 @@
                             <span class="font-bold text-gray-700 group-hover:text-brand-orange">Tarik Dana</span>
                         </a>
                         <a href="{{ route('seller.stores.edit') }}"
-                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-2xl hover:border-brand-orange hover:shadow-lg transition-all group">
+                            class="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-3xl hover:border-brand-orange hover:shadow-md transition-all group">
                             <div
                                 class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-brand-orange group-hover:text-white transition-colors text-gray-400">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,7 +290,7 @@
 
                 @else
                     <!-- Unverified Seller Dashboard -->
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-3xl p-8 text-center">
                         <div
                             class="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4 text-yellow-600">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -298,7 +298,7 @@
                                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-serif font-bold text-brand-dark mb-2">Toko Menunggu Verifikasi</h3>
+                        <h3 class="text-2xl  font-bold text-brand-dark mb-2">Toko Menunggu Verifikasi</h3>
                         <p class="text-gray-600 max-w-lg mx-auto mb-6">Toko Anda saat ini sedang ditinjau oleh administrator
                             kami. Anda akan mendapatkan akses penuh setelah toko terverifikasi.</p>
                         <a href="{{ route('seller.stores.edit') }}"
@@ -311,7 +311,7 @@
             @else
                 <!-- Member Dashboard (No Store) -->
                 @unless(Auth::user()->isAdmin())
-                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-10 text-center">
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-10 text-center">
                         <div
                             class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 rounded-full mb-6 text-indigo-600">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -319,7 +319,7 @@
                                     d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-3xl font-serif font-bold text-brand-dark mb-4">Mulai Berjualan Hari Ini!</h3>
+                        <h3 class="text-3xl  font-bold text-brand-dark mb-4">Mulai Berjualan Hari Ini!</h3>
                         <p class="text-gray-500 max-w-xl mx-auto mb-8 text-lg">Bergabunglah dengan komunitas penjual kami dan
                             jangkau ribuan pencinta buku. Mudah untuk memulai.</p>
                         <a href="{{ route('seller.stores.create') }}"

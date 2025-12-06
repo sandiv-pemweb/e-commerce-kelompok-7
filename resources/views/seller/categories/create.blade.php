@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-serif font-bold text-2xl text-brand-dark leading-tight">
+        <h2 class=" font-bold text-2xl text-brand-dark leading-tight">
             {{ __('Tambah Kategori Baru') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
                 <div class="p-8">

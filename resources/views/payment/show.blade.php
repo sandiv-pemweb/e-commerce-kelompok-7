@@ -1,5 +1,5 @@
 <x-store-layout>
-    <div class="py-12 bg-brand-gray min-h-screen">
+    <div class="py-6 bg-brand-gray min-h-screen">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -8,7 +8,7 @@
                         <a href="{{ route('orders.show', $transaction->id) }}" class="text-gray-400 hover:text-brand-orange transition-colors">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         </a>
-                        <h2 class="font-serif font-bold text-3xl text-brand-dark leading-tight">
+                        <h2 class=" font-bold text-3xl text-brand-dark leading-tight">
                             Pembayaran
                         </h2>
                     </div>
@@ -125,15 +125,17 @@
                                         <label class="block text-sm font-bold text-gray-700 mb-2">
                                             Gambar Bukti Pembayaran
                                         </label>
-                                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-brand-orange transition-colors group">
-                                            <div class="space-y-1 text-center">
+                                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-brand-orange transition-colors group relative overflow-hidden">
+                                            
+                                            <!-- Default Upload UI -->
+                                            <div class="space-y-1 text-center" id="upload-ui">
                                                 <svg class="mx-auto h-12 w-12 text-gray-400 group-hover:text-brand-orange transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
-                                                <div class="flex text-sm text-gray-600">
+                                                <div class="flex text-sm text-gray-600 justify-center">
                                                     <label for="payment_proof" class="relative cursor-pointer bg-white rounded-md font-medium text-brand-orange hover:text-brand-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-orange">
                                                         <span>Unggah file</span>
-                                                        <input id="payment_proof" name="payment_proof" type="file" class="sr-only" accept="image/jpeg,image/png,image/jpg" required>
+                                                        <input id="payment_proof" name="payment_proof" type="file" class="sr-only" accept="image/jpeg,image/png,image/jpg" required onchange="previewImage(this)">
                                                     </label>
                                                     <p class="pl-1">atau seret dan lepas</p>
                                                 </div>
@@ -141,11 +143,53 @@
                                                     PNG, JPG, JPEG hingga 2MB
                                                 </p>
                                             </div>
+
+                                            <!-- Image Preview UI -->
+                                            <div id="preview-container" class="hidden absolute inset-0 bg-white w-full h-full flex flex-col items-center justify-center p-2">
+                                                <img id="preview-image" src="#" alt="Preview" class="h-full w-auto object-contain max-h-[150px] rounded-lg shadow-sm">
+                                                <button type="button" onclick="removeImage()" class="absolute top-2 right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200 transition-colors">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                </button>
+                                                <p id="file-name" class="text-xs text-gray-500 mt-2 truncate max-w-full px-4"></p>
+                                            </div>
+
                                         </div>
                                         @error('payment_proof')
                                             <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
                                     </div>
+
+                                    <script>
+                                        function previewImage(input) {
+                                            const container = document.getElementById('preview-container');
+                                            const ui = document.getElementById('upload-ui');
+                                            const image = document.getElementById('preview-image');
+                                            const fileName = document.getElementById('file-name');
+
+                                            if (input.files && input.files[0]) {
+                                                const reader = new FileReader();
+                                                
+                                                reader.onload = function(e) {
+                                                    image.src = e.target.result;
+                                                    fileName.textContent = input.files[0].name;
+                                                    container.classList.remove('hidden');
+                                                    ui.classList.add('invisible'); // Keep space but hide
+                                                }
+                                                
+                                                reader.readAsDataURL(input.files[0]);
+                                            }
+                                        }
+
+                                        function removeImage() {
+                                            const input = document.getElementById('payment_proof');
+                                            const container = document.getElementById('preview-container');
+                                            const ui = document.getElementById('upload-ui');
+
+                                            input.value = ''; // Clear file input
+                                            container.classList.add('hidden');
+                                            ui.classList.remove('invisible');
+                                        }
+                                    </script>
 
                                     <button type="submit" class="w-full bg-brand-dark text-white font-bold py-3 px-4 rounded-xl hover:bg-brand-orange transition-all duration-300 shadow-md transform hover:-translate-y-0.5">
                                         Kirim Bukti Pembayaran

@@ -1,7 +1,7 @@
 <x-store-layout>
-    <div class="bg-brand-gray min-h-screen py-12">
+    <div class="bg-brand-gray min-h-screen py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-serif font-bold text-brand-dark mb-8">Checkout</h1>
+            <h1 class="text-3xl  font-bold text-brand-dark mb-8">Checkout</h1>
 
             @if(session('error'))
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
@@ -118,7 +118,7 @@
                     <!-- Order Summary -->
                     <div class="lg:col-span-1">
                         <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 border border-gray-100">
-                            <h3 class="text-xl font-serif font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>
+                            <h3 class="text-xl  font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>
                             
                             <div class="space-y-3 mb-6 text-sm">
                                 <div class="flex justify-between text-gray-600">

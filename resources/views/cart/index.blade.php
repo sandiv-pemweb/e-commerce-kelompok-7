@@ -1,7 +1,7 @@
 <x-store-layout>
-    <div class="bg-brand-gray min-h-screen py-12">
+    <div class="bg-brand-gray min-h-screen py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-serif font-bold text-brand-dark mb-8">Keranjang Belanja</h1>
+            <h1 class="text-3xl  font-bold text-brand-dark mb-8">Keranjang Belanja</h1>
 
             @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6"
@@ -27,7 +27,7 @@
                                         $storeTotal = $items->sum(function ($cart) {
                                             return $cart->subtotal; });
                                     @endphp
-                                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 store-card">
                                         <!-- Store Header -->
                                         <div
                                             class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -57,7 +57,7 @@
                                         <!-- Store Items -->
                                         <div class="divide-y divide-gray-100">
                                             @foreach($items as $cart)
-                                                <div class="p-6 flex flex-col sm:flex-row gap-6">
+                                                <div class="p-6 flex flex-col sm:flex-row gap-6 item-row">
                                                     <!-- Product Image -->
                                                     <div
                                                         class="w-full sm:w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
@@ -76,8 +76,9 @@
                                                                     {{ $cart->product->name }}
                                                                 </a>
                                                             </h4>
-                                                            <p class="font-bold text-brand-orange text-lg"
-                                                                id="item-subtotal-{{ $cart->id }}">Rp
+                                                            <p class="font-bold text-brand-orange text-lg item-subtotal"
+                                                                id="item-subtotal-{{ $cart->id }}"
+                                                                data-value="{{ $cart->subtotal }}">Rp
                                                                 {{ number_format($cart->subtotal, 0, ',', '.') }}</p>
                                                         </div>
                                                         <p class="text-sm text-gray-500 mb-4">{{ $cart->product->formatted_price }} /
@@ -89,7 +90,7 @@
                                                                 class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
                                                                 <input type="number" value="{{ $cart->quantity }}" min="0"
                                                                     max="{{ $cart->product->stock }}"
-                                                                    class="w-16 text-center border-none focus:ring-0 p-2 text-sm font-bold text-gray-700"
+                                                                    class="w-16 text-center border-none focus:ring-0 p-2 text-sm font-bold text-gray-700 item-quantity"
                                                                     onchange="updateQuantity(this, {{ $cart->id }})">
                                                             </div>
 
@@ -115,7 +116,7 @@
                             <!-- Order Summary -->
                             <div class="lg:col-span-1">
                                 <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 border border-gray-100">
-                                    <h3 class="text-xl font-serif font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>
+                                    <h3 class="text-xl  font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>
 
                                     <div class="space-y-4 mb-6">
                                         <div class="flex justify-between text-gray-600">
@@ -141,8 +142,8 @@
                                             checkout</p>
                                     </div>
 
-                                    <button type="submit"
-                                        class="w-full bg-brand-dark text-white px-6 py-4 rounded-xl hover:bg-brand-orange transition-colors font-bold text-lg shadow-lg shadow-brand-orange/10 flex items-center justify-center gap-2">
+                                    <button type="submit" id="checkoutBtn"
+                                        class="w-full bg-brand-dark text-white px-6 py-4 rounded-xl hover:bg-brand-orange transition-colors font-bold text-lg shadow-lg shadow-brand-orange/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                                         Lanjut ke Checkout
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                             stroke="currentColor" class="w-5 h-5">
@@ -161,11 +162,58 @@
                     </form>
 
                     <script>
-                        // Update selected stores count when checkbox changes
+                        function formatRupiah(number) {
+                            return new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR',
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
+                            }).format(number).replace('Rp', 'Rp '); // Add space after Rp
+                        }
+
+                        function calculateTotals() {
+                            let totalItems = 0;
+                            let grandTotal = 0;
+                            let selectedStores = 0;
+
+                            const storeCards = document.querySelectorAll('.store-card');
+                            
+                            storeCards.forEach(card => {
+                                const checkbox = card.querySelector('.store-checkbox');
+                                
+                                if (checkbox && checkbox.checked) {
+                                    selectedStores++;
+                                    
+                                    // Calculate items in this store
+                                    const items = card.querySelectorAll('.item-row');
+                                    totalItems += items.length;
+                                    
+                                    // Calculate subtotal
+                                    const subtotals = card.querySelectorAll('.item-subtotal');
+                                    subtotals.forEach(sub => {
+                                        grandTotal += parseFloat(sub.dataset.value);
+                                    });
+                                }
+                            });
+
+                            // Update DOM
+                            document.getElementById('selectedStoresCount').textContent = selectedStores;
+                            document.getElementById('totalItems').textContent = totalItems;
+                            document.getElementById('grandTotal').textContent = formatRupiah(grandTotal);
+
+                            // Disable checkout if no stores selected
+                            const checkoutBtn = document.getElementById('checkoutBtn');
+                            if (selectedStores === 0) {
+                                checkoutBtn.disabled = true;
+                            } else {
+                                checkoutBtn.disabled = false;
+                            }
+                        }
+
+                        // Update selected stores count and totals when checkbox changes
                         document.querySelectorAll('.store-checkbox').forEach(checkbox => {
                             checkbox.addEventListener('change', function () {
-                                const selectedCount = document.querySelectorAll('.store-checkbox:checked').length;
-                                document.getElementById('selectedStoresCount').textContent = selectedCount;
+                                calculateTotals();
                             });
                         });
 
@@ -174,7 +222,7 @@
 
                             // If quantity is 0, remove the item instead
                             if (quantity <= 0) {
-                                const removeButton = input.closest('.p-6').querySelector('button[onclick*="removeFromCart"]');
+                                const removeButton = input.closest('.item-row').querySelector('button[onclick*="removeFromCart"]');
                                 if (removeButton) {
                                     removeButton.click();
                                 }
@@ -202,10 +250,30 @@
                                         // Update default value for future reverts
                                         input.defaultValue = quantity;
 
-                                        // Update DOM elements
-                                        document.getElementById(`item-subtotal-${cartId}`).textContent = data.item_subtotal;
-                                        document.getElementById('grandTotal').textContent = data.grand_total;
-                                        document.getElementById('totalItems').textContent = data.total_items;
+                                        // Update subtotal element text and data-value
+                                        const subtotalEl = document.getElementById(`item-subtotal-${cartId}`);
+                                        if (subtotalEl) {
+                                            subtotalEl.textContent = data.item_subtotal; // Server returns formatted string
+                                            // Extract raw number from formatted string or use data from server if available
+                                            // Ideally server should return raw value too, but we can parse it or trust it matches (quantity * price)
+                                            // For safety let's assume we need to parse the response or calculate locally.
+                                            // Simpler: let's recalculate local data-value based on price * quantity 
+                                            // BUT we don't have unit price easily available as a number.
+                                            // Better: update server response to include raw subtotal.
+                                            // Check AdminUserController learnings: we don't have that info.
+                                            // Let's assume data.item_subtotal is formatted. 
+                                            // We'll parse the number from the formatted string for now, or better yet,
+                                            // let's rely on server side calculation if we can, but we are doing client side now.
+                                            // Wait, the server response `data.item_subtotal` is likely formatted "Rp 100.000".
+                                            // We need the raw value.
+                                            
+                                            // Let's try to parse the formatted string
+                                            const rawValue = parseInt(data.item_subtotal.replace(/[^0-9]/g, ''));
+                                            subtotalEl.dataset.value = rawValue;
+                                        }
+
+                                        // Recalculate totals
+                                        calculateTotals();
 
                                         // Update navbar cart counts
                                         const cartCounts = document.querySelectorAll('.cart-count');

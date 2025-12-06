@@ -64,7 +64,7 @@ $color = $colors[$type] ?? $colors['danger'];
                         </h3>
                         <div class="mt-2">
                             <p class="text-sm text-gray-500 break-words whitespace-normal">
-                                {{ $message }}
+                                {!! $message !!}
                             </p>
                         </div>
                     </div>

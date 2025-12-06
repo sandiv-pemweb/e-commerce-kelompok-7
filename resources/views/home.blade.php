@@ -12,7 +12,7 @@
                         </div>
                         @if($heroProduct)
                             <h1
-                                class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl font-serif leading-tight">
+                                class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl  leading-tight">
                                 <span class="block xl:inline">{{ $heroProduct->name }}</span>
                             </h1>
                             <p class="mt-4 text-lg text-brand-dark font-medium">
@@ -80,7 +80,7 @@
                             </div>
                         @else
                             <h1
-                                class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl font-serif">
+                                class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl ">
                                 <span class="block xl:inline">SanDiv Store</span>
                             </h1>
                             <p class="mt-4 text-gray-500 text-base leading-relaxed max-w-lg">
@@ -173,7 +173,7 @@
     <section class="py-16 bg-brand-gray">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-serif font-bold text-brand-dark">Populer Minggu Ini</h2>
+                <h2 class="text-3xl  font-bold text-brand-dark">Populer Minggu Ini</h2>
                 <p class="mt-4 text-gray-500 max-w-2xl mx-auto">
                     Temukan buku-buku terpopuler minggu ini yang paling banyak diminati oleh pembaca. Koleksi pilihan
                     dari berbagai genre untuk menemani hari Anda.

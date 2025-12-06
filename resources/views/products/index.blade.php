@@ -1,10 +1,10 @@
 <x-store-layout>
-    <div class="bg-brand-gray min-h-screen py-12" x-data="{ showFilters: false }">
+    <div class="bg-brand-gray min-h-screen py-6" x-data="{ showFilters: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
-                    <h2 class="text-3xl font-serif font-bold text-brand-dark">Koleksi Kami</h2>
+                    <h2 class="text-3xl  font-bold text-brand-dark">Koleksi Kami</h2>
                     <p class="mt-2 text-gray-500">Jelajahi berbagai macam buku dan produk kami.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-3 w-full md:flex md:w-auto md:items-center">

@@ -29,57 +29,62 @@ class TransactionSeeder extends Seeder
             return;
         }
 
-        // 1. Create Completed Orders (Income for Sellers)
-        // Focus on "Laut Bercerita" (Best Seller)
-        $bestSeller = Product::where('slug', 'laut-bercerita')->first();
-        if ($bestSeller) {
-            for ($i = 0; $i < 5; $i++) {
-                $this->createOrder($faker, $bestSeller, 'paid', 'completed', true);
+        // Indonesian Reviews Dictionary (Positive, Rating 4-5)
+        $reviews = [
+            "Bukunya sangat bagus, kertasnya original. Pengiriman juga cepat.",
+            "Packing rapi banget, pake bubble wrap tebal. Bukunya mulus sampai tujuan.",
+            "Sangat puas belanja di sini. Seller ramah dan fast response.",
+            "Isi bukunya daging semua. Sangat inspiratif!",
+            "Kualitas cetakan sangat baik, enak dibaca. Recommended seller.",
+            "Pengiriman super cepat, pesan kemarin hari ini sampai. Mantap!",
+            "Buku original, masih segel. Terima kasih bonus pembatas bukunya.",
+            "Harga bersahabat untuk kualitas original seperti ini. Bakal langganan.",
+            "Suka banget sama pelayanan tokonya. Bukunya juga sesuai ekspektasi.",
+            "Jarang-jarang nemu toko buku selengkap ini. Sukses terus kak.",
+            "Kondisi buku prima, tidak ada cacat sedikitpun.",
+            "Tulisan jelas, jilid kuat. Puas banget pokoknya.",
+            "Respon penjual sangat baik, pengiriman kilat.",
+            "Barang sesuai deskripsi. Original dan berkualitas.",
+            "Terima kasih, bukunya sangat bermanfaat buat skripsi saya."
+        ];
+
+        // 1. Iterate ALL products to ensure everything is sold
+        foreach ($products as $product) {
+            
+            // Determine number of sales
+            // Special case for "Laut Bercerita" to be Best Seller
+            if ($product->slug === 'laut-bercerita') {
+                $salesCount = 25; 
+            } else {
+                // Random sales between 3 and 8 for others
+                $salesCount = rand(3, 8);
             }
-        }
 
-        // Focus on "Think and Grow Rich" (With Reviews)
-        $tgr = Product::where('name', 'Think and Grow Rich')->first();
-        if ($tgr) {
-            $reviews = [
-                'Buku yang sangat menginspirasi!',
-                'Pengiriman cepat, packing aman.',
-                'Isinya daging semua, wajib baca.',
-                'Kualitas kertas bagus, original.',
-                'Recommended seller!'
-            ];
-            foreach ($reviews as $review) {
-                $this->createOrder($faker, $tgr, 'paid', 'completed', true, $review);
+            for ($i = 0; $i < $salesCount; $i++) {
+                // Create Completed Order (Sold)
+                $reviewText = $reviews[array_rand($reviews)];
+                $this->createOrder($faker, $product, 'paid', 'completed', true, $reviewText);
             }
-        }
 
-        // 2. Create Active Orders (Held Balance / Saldo Tertahan)
-        // These orders are PAID but NOT COMPLETED
-        foreach ($products->random(5) as $product) {
-            // Status: Processing
-            $this->createOrder($faker, $product, 'paid', 'processing');
-            // Status: Shipped
-            $this->createOrder($faker, $product, 'paid', 'shipped');
-        }
-
-        // 3. Create Pending/Unpaid Orders
-        foreach ($products->random(3) as $product) {
-            $this->createOrder($faker, $product, 'unpaid', 'pending');
-        }
-
-        // 4. Create Waiting Verification Orders
-        foreach ($products->random(2) as $product) {
-            $this->createOrder($faker, $product, 'waiting', 'pending');
-        }
-
-        // 5. Create Cancelled Orders
-        foreach ($products->random(2) as $product) {
-            $this->createOrder($faker, $product, 'refunded', 'cancelled');
+            // 2. Create some Active/Pending orders for variety (randomly)
+            if (rand(0, 1)) {
+                $statuses = ['processing', 'shipped'];
+                $this->createOrder($faker, $product, 'paid', $statuses[array_rand($statuses)]);
+            }
+            
+            if (rand(0, 10) > 8) { // Occasional unpaid order
+                 $this->createOrder($faker, $product, 'unpaid', 'pending');
+            }
         }
     }
 
     private function createOrder($faker, $product, $paymentStatus, $orderStatus, $addReview = false, $reviewText = null)
     {
+        // Check stock first
+        if ($product->stock <= 0) {
+            return;
+        }
+
         // Create User & Buyer
         $user = User::create([
             'name' => $faker->name,
@@ -94,9 +99,9 @@ class TransactionSeeder extends Seeder
             'phone_number' => $faker->phoneNumber,
         ]);
 
-        // Calculate Amounts (Fixed for consistency)
+        // Calculate Amounts
         $shippingCost = 10000;
-        $tax = 0;
+        $tax = 0; // Simplified
         $productPrice = $product->price;
         $grandTotal = $productPrice + $shippingCost + $tax;
 
@@ -118,6 +123,7 @@ class TransactionSeeder extends Seeder
             'order_status' => $orderStatus,
             'payment_proof' => $paymentStatus !== 'unpaid' ? 'payment_proofs/sample.jpg' : null,
             'balance_credited_at' => $orderStatus === 'completed' ? now() : null,
+            'tracking_number' => ($orderStatus === 'shipped' || $orderStatus === 'completed') ? 'JNE' . Str::upper(Str::random(10)) : null,
         ]);
 
         // Create Detail
@@ -128,6 +134,9 @@ class TransactionSeeder extends Seeder
             'subtotal' => $product->price,
         ]);
 
+        // Decrement Stock
+        $product->decrement('stock', 1);
+
         // If Completed, Credit Balance & Create History
         if ($orderStatus === 'completed') {
             $storeBalance = StoreBalance::firstOrCreate(
@@ -135,12 +144,12 @@ class TransactionSeeder extends Seeder
                 ['balance' => 0]
             );
 
-            // EXACT FORMULA FROM OrderController.php
-            $productSubtotal = $grandTotal - $shippingCost - $tax; // Should be $productPrice
+            // LOGIC: Same as SellerOrderController
+            $productSubtotal = $grandTotal - $shippingCost - $tax; 
             $platformCommission = $productSubtotal * 0.03; // 3%
             $sellerEarnings = $productSubtotal + $shippingCost - $platformCommission;
 
-            // Use direct update
+            // Direct update
             $storeBalance->increment('balance', $sellerEarnings);
 
             StoreBalanceHistory::create([
@@ -149,7 +158,7 @@ class TransactionSeeder extends Seeder
                 'reference_type' => Transaction::class,
                 'amount' => $sellerEarnings,
                 'type' => 'income',
-                'remarks' => "Pesanan Diterima User #{$transaction->code} (Produk: Rp " . number_format($productSubtotal, 0, ',', '.') . " + Ongkir: Rp " . number_format($shippingCost, 0, ',', '.') . " - Komisi 3%: Rp " . number_format($platformCommission, 0, ',', '.') . ")",
+                'remarks' => "Pesanan Diterima User #{$transaction->code}",
             ]);
 
             // Add Wishlist (Simulate user liked it)
@@ -165,8 +174,8 @@ class TransactionSeeder extends Seeder
                 'transaction_id' => $transaction->id,
                 'buyer_id' => $buyer->id,
                 'product_id' => $product->id,
-                'rating' => rand(4, 5),
-                'review' => $reviewText ?? $faker->sentence,
+                'rating' => rand(4, 5), // Force High Rating
+                'review' => $reviewText ?? 'Sangat bagus!',
             ]);
         }
     }

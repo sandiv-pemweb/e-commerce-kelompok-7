@@ -60,4 +60,14 @@ class Store extends Model
             }
         });
     }
+    public function getLogoUrlAttribute()
+    {
+        if (!$this->logo) {
+            return null;
+        }
+        if (\Illuminate\Support\Str::startsWith($this->logo, ['http://', 'https://'])) {
+            return $this->logo;
+        }
+        return asset('storage/' . $this->logo);
+    }
 }

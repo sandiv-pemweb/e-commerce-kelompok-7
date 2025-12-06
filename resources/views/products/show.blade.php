@@ -1,5 +1,5 @@
 <x-store-layout>
-    <div class="bg-gray-50 min-h-screen py-12">
+    <div class="bg-gray-50 min-h-screen py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- Top Section: Image & Main Info -->
@@ -38,7 +38,7 @@
                     <!-- Main Info (Right) -->
                     <div class="lg:col-span-8 flex flex-col">
                         <div class="flex justify-between items-start mb-4">
-                            <h1 class="text-4xl font-serif font-bold text-brand-dark leading-tight">{{ $product->name }}
+                            <h1 class="text-4xl  font-bold text-brand-dark leading-tight">{{ $product->name }}
                             </h1>
                             <!-- Wishlist Button -->
                             <button onclick="toggleWishlist(this, {{ $product->id }})"
@@ -108,11 +108,11 @@
                                 <div class="flex items-center gap-2">
                                     <div class="relative w-8 h-8 rounded-full overflow-hidden shrink-0"
                                         x-data="{ imageError: false }">
-                                        <img src="{{ str_starts_with($product->store->logo, 'http') ? $product->store->logo : asset('storage/' . $product->store->logo) }}"
+                                        <img src="{{ $product->store->logo_url }}"
                                             alt="{{ $product->store->name }}" class="w-full h-full object-cover"
                                             x-on:error="imageError = true" x-show="!imageError">
                                         <div x-show="imageError"
-                                            class="w-full h-full bg-gray-100 flex items-center justify-center text-xs font-serif font-bold text-brand-dark absolute inset-0"
+                                            class="w-full h-full bg-gray-100 flex items-center justify-center text-xs  font-bold text-brand-dark absolute inset-0"
                                             style="display: none;">
                                             {{ strtoupper(substr($product->store->name, 0, 1)) }}
                                         </div>
@@ -294,7 +294,7 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <div class="text-center py-12">
+                                    <div class="text-center py-6">
                                         <div
                                             class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

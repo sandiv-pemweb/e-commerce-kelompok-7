@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('store_balance_histories', function (Blueprint $table) {
             $table->id()->primary();
             $table->foreignId('store_balance_id')->constrained()->cascadeOnDelete();
-            $table->enum('type', ['income', 'withdraw']);
+            $table->enum('type', ['income', 'withdrawal']);
             $table->uuid('reference_id');
             $table->string('reference_type');
             $table->decimal('amount', 26, 2);

@@ -21,6 +21,11 @@ class AdminStoreController extends Controller
                      ->withCount('products')
                      ->latest();
 
+        // Filter by search query
+        if ($request->filled('q')) {
+            $query->where('name', 'like', "%{$request->q}%");
+        }
+
         // Filter by verification status
         if ($request->filled('status')) {
             if ($request->status === 'pending') {
@@ -42,14 +47,9 @@ class AdminStoreController extends Controller
 
     /**
      * Display the specified store with all relationships.
-     * 
-     * @param  int  $id
-     * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show(Store $store)
     {
-        $store = Store::withTrashed()->findOrFail($id);
-        
         $store->load([
             'user',
             'products' => fn($query) => $query->latest()->take(10),
@@ -63,10 +63,8 @@ class AdminStoreController extends Controller
     /**
      * Verify (approve) a store registration.
      */
-    public function verify($id)
+    public function verify(Store $store)
     {
-        $store = Store::findOrFail($id);
-
         if ($store->is_verified) {
             return back()->with('info', 'Toko sudah terverifikasi.');
         }
@@ -80,17 +78,15 @@ class AdminStoreController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.stores.show', ['store' => $store->id])
+        return redirect()->route('admin.stores.show', $store)
                        ->with('success', 'Toko berhasil diverifikasi.');
     }
 
     /**
      * Reject a store registration.
      */
-    public function reject($id)
+    public function reject(Store $store)
     {
-        $store = Store::findOrFail($id);
-
         if ($store->is_verified) {
             return back()->with('error', 'Toko yang sudah terverifikasi tidak dapat ditolak.');
         }
@@ -104,9 +100,8 @@ class AdminStoreController extends Controller
     /**
      * Remove the specified store from storage.
      */
-    public function destroy($id)
+    public function destroy(Store $store)
     {
-        $store = Store::findOrFail($id);
         $store->delete();
 
         return redirect()->route('admin.stores.index')
@@ -115,13 +110,9 @@ class AdminStoreController extends Controller
 
     /**
      * Restore the specified deleted store.
-     * 
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($id)
+    public function restore(Store $store)
     {
-        $store = Store::onlyTrashed()->findOrFail($id);
         $store->restore();
 
         return redirect()->route('admin.stores.index')
