@@ -12,18 +12,18 @@ Alpine.start();
 
 // Toast Notification Logic
 window.showToast = function (message, type = 'success') {
-    console.log('[TOAST] showToast called:', { message, type });
+
 
     // Create toast container if it doesn't exist
     let container = document.getElementById('toast-container');
     if (!container) {
-        console.log('[TOAST] Creating container...');
+
         container = document.createElement('div');
         container.id = 'toast-container';
         // Use inline styles instead of Tailwind classes
         container.style.cssText = 'position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; align-items: center; pointer-events: none; width: 100%; max-width: 400px; padding: 0 16px;';
         document.body.appendChild(container);
-        console.log('[TOAST] Container created:', container);
+
     }
 
     // Create toast element
@@ -62,13 +62,13 @@ window.showToast = function (message, type = 'success') {
 
     toast.innerHTML = `${icon} <span>${message}</span>`;
     container.appendChild(toast);
-    console.log('[TOAST] Toast created and appended:', toast);
+
 
     // Animate in - use setTimeout to force reflow
     setTimeout(() => {
         toast.style.opacity = '1';
         toast.style.transform = 'translateY(0)';
-        console.log('[TOAST] Animation triggered');
+
     }, 10);
 
     // Remove after 3 seconds
@@ -77,7 +77,7 @@ window.showToast = function (message, type = 'success') {
         toast.style.transform = 'translateY(20px)';
         setTimeout(() => {
             toast.remove();
-            console.log('[TOAST] Toast removed');
+
         }, 300);
     }, 3000);
 };
