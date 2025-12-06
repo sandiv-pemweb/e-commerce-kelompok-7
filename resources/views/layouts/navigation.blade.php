@@ -15,7 +15,7 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="font-serif text-2xl font-bold text-brand-dark leading-none">BookLand</span>
+                            <span class="font-serif text-2xl font-bold text-brand-dark leading-none">SanDiv</span>
                             <span class="text-xs text-brand-muted font-medium hidden md:block">Book Store Website</span>
                         </div>
                     </a>
@@ -265,7 +265,7 @@
 
                                     <x-dropdown-link :href="route('logout')"
                                         class="hover:text-brand-orange hover:bg-orange-50 flex items-center gap-3" onclick="event.preventDefault();
-                                                                this.closest('form').submit();">
+                                                                    this.closest('form').submit();">
                                         <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

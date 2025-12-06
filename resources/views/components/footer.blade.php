@@ -10,10 +10,10 @@
                                 d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                         </svg>
                     </div>
-                    <span class="font-serif text-xl font-bold text-brand-dark">BookLand</span>
+                    <span class="font-serif text-xl font-bold text-brand-dark">SanDiv</span>
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                    BookLand adalah website toko buku yang menyediakan berbagai macam buku dari berbagai genre. Kami
+                    SanDiv adalah website toko buku yang menyediakan berbagai macam buku dari berbagai genre. Kami
                     berkomitmen untuk memberikan pelayanan terbaik bagi pelanggan kami.
                 </p>
                 <div class="flex gap-4">
@@ -42,34 +42,45 @@
                 <h4 class="font-bold text-brand-dark mb-6">Tautan Cepat</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
                     <li><a href="{{ route('home') }}" class="hover:text-brand-orange transition-colors">Beranda</a></li>
-                    <li><a href="{{ route('products.index') }}" class="hover:text-brand-orange transition-colors">Produk</a></li>
+                    <li><a href="{{ route('products.index') }}"
+                            class="hover:text-brand-orange transition-colors">Produk</a></li>
                     @guest
                         <li><a href="{{ route('login') }}" class="hover:text-brand-orange transition-colors">Masuk</a></li>
-                        <li><a href="{{ route('register') }}" class="hover:text-brand-orange transition-colors">Daftar</a></li>
+                        <li><a href="{{ route('register') }}" class="hover:text-brand-orange transition-colors">Daftar</a>
+                        </li>
                     @else
-                        <li><a href="{{ route('dashboard') }}" class="hover:text-brand-orange transition-colors">Dashboard</a></li>
+                        <li><a href="{{ route('dashboard') }}"
+                                class="hover:text-brand-orange transition-colors">Dashboard</a></li>
                     @endguest
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-brand-dark mb-6">Area Pelanggan</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-                    <li><a href="{{ route('profile.edit') }}" class="hover:text-brand-orange transition-colors">Akun Saya</a></li>
-                    <li><a href="{{ route('orders.index') }}" class="hover:text-brand-orange transition-colors">Pesanan</a></li>
-                    <li><a href="{{ route('wishlist.index') }}" class="hover:text-brand-orange transition-colors">Wishlist</a></li>
-                    <li><a href="{{ route('cart.index') }}" class="hover:text-brand-orange transition-colors">Keranjang</a></li>
+                    <li><a href="{{ route('profile.edit') }}" class="hover:text-brand-orange transition-colors">Akun
+                            Saya</a></li>
+                    <li><a href="{{ route('orders.index') }}"
+                            class="hover:text-brand-orange transition-colors">Pesanan</a></li>
+                    <li><a href="{{ route('wishlist.index') }}"
+                            class="hover:text-brand-orange transition-colors">Wishlist</a></li>
+                    <li><a href="{{ route('cart.index') }}"
+                            class="hover:text-brand-orange transition-colors">Keranjang</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-brand-dark mb-6">Area Penjual</h4>
                 <ul class="space-y-4 text-sm text-gray-500">
-                    <li><a href="{{ route('seller.stores.create') }}" class="hover:text-brand-orange transition-colors">Mulai Berjualan</a></li>
-                    <li><a href="{{ route('seller.products.index') }}" class="hover:text-brand-orange transition-colors">Dashboard Penjual</a></li>
+                    <li><a href="{{ route('seller.stores.create') }}"
+                            class="hover:text-brand-orange transition-colors">Mulai Berjualan</a></li>
+                    <li><a href="{{ route('seller.products.index') }}"
+                            class="hover:text-brand-orange transition-colors">Dashboard Penjual</a></li>
                 </ul>
             </div>
         </div>
         <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <a href="https://github.com/sandiv-pemweb" target="_blank" rel="noopener noreferrer"><p class="text-sm text-gray-500">© 2025 BookLand. All rights reserved.</p></a>
+            <a href="https://github.com/sandiv-pemweb" target="_blank" rel="noopener noreferrer">
+                <p class="text-sm text-gray-500">© 2025 SanDiv. All rights reserved.</p>
+            </a>
             <div class="flex flex-col md:flex-row items-center gap-2 md:gap-6">
                 <span class="text-sm text-gray-500">
                     <a href="https://instagram.com/divarvian" target="_blank" rel="noopener noreferrer"

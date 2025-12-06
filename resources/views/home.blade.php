@@ -81,7 +81,7 @@
                         @else
                             <h1
                                 class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl font-serif">
-                                <span class="block xl:inline">BookLand Store</span>
+                                <span class="block xl:inline">SanDiv Store</span>
                             </h1>
                             <p class="mt-4 text-gray-500 text-base leading-relaxed max-w-lg">
                                 Temukan buku terbaik untuk perjalanan Anda.
@@ -197,15 +197,21 @@
                                 </div>
                             @endif
                             <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onclick="toggleWishlist(this, {{ $product->id }})" class="p-2 bg-white/90 backdrop-blur-sm rounded-full {{ Auth::user() && Auth::user()->wishlists->contains('product_id', $product->id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500' }} transition-colors shadow-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="{{ Auth::user() && Auth::user()->wishlists->contains('product_id', $product->id) ? 'currentColor' : 'none' }}" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                        </svg>
-                                    </button>
+                                <button onclick="toggleWishlist(this, {{ $product->id }})"
+                                    class="p-2 bg-white/90 backdrop-blur-sm rounded-full {{ Auth::user() && Auth::user()->wishlists->contains('product_id', $product->id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500' }} transition-colors shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        fill="{{ Auth::user() && Auth::user()->wishlists->contains('product_id', $product->id) ? 'currentColor' : 'none' }}"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                    </svg>
+                                </button>
                             </div>
                             @if($product->stock <= 0)
                                 <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
-                                    <span class="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full uppercase tracking-wider">Stok Habis</span>
+                                    <span
+                                        class="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full uppercase tracking-wider">Stok
+                                        Habis</span>
                                 </div>
                             @endif
                         </div>
@@ -230,7 +236,8 @@
                                 </div>
                                 <span class="text-xs text-gray-400">({{ number_format($rating, 1) }})</span>
                                 <span class="text-xs text-gray-300 mx-1 hidden sm:inline">&bull;</span>
-                                <span class="text-xs text-gray-500 hidden sm:inline">{{ $product->sold_count }} Terjual</span>
+                                <span class="text-xs text-gray-500 hidden sm:inline">{{ $product->sold_count }}
+                                    Terjual</span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-brand-dark">{{ $product->formatted_price }}</span>
