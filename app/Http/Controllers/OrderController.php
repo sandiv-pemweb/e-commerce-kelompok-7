@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Buyer;
 use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use App\Models\StoreBalance;
+use App\Models\StoreBalanceHistory;
 
 
 class OrderController extends Controller
@@ -40,5 +44,72 @@ class OrderController extends Controller
         $order->load(['store', 'transactionDetails.product.productImages']);
 
         return view('orders.show', compact('order'));
+    }
+
+    public function complete(Transaction $order)
+    {
+        // Ensure user owns this order
+        $buyer = Buyer::where('user_id', Auth::id())->first();
+        
+        if (!$buyer || $order->buyer_id !== $buyer->id) {
+            abort(403, 'Unauthorized access to this order');
+        }
+
+        if ($order->order_status !== 'shipped') {
+            return back()->with('error', 'Hanya pesanan yang sedang dikirim yang dapat diselesaikan.');
+        }
+
+        try {
+            DB::transaction(function () use ($order) {
+                // Lock the order record to prevent double processing
+                $lockedOrder = Transaction::where('id', $order->id)->lockForUpdate()->first();
+
+                // Verify status again after lock
+                if ($lockedOrder->order_status !== 'shipped') {
+                    throw new Exception('Pesanan tidak dalam status dikirim.');
+                }
+                
+                $lockedOrder->update(['order_status' => 'completed']);
+                
+                // Use lockedOrder for subsequent checks
+                $order = $lockedOrder;
+                
+                // --- BALANCE CREDIT LOGIC ---
+                // Calculate seller earnings
+                $productSubtotal = $order->grand_total - $order->shipping_cost - $order->tax;
+                $platformCommission = $productSubtotal * 0.03; // 3% commission
+                $sellerEarnings = $productSubtotal + $order->shipping_cost - $platformCommission;
+                
+                // Check duplicate credit
+                if ($order->balance_credited_at === null) {
+                    $store = $order->store;
+                    $storeBalance = StoreBalance::firstOrCreate(
+                        ['store_id' => $store->id],
+                        ['balance' => 0]
+                    );
+
+                    // Increment balance
+                    $storeBalance->increment('balance', $sellerEarnings);
+
+                    // Record history
+                    StoreBalanceHistory::create([
+                        'store_balance_id' => $storeBalance->id,
+                        'type' => 'income',
+                        'amount' => $sellerEarnings,
+                        'reference_id' => $order->id,
+                        'reference_type' => Transaction::class,
+                        'remarks' => "Pesanan Diterima User #{$order->code} (Produk: Rp " . number_format($productSubtotal, 0, ',', '.') . " + Ongkir: Rp " . number_format($order->shipping_cost, 0, ',', '.') . " - Komisi 3%: Rp " . number_format($platformCommission, 0, ',', '.') . ")",
+                    ]);
+
+                    // Mark as credited
+                    $order->balance_credited_at = now();
+                    $order->save();
+                }
+            });
+
+            return back()->with('success', 'Pesanan berhasil diselesaikan. Terima kasih telah berbelanja!');
+        } catch (Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat menyelesaikan pesanan.');
+        }
     }
 }

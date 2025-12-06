@@ -50,9 +50,10 @@ class PaymentController extends Controller
         // Update transaction with payment proof path
         $transaction->update([
             'payment_proof' => $path,
+            'payment_status' => 'waiting', // Set to waiting for admin verification
         ]);
         
         return redirect()->route('payment.show', $transaction)
-            ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu konfirmasi penjual.');
+            ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu konfirmasi Admin.');
     }
 }

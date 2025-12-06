@@ -22,12 +22,29 @@
             @endif
 
             <!-- Balance Card -->
-            <div class="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100">
+            <div class="bg-white shadow-lg rounded-2xl border border-gray-100">
                 <div class="p-8">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                         <div>
-                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Saldo Saat Ini</h3>
+                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Saldo Aktif (Bisa Ditarik)</h3>
                             <p class="text-4xl font-bold text-brand-dark">Rp {{ number_format($storeBalance->balance, 0, ',', '.') }}</p>
+                        </div>
+                        
+                        <div class="hidden md:block w-px h-16 bg-gray-200"></div>
+
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                Saldo Tertahan
+                                <div class="group relative">
+                                    <svg class="w-4 h-4 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-gray-900 text-white text-xs rounded-lg py-2 px-3 hidden group-hover:block transition-opacity z-10 text-center shadow-lg">
+                                        Dana dari pesanan yang sedang berlangsung (belum selesai). Dana akan masuk ke Saldo Aktif setelah pesanan selesai.
+                                        <!-- Triangle pointing up -->
+                                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-gray-900"></div>
+                                    </div>
+                                </div>
+                            </h3>
+                            <p class="text-2xl font-bold text-gray-400">Rp {{ number_format($pendingBalance, 0, ',', '.') }}</p>
                         </div>
                         <div>
                             @if($hasPendingWithdrawal)
@@ -82,16 +99,17 @@
                                         <tr class="hover:bg-blue-50 transition-colors duration-150">
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $history->created_at->format('d M Y H:i') }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $history->type == 'credit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full {{ $history->type == 'income' || $history->type == 'credit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                                     {{ match($history->type) {
                                                     'income' => 'Pemasukan',
+                                                    'credit' => 'Pemasukan',
                                                     'withdraw' => 'Penarikan',
                                                     default => ucfirst($history->type)
                                                 } }}
                                                 </span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm {{ $history->type == 'credit' ? 'text-green-600' : 'text-red-600' }} font-bold">
-                                                {{ $history->type == 'credit' ? '+' : '-' }} Rp {{ number_format($history->amount, 0, ',', '.') }}
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm {{ $history->type == 'income' || $history->type == 'credit' ? 'text-green-600' : 'text-red-600' }} font-bold">
+                                                {{ $history->type == 'income' || $history->type == 'credit' ? '+' : '-' }} Rp {{ number_format($history->amount, 0, ',', '.') }}
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-500">{{ $history->remarks ?? '-' }}</td>
                                         </tr>

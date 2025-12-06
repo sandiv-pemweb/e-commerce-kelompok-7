@@ -33,10 +33,26 @@ class SellerBalanceController extends Controller
                                    ->paginate(10, ['*'], 'withdrawal_page');
 
         // Check if there's a pending withdrawal
+        // Check if there's a pending withdrawal
         $hasPendingWithdrawal = $storeBalance->withdrawals()
                                             ->where('status', 'pending')
                                             ->exists();
 
-        return view('seller.balance.index', compact('storeBalance', 'balanceHistory', 'withdrawals', 'hasPendingWithdrawal'));
+        // Calculate "Held Balance" (Saldo Tertahan) from ongoing orders
+        // Orders that are PAID but NOT COMPLETED/CANCELLED
+        $pendingTransactions = $store->transactions()
+            ->where('payment_status', 'paid')
+            ->whereNotIn('order_status', ['completed', 'cancelled'])
+            ->get();
+
+        $pendingBalance = 0;
+        foreach ($pendingTransactions as $transaction) {
+            $productSubtotal = $transaction->grand_total - $transaction->shipping_cost - $transaction->tax;
+            $platformCommission = $productSubtotal * 0.03; // 3% commission
+            $sellerEarnings = $productSubtotal + $transaction->shipping_cost - $platformCommission;
+            $pendingBalance += $sellerEarnings;
+        }
+
+        return view('seller.balance.index', compact('storeBalance', 'balanceHistory', 'withdrawals', 'hasPendingWithdrawal', 'pendingBalance'));
     }
 }

@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
     // Order routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/complete', [OrderController::class, 'complete'])->name('orders.complete');
     
     // Review routes
     Route::post('/reviews', [App\Http\Controllers\Buyer\ProductReviewController::class, 'store'])->name('reviews.store');
@@ -126,6 +127,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'admin']
     Route::delete('/stores/{store}/reject', [AdminStoreController::class, 'reject'])->name('stores.reject');
     Route::delete('/stores/{store}', [AdminStoreController::class, 'destroy'])->name('stores.destroy');
     Route::patch('/stores/{store}/restore', [AdminStoreController::class, 'restore'])->name('stores.restore');
+
+    // Orders (New)
+    Route::get('/orders', [App\Http\Controllers\Admin\AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [App\Http\Controllers\Admin\AdminOrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/verify-payment', [App\Http\Controllers\Admin\AdminOrderController::class, 'verifyPayment'])->name('orders.verify-payment');
 
     // Users
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');

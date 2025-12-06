@@ -54,8 +54,14 @@ class AdminWithdrawalController extends Controller
             return back()->with('error', 'Hanya penarikan yang berstatus pending yang dapat disetujui.');
         }
 
-        // Balance already deducted when request was made
-        $withdrawal->update(['status' => 'approved']);
+        // Wrap in transaction for safety
+        \Illuminate\Support\Facades\DB::transaction(function () use ($withdrawal) {
+            $lockedWithdrawal = \App\Models\Withdrawal::where('id', $withdrawal->id)->lockForUpdate()->first();
+
+            if ($lockedWithdrawal && $lockedWithdrawal->status === 'pending') {
+                $lockedWithdrawal->update(['status' => 'approved']);
+            }
+        });
 
         return redirect()->route('admin.withdrawals.show', $withdrawal)
                        ->with('success', 'Penarikan saldo berhasil disetujui.');
@@ -75,8 +81,13 @@ class AdminWithdrawalController extends Controller
 
         // Refund balance and reject in transaction
         \Illuminate\Support\Facades\DB::transaction(function () use ($withdrawal) {
-            $withdrawal->storeBalance->increment('balance', $withdrawal->amount);
-            $withdrawal->update(['status' => 'rejected']);
+            // Lock record
+            $lockedWithdrawal = \App\Models\Withdrawal::where('id', $withdrawal->id)->lockForUpdate()->first();
+
+            if ($lockedWithdrawal && $lockedWithdrawal->status === 'pending') {
+                $lockedWithdrawal->storeBalance->increment('balance', $lockedWithdrawal->amount);
+                $lockedWithdrawal->update(['status' => 'rejected']);
+            }
         });
 
         return redirect()->route('admin.withdrawals.show', $withdrawal)

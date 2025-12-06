@@ -98,8 +98,14 @@ class SellerWithdrawalController extends Controller
 
         // Refund balance and delete withdrawal in transaction
         \Illuminate\Support\Facades\DB::transaction(function () use ($withdrawal, $storeBalance) {
-            $storeBalance->increment('balance', $withdrawal->amount);
-            $withdrawal->delete();
+            // Lock the withdrawal record to prevent race conditions (e.g. Admin rejecting at same time)
+            $lockedWithdrawal = \App\Models\Withdrawal::where('id', $withdrawal->id)->lockForUpdate()->first();
+
+            // Double check status after lock
+            if ($lockedWithdrawal && $lockedWithdrawal->status === 'pending') {
+                $storeBalance->increment('balance', $lockedWithdrawal->amount);
+                $lockedWithdrawal->delete();
+            }
         });
 
         return redirect()->route('seller.balance.index')

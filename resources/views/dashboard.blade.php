@@ -102,6 +102,34 @@
                         </div>
                     </div>
 
+                    <!-- Order Management Card -->
+                    <div
+                        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group border border-gray-100">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="p-3 bg-red-50 rounded-xl group-hover:bg-red-100 transition-colors">
+                                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Pesanan</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-brand-dark mb-2">Kelola Pesanan</h3>
+                            <p class="text-gray-500 mb-6 text-sm">Verifikasi pembayaran, lihat detail pesanan, dan pantau status pengiriman.</p>
+                            <a href="{{ route('admin.orders.index') }}"
+                                class="inline-flex items-center text-red-600 font-bold hover:text-red-800 transition-colors">
+                                Lihat Semua Pesanan <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Withdrawal Management Card -->
                     <div
                         class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group border border-gray-100">
