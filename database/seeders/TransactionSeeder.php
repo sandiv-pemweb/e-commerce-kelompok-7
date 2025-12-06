@@ -94,10 +94,11 @@ class TransactionSeeder extends Seeder
             'phone_number' => $faker->phoneNumber,
         ]);
 
-        // Calculate Amounts
+        // Calculate Amounts (Fixed for consistency)
         $shippingCost = 10000;
         $tax = 0;
-        $grandTotal = $product->price + $shippingCost + $tax;
+        $productPrice = $product->price;
+        $grandTotal = $productPrice + $shippingCost + $tax;
 
         // Create Transaction
         $transaction = Transaction::create([
@@ -134,20 +135,21 @@ class TransactionSeeder extends Seeder
                 ['balance' => 0]
             );
 
-            // Calculate Seller Income (Price - 3% Fee)
-            $platformFee = $product->price * 0.03;
-            $sellerIncome = $product->price - $platformFee;
+            // EXACT FORMULA FROM OrderController.php
+            $productSubtotal = $grandTotal - $shippingCost - $tax; // Should be $productPrice
+            $platformCommission = $productSubtotal * 0.03; // 3%
+            $sellerEarnings = $productSubtotal + $shippingCost - $platformCommission;
 
-            // Use direct update to avoid model events double-triggering if any
-            $storeBalance->increment('balance', $sellerIncome);
+            // Use direct update
+            $storeBalance->increment('balance', $sellerEarnings);
 
             StoreBalanceHistory::create([
                 'store_balance_id' => $storeBalance->id,
                 'reference_id' => $transaction->id,
                 'reference_type' => Transaction::class,
-                'amount' => $sellerIncome,
+                'amount' => $sellerEarnings,
                 'type' => 'income',
-                'remarks' => 'Penjualan #' . $transaction->code,
+                'remarks' => "Pesanan Diterima User #{$transaction->code} (Produk: Rp " . number_format($productSubtotal, 0, ',', '.') . " + Ongkir: Rp " . number_format($shippingCost, 0, ',', '.') . " - Komisi 3%: Rp " . number_format($platformCommission, 0, ',', '.') . ")",
             ]);
 
             // Add Wishlist (Simulate user liked it)
