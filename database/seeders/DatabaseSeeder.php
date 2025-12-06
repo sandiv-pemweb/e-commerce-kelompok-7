@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             SellerUserSeeder::class,
             MemberUserSeeder::class,
             ProductSeeder::class,
+            TransactionSeeder::class,
+            WithdrawalSeeder::class,
         ]);
 
         $this->command->info('');

@@ -172,14 +172,24 @@
                             </div>
 
                             @if($order->payment_status === 'unpaid' || $order->payment_status === 'waiting')
-                                <form action="{{ route('admin.orders.verify-payment', $order) }}" method="POST" onsubmit="return confirm('Verifikasi pembayaran ini? Status akan berubah menjadi Paid (Lunas).')">
+                                <button type="button" 
+                                        onclick="document.getElementById('verify-payment-{{ $order->id }}').classList.remove('hidden')"
+                                        class="w-full py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-all shadow-lg hover:shadow-brand-orange/30 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Verifikasi Pembayaran
+                                </button>
+                                <form id="verify-payment-{{ $order->id }}-form" action="{{ route('admin.orders.verify-payment', $order) }}" method="POST" class="hidden">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="w-full py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-orange transition-all shadow-lg hover:shadow-brand-orange/30 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        Verifikasi Pembayaran
-                                    </button>
                                 </form>
+                                <x-confirmation-modal 
+                                    id="verify-payment-{{ $order->id }}"
+                                    type="info" 
+                                    title="Verifikasi Pembayaran" 
+                                    message="Apakah Anda yakin ingin memverifikasi pembayaran ini? Status pembayaran akan berubah menjadi Lunas dan pesanan akan diproses."
+                                    confirmText="Ya, Verifikasi"
+                                    cancelText="Batal">
+                                </x-confirmation-modal>
                             @endif
                         @else
                             <div class="text-center py-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">

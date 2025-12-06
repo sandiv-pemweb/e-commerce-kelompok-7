@@ -49,7 +49,7 @@ class SellerUserSeeder extends Seeder
 
         StoreBalance::create([
             'store_id' => $store1->id,
-            'balance' => 15000000,
+            'balance' => 0,
         ]);
 
         // Seller 2 - Gramedia Digital (Verified)
@@ -80,7 +80,7 @@ class SellerUserSeeder extends Seeder
 
         StoreBalance::create([
             'store_id' => $store2->id,
-            'balance' => 8500000,
+            'balance' => 0,
         ]);
 
         // Seller 3 - Periplus (Verified)
@@ -111,7 +111,7 @@ class SellerUserSeeder extends Seeder
 
         StoreBalance::create([
             'store_id' => $store3->id,
-            'balance' => 5000000,
+            'balance' => 0,
         ]);
 
         // Seller 4 - Indie Book Corner (Pending)

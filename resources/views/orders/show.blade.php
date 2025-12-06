@@ -146,13 +146,23 @@
                                 @endif
 
                                 @if($order->order_status === 'shipped')
-                                    <form action="{{ route('orders.complete', $order) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin pesanan sudah diterima dengan baik? Saldo akan diteruskan ke penjual.')">
+                                    <button type="button" 
+                                            onclick="document.getElementById('complete-order-{{ $order->id }}').classList.remove('hidden')"
+                                            class="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition-all duration-300 shadow-md transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        Pesanan Diterima
+                                    </button>
+                                    <form id="complete-order-{{ $order->id }}-form" action="{{ route('orders.complete', $order) }}" method="POST" class="hidden">
                                         @csrf
-                                        <button type="submit" class="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 transition-all duration-300 shadow-md transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                            Pesanan Diterima
-                                        </button>
                                     </form>
+                                    <x-confirmation-modal 
+                                        id="complete-order-{{ $order->id }}"
+                                        type="success" 
+                                        title="Konfirmasi Pesanan Diterima" 
+                                        message="Apakah Anda yakin pesanan sudah diterima dengan baik? Dana akan diteruskan ke penjual dan status pesanan akan menjadi selesai."
+                                        confirmText="Ya, Pesanan Diterima"
+                                        cancelText="Batal">
+                                    </x-confirmation-modal>
                                 @endif
                             </div>
                         </div>
