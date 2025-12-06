@@ -21,7 +21,7 @@ window.showToast = function (message, type = 'success') {
         container = document.createElement('div');
         container.id = 'toast-container';
         // Use inline styles instead of Tailwind classes
-        container.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none;';
+        container.style.cssText = 'position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; align-items: center; pointer-events: none; width: 100%; max-width: 400px; padding: 0 16px;';
         document.body.appendChild(container);
         console.log('[TOAST] Container created:', container);
     }
@@ -34,19 +34,22 @@ window.showToast = function (message, type = 'success') {
     toast.style.cssText = `
         background-color: ${bgColor};
         color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        display: flex;
+        padding: 8px 16px;
+        border-radius: 50px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: inline-flex;
         align-items: center;
         gap: 8px;
         pointer-events: auto;
         font-weight: 500;
-        min-width: 250px;
-        max-width: 90vw;
+        font-size: 13px;
+        white-space: nowrap;
+        max-width: 85vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
         opacity: 0;
         transform: translateY(20px);
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     `;
 
     // Icon based on type
@@ -101,7 +104,8 @@ window.toggleWishlist = function (button, productId) {
     })
         .then(response => {
             if (response.status === 401) {
-                window.location.href = '/login';
+                const loginUrl = baseUrl ? `${baseUrl.getAttribute('content')}/login` : '/login';
+                window.location.href = loginUrl;
                 throw new Error('Unauthorized');
             }
             return response.json();
@@ -165,7 +169,8 @@ window.addToCart = function (productId, quantity = 1) {
     })
         .then(response => {
             if (response.status === 401) {
-                window.location.href = '/login';
+                const loginUrl = baseUrl ? `${baseUrl.getAttribute('content')}/login` : '/login';
+                window.location.href = loginUrl;
                 throw new Error('Unauthorized');
             }
             return response.json();
@@ -182,11 +187,24 @@ window.addToCart = function (productId, quantity = 1) {
                     countEl.classList.add('scale-125');
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
+
+                // Show success toast
+                if (window.showToast) {
+                    window.showToast(data.message || 'Produk berhasil ditambahkan', 'success');
+                }
+            } else {
+                // Show error toast
+                if (window.showToast) {
+                    window.showToast(data.message || 'Gagal menambahkan produk', 'error');
+                }
             }
         })
         .catch(error => {
             if (error.message !== 'Unauthorized') {
                 console.error('[CART] Error:', error);
+                if (window.showToast) {
+                    window.showToast('Terjadi kesalahan sistem', 'error');
+                }
             }
         });
 };

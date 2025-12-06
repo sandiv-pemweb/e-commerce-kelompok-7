@@ -138,11 +138,13 @@
                                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
                                     <div class="relative aspect-[2/3] bg-gray-200 overflow-hidden">
                                         @if($product->productImages->count() > 0)
-                                            <img src="{{ $product->productImages->first()->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                            <img src="{{ $product->productImages->first()->image_url }}" alt="{{ $product->name }}"
+                                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                         @else
                                             <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100">
                                                 <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
                                             </div>
                                         @endif
@@ -153,20 +155,56 @@
                                                     </svg>
                                                 </button>
                                         </div>
+                                        @if($product->stock <= 0)
+                                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+                                                <span class="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full uppercase tracking-wider">Stok Habis</span>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="p-4">
-                                        <div class="text-xs text-brand-orange font-medium mb-1">{{ $product->productCategory->name ?? 'Tidak Berkategori' }}</div>
-                                        <h3 class="font-bold text-brand-dark truncate mb-1">
-                                            <a href="{{ route('products.show', ['store' => $product->store->slug, 'product' => $product->slug]) }}">{{ $product->name }}</a>
+                                        <h3 class="font-bold text-brand-dark truncate">
+                                            <a
+                                                href="{{ route('products.show', ['store' => $product->store->slug, 'product' => $product->slug]) }}">{{ $product->name }}</a>
                                         </h3>
-                                        <p class="text-xs text-gray-500 mb-3">{{ $product->store->name }}</p>
+                                        <p class="text-xs text-gray-500 mb-2">{{ $product->store->name ?? 'Toko Tidak Diketahui' }}</p>
+                                        <div class="flex items-center gap-1 mb-3">
+                                            <div class="flex text-brand-orange text-sm">
+                                                @php
+                                                    $rating = $product->productReviews->avg('rating') ?? 0;
+                                                @endphp
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-4 h-4 {{ $i <= round($rating) ? 'fill-current' : 'text-gray-300' }}"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+                                                @endfor
+                                            </div>
+                                            <span class="text-xs text-gray-400">({{ number_format($rating, 1) }})</span>
+                                            <span class="text-xs text-gray-300 mx-1 hidden sm:inline">&bull;</span>
+                                            <span class="text-xs text-gray-500 hidden sm:inline">{{ $product->sold_count }} Terjual</span>
+                                        </div>
                                         <div class="flex items-center justify-between">
-                                            <span class="font-bold text-lg text-brand-dark">{{ $product->formatted_price }}</span>
-                                            <button onclick="addToCart({{ $product->id }})" class="p-2 bg-brand-dark text-white rounded-lg hover:bg-brand-orange transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                            <span class="font-bold text-brand-dark">{{ $product->formatted_price }}</span>
+                                            @auth
+                                                <button onclick="addToCart({{ $product->id }})"
+                                                    class="p-2 bg-brand-dark text-white rounded-lg hover:bg-brand-orange transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                        stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                                     </svg>
                                                 </button>
+                                            @else
+                                                <a href="{{ route('login') }}"
+                                                    class="p-2 bg-brand-dark text-white rounded-lg hover:bg-brand-orange transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                        stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                                    </svg>
+                                                </a>
+                                            @endauth
                                         </div>
                                     </div>
                                 </div>

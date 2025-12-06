@@ -32,14 +32,22 @@
                                         <div
                                             class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                                             <div class="flex items-center gap-3">
-                                                <div
-                                                    class="w-8 h-8 rounded-full bg-brand-orange/10 flex items-center justify-center text-brand-orange font-bold text-sm">
-                                                    {{ substr($store->name, 0, 1) }}
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-bold text-brand-dark">{{ $store->name }}</h3>
-                                                    <p class="text-xs text-gray-500">{{ $items->count() }} item</p>
-                                                </div>
+                                                <a href="{{ route('stores.show', $store->slug) }}" class="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+                                                    <div class="relative w-8 h-8 rounded-full overflow-hidden shrink-0" x-data="{ imageError: false }">
+                                                        <img src="{{ str_starts_with($store->logo, 'http') ? $store->logo : asset('storage/' . $store->logo) }}"
+                                                            alt="{{ $store->name }}" class="w-full h-full object-cover"
+                                                            x-on:error="imageError = true" x-show="!imageError">
+                                                        <div x-show="imageError"
+                                                            class="w-full h-full bg-brand-orange/10 flex items-center justify-center text-brand-orange font-bold text-sm absolute inset-0"
+                                                            style="display: none;">
+                                                            {{ substr($store->name, 0, 1) }}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h3 class="font-bold text-brand-dark group-hover:text-brand-orange transition-colors">{{ $store->name }}</h3>
+                                                        <p class="text-xs text-gray-500">{{ $items->count() }} item</p>
+                                                    </div>
+                                                </a>
                                             </div>
                                             <input type="checkbox" name="stores[]" value="{{ $storeId }}"
                                                 class="store-checkbox rounded border-gray-300 text-brand-orange focus:ring-brand-orange"
@@ -191,17 +199,37 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.success) {
+                                        // Update default value for future reverts
+                                        input.defaultValue = quantity;
+
                                         // Update DOM elements
                                         document.getElementById(`item-subtotal-${cartId}`).textContent = data.item_subtotal;
                                         document.getElementById('grandTotal').textContent = data.grand_total;
                                         document.getElementById('totalItems').textContent = data.total_items;
+
+                                        // Update navbar cart counts
+                                        const cartCounts = document.querySelectorAll('.cart-count');
+                                        cartCounts.forEach(countEl => {
+                                            countEl.textContent = data.cart_count;
+                                            countEl.style.display = data.cart_count > 0 ? 'inline-flex' : 'none';
+                                            countEl.classList.add('scale-125');
+                                            setTimeout(() => countEl.classList.remove('scale-125'), 200);
+                                        });
                                     } else {
-                                        input.value = 1;
-                                        location.reload();
+                                        // Show error toast
+                                        if (window.showToast) {
+                                            window.showToast(data.message || 'Gagal memperbarui keranjang', 'error');
+                                        }
+                                        // Revert to previous valid value
+                                        input.value = input.defaultValue;
                                     }
                                 })
                                 .catch(error => {
                                     console.error('Error:', error);
+                                    if (window.showToast) {
+                                        window.showToast('Terjadi kesalahan sistem', 'error');
+                                    }
+                                    input.value = input.defaultValue;
                                 });
                         }
                     </script>

@@ -217,16 +217,8 @@
                                     <span class="col-span-2 text-gray-500">{{ $product->author ?? $product->store->name }}</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
-                                    <span class="font-bold text-brand-dark">ISBN</span>
-                                    <span class="col-span-2 text-gray-500">121341381648 (ISBN13: 121341381648)</span>
-                                </div>
-                                <div class="grid grid-cols-3 py-3 border-b border-gray-50">
-                                    <span class="font-bold text-brand-dark">Bahasa Edisi</span>
-                                    <span class="col-span-2 text-gray-500">Inggris</span>
-                                </div>
-                                <div class="grid grid-cols-3 py-3 border-b border-gray-50">
-                                    <span class="font-bold text-brand-dark">Format Buku</span>
-                                    <span class="col-span-2 text-gray-500">Paperback, {{ $product->weight }}g</span>
+                                    <span class="font-bold text-brand-dark">Berat</span>
+                                    <span class="col-span-2 text-gray-500">{{ $product->weight }}g</span>
                                 </div>
                                 <div class="grid grid-cols-3 py-3 border-b border-gray-50">
                                     <span class="font-bold text-brand-dark">Kondisi</span>
@@ -260,8 +252,6 @@
                                     <div class="col-span-2 flex flex-wrap gap-2">
                                         <span
                                             class="px-3 py-1 bg-brand-orange/10 text-brand-orange text-xs font-bold rounded-full">{{ $product->productCategory->name ?? 'General' }}</span>
-                                        <span
-                                            class="px-3 py-1 bg-brand-orange text-white text-xs font-bold rounded-full">Terlaris</span>
                                     </div>
                                 </div>
                             </div>
