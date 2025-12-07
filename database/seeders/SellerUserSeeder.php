@@ -23,7 +23,7 @@ class SellerUserSeeder extends Seeder
     {
         // Seller 1 - BookLand Official (Verified)
         $seller1 = User::create([
-            'name' => 'BookLand Admin',
+            'name' => 'SanDiv Admin',
             'email' => 'seller1@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',
@@ -32,10 +32,10 @@ class SellerUserSeeder extends Seeder
 
         $store1 = Store::create([
             'user_id' => $seller1->id,
-            'name' => 'BookLand Official',
-            'slug' => Str::slug('BookLand Official'),
+            'name' => 'SanDiv Official',
+            'slug' => Str::slug('SanDiv Official'),
             'logo' => 'https://down-id.img.susercontent.com/file/63e90bfb81c7967dbb1750bab788bec8',
-            'about' => 'Official store of BookLand. Providing the best collection of books directly from publishers.',
+            'about' => 'Toko resmi SanDiv. Menyediakan koleksi buku terbaik langsung dari penerbit.',
             'phone' => '081234567890',
             'address_id' => 'ADR001',
             'city' => 'Jakarta',
@@ -43,7 +43,7 @@ class SellerUserSeeder extends Seeder
             'postal_code' => '10220',
             'is_verified' => true,
             'bank_name' => 'Bank BCA',
-            'bank_account_name' => 'BookLand Official',
+            'bank_account_name' => 'SanDiv Official',
             'bank_account_number' => '1234567890',
         ]);
 
@@ -97,7 +97,7 @@ class SellerUserSeeder extends Seeder
             'name' => 'Periplus',
             'slug' => Str::slug('Periplus'),
             'logo' => 'https://images.seeklogo.com/logo-png/49/1/periplus-logo-png_seeklogo-492362.png',
-            'about' => 'Leading imported book retailer in Indonesia.',
+            'about' => 'Pengecer buku impor terkemuka di Indonesia.',
             'phone' => '081234567892',
             'address_id' => 'ADR003',
             'city' => 'Jakarta',
