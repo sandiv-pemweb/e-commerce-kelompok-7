@@ -25,13 +25,13 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         // 1. Get Stores
-        $bookland = Store::where('name', 'BookLand Official')->firstOrFail();
+        $bookland = Store::where('name', 'SanDiv Official')->firstOrFail();
         $gramedia = Store::where('name', 'Gramedia Digital')->firstOrFail();
         $periplus = Store::where('name', 'Periplus')->firstOrFail();
         $indie = Store::where('name', 'Indie Book Corner')->firstOrFail();
 
         // 2. Create Categories
-        // BookLand Categories
+        // SanDiv Categories
         $catBusiness = ProductCategory::firstOrCreate(['store_id' => $bookland->id, 'name' => 'Business & Strategy', 'slug' => 'business-strategy']);
         $catSelfHelp = ProductCategory::firstOrCreate(['store_id' => $bookland->id, 'name' => 'Self Help', 'slug' => 'self-help']);
         
@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
 
         // 3. Define Books Data
         $books = [
-            // BookLand Official (Business & Self Help)
+            // SanDiv Official (Business & Self Help)
             [
                 'store_id' => $bookland->id,
                 'category_id' => $catBusiness->id,
