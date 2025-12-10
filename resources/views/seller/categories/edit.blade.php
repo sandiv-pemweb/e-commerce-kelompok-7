@@ -18,7 +18,7 @@
 
                     <form method="POST" action="{{ route('seller.categories.update', $category) }}" class="space-y-6">
                         @csrf
-                        @method('PUT')
+                        @method('PATCH')
 
                         <div>
                             <label for="name" class="block font-bold text-sm text-gray-700 mb-2">Nama Kategori</label>

@@ -4,56 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
-use App\Models\Buyer;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-
+use App\Services\TransactionService;
+use Exception;
 
 class PaymentController extends Controller
 {
+    public function __construct(protected TransactionService $transactionService)
+    {
+    }
 
     public function show(Transaction $transaction)
     {
-
-        $buyer = Buyer::where('user_id', Auth::id())->first();
-
-        if (!$buyer || $transaction->buyer_id !== $buyer->id) {
-            abort(403, 'Unauthorized access to this order');
+        try {
+            // Re-fetch to check authorization and load relations
+            $transaction = $this->transactionService->getOrder($transaction->id, Auth::id());
+            return view('payment.show', compact('transaction'));
+        } catch (Exception $e) {
+            abort(403, $e->getMessage());
         }
-
-        $transaction->load(['store', 'transactionDetails.product.productImages']);
-
-        return view('payment.show', compact('transaction'));
     }
 
     public function uploadProof(Request $request, Transaction $transaction)
     {
-
-        $buyer = Buyer::where('user_id', Auth::id())->first();
-
-        if (!$buyer || $transaction->buyer_id !== $buyer->id) {
-            abort(403, 'Unauthorized access to this order');
-        }
-
         $request->validate([
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-
-        if ($transaction->payment_proof) {
-            Storage::delete('public/' . $transaction->payment_proof);
+        try {
+            $this->transactionService->uploadPaymentProof($transaction, Auth::id(), $request->file('payment_proof'));
+            return redirect()->route('payment.show', $transaction)
+                ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu konfirmasi Admin.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-
-        $path = $request->file('payment_proof')->store('payment_proofs', 'public');
-
-
-        $transaction->update([
-            'payment_proof' => $path,
-            'payment_status' => 'waiting',
-        ]);
-
-        return redirect()->route('payment.show', $transaction)
-            ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu konfirmasi Admin.');
     }
 }

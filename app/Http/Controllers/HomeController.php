@@ -3,39 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\ProductCategory;
+use App\Services\ProductService;
+use App\Services\CategoryService;
 
 class HomeController extends Controller
 {
+    public function __construct(
+        protected ProductService $productService,
+        protected CategoryService $categoryService
+    ) {}
+
     public function index()
     {
-
-        $heroProduct = Product::with(['store', 'productImages', 'productCategory'])
-            ->whereHas('store', function($query) {
-                $query->where('is_verified', true)
-                      ->whereNotNull('slug');
-            })
-            ->withCount('transactionDetails')
-            ->orderBy('transaction_details_count', 'desc')
-            ->first();
-
-
-        $featuredProducts = Product::with(['store', 'productImages'])
-            ->whereHas('store', function($query) {
-                $query->where('is_verified', true)
-                      ->whereNotNull('slug');
-            })
-            ->available()
-            ->latest()
-            ->limit(8)
-            ->get();
-
-
-        $categories = ProductCategory::whereNull('parent_id')
-            ->withCount('products')
-            ->limit(6)
-            ->get();
+        $heroProduct = $this->productService->getHeroProduct();
+        $featuredProducts = $this->productService->getFeaturedProducts(8);
+        $categories = $this->categoryService->getTopCategories(6);
 
         return view('home', compact('heroProduct', 'featuredProducts', 'categories'));
     }

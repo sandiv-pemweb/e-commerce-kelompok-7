@@ -4,32 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-
+use App\Services\CartService;
+use Exception;
 
 class CartController extends Controller
 {
+    public function __construct(protected CartService $cartService)
+    {
+    }
 
     public function index()
     {
-        $cartItems = Cart::where('user_id', Auth::id())
-            ->whereHas('product.store', function ($query) {
-                $query->where('is_verified', true)
-                    ->whereNotNull('slug');
-            })
-            ->with(['product.store', 'product.productImages'])
-            ->get();
-
-
-        $cartByStore = $cartItems->groupBy(function ($cart) {
-            return $cart->product->store_id;
-        });
-
-
-        $grandTotal = $cartItems->sum(function ($cart) {
-            return $cart->subtotal;
-        });
+        $userId = Auth::id();
+        $cartByStore = $this->cartService->getCartGroupedByStore($userId);
+        $grandTotal = $this->cartService->getGrandTotal($userId);
 
         return view('cart.index', compact('cartByStore', 'grandTotal'));
     }
@@ -41,59 +30,29 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $product = Product::findOrFail($request->product_id);
+        try {
+            $result = $this->cartService->addToCart(Auth::id(), $request->product_id, $request->quantity);
 
-
-        if (!$product->isAvailable($request->quantity)) {
             if ($request->wantsJson()) {
-                return response()->json(['success' => false, 'message' => 'Stok produk tidak mencukupi'], 422);
-            }
-            return redirect()->back()->with('error', 'Stok produk tidak mencukupi');
-        }
-
-
-        $cartItem = Cart::where('user_id', Auth::id())
-            ->where('product_id', $request->product_id)
-            ->first();
-
-        if ($cartItem) {
-
-            $newQuantity = $cartItem->quantity + $request->quantity;
-
-            if (!$product->isAvailable($newQuantity)) {
-                if ($request->wantsJson()) {
-                    return response()->json(['success' => false, 'message' => 'Stok produk tidak mencukupi'], 422);
-                }
-                return redirect()->back()->with('error', 'Stok produk tidak mencukupi');
+                $cartCount = $this->cartService->getCartCount(Auth::id());
+                return response()->json([
+                    'success' => true,
+                    'message' => $result['message'],
+                    'cartCount' => $cartCount
+                ]);
             }
 
-            $cartItem->update(['quantity' => $newQuantity]);
-            $message = 'Jumlah produk di keranjang berhasil diperbarui';
-        } else {
-
-            Cart::create([
-                'user_id' => Auth::id(),
-                'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
-            ]);
-            $message = 'Produk berhasil ditambahkan ke keranjang';
+            return redirect()->back()->with('success', $result['message']);
+        } catch (Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+            }
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        if ($request->wantsJson()) {
-            $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
-            return response()->json([
-                'success' => true,
-                'message' => $message,
-                'cartCount' => $cartCount
-            ]);
-        }
-
-        return redirect()->back()->with('success', $message);
     }
 
     public function update(Request $request, Cart $cart)
     {
-
         if ($cart->user_id !== Auth::id()) {
             abort(403);
         }
@@ -102,56 +61,55 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
+        try {
+            $this->cartService->updateQuantity($cart, $request->quantity);
 
-        if (!$cart->product->isAvailable($request->quantity)) {
             if ($request->wantsJson()) {
-                return response()->json(['success' => false, 'message' => 'Stok produk tidak mencukupi'], 422);
+                $userId = Auth::id();
+                $grandTotal = $this->cartService->getGrandTotal($userId);
+                $cartCount = $this->cartService->getCartCount($userId);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Keranjang berhasil diperbarui',
+                    'item_subtotal' => 'Rp ' . number_format($cart->subtotal, 0, ',', '.'),
+                    'grand_total' => 'Rp ' . number_format($grandTotal, 0, ',', '.'),
+                    'cart_count' => $cartCount
+                ]);
             }
-            return redirect()->back()->with('error', 'Stok produk tidak mencukupi');
+
+            return redirect()->route('cart.index')->with('success', 'Keranjang berhasil diperbarui');
+        } catch (Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+            }
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $cart->update(['quantity' => $request->quantity]);
-
-        if ($request->wantsJson()) {
-            $cartItems = Cart::where('user_id', Auth::id())->get();
-            $grandTotal = $cartItems->sum('subtotal');
-            $totalItems = $cartItems->sum('quantity');
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Keranjang berhasil diperbarui',
-                'item_subtotal' => 'Rp ' . number_format($cart->subtotal, 0, ',', '.'),
-                'grand_total' => 'Rp ' . number_format($grandTotal, 0, ',', '.'),
-                'cart_count' => $cartItems->sum('quantity')
-            ]);
-        }
-
-        return redirect()->route('cart.index')->with('success', 'Keranjang berhasil diperbarui');
     }
 
     public function remove(Request $request, Cart $cart)
     {
-
         if ($cart->user_id !== Auth::id()) {
             abort(403);
         }
 
-        $cart->delete();
+        $this->cartService->removeItem($cart);
 
         if ($request->wantsJson()) {
-            $cartItems = Cart::where('user_id', Auth::id())->get();
-            $cartCount = $cartItems->sum('quantity');
-            $grandTotal = $cartItems->sum('subtotal');
-            $totalItems = $cartItems->count();
-
+            $userId = Auth::id();
+            $cartCount = $this->cartService->getCartCount($userId);
+            $grandTotal = $this->cartService->getGrandTotal($userId);
+            
+            // Re-fetch to check if empty
+            $isEmpty = $this->cartService->getUserCart($userId)->isEmpty();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Produk berhasil dihapus dari keranjang',
                 'cartCount' => $cartCount,
                 'grandTotal' => number_format($grandTotal, 0, ',', '.'),
-                'totalItems' => $totalItems,
-                'isEmpty' => $cartItems->isEmpty()
+                'totalItems' => $cartCount, // Approximation if count is items not types
+                'isEmpty' => $isEmpty
             ]);
         }
 
@@ -160,16 +118,7 @@ class CartController extends Controller
 
     public function clear(Request $request)
     {
-        $query = Cart::where('user_id', Auth::id());
-
-
-        if ($request->has('store_id')) {
-            $query->whereHas('product', function ($q) use ($request) {
-                $q->where('store_id', $request->store_id);
-            });
-        }
-
-        $query->delete();
+        $this->cartService->clearCart(Auth::id(), $request->store_id);
 
         return redirect()->route('cart.index')->with('success', 'Keranjang berhasil dikosongkan');
     }

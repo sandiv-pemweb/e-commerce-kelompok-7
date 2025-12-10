@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Wishlist;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use App\Services\WishlistService;
+use Exception;
 
 class WishlistController extends Controller
 {
+    public function __construct(protected WishlistService $wishlistService)
+    {
+    }
+
     public function index()
     {
-        $wishlists = Wishlist::where('user_id', Auth::id())
-            ->with('product.store')
-            ->latest()
-            ->paginate(10);
-            
+        $wishlists = $this->wishlistService->getUserWishlist(Auth::id());
         return view('wishlist.index', compact('wishlists'));
     }
 
@@ -25,54 +26,36 @@ class WishlistController extends Controller
             'product_id' => 'required|exists:products,id',
         ]);
 
-        $wishlist = Wishlist::where('user_id', Auth::id())
-            ->where('product_id', $request->product_id)
-            ->first();
-
-        if ($wishlist) {
-            $wishlist->delete();
-            $added = false;
-            $message = 'Produk dihapus dari wishlist';
-        } else {
-            Wishlist::create([
-                'user_id' => Auth::id(),
-                'product_id' => $request->product_id,
-            ]);
-            $added = true;
-            $message = 'Produk berhasil ditambahkan ke wishlist';
-        }
-
-        $count = Wishlist::where('user_id', Auth::id())->count();
+        $result = $this->wishlistService->toggleWishlist(Auth::id(), $request->product_id);
 
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'added' => $added,
-                'message' => $message,
-                'count' => $count
+                ...$result
             ]);
         }
 
-        return redirect()->back()->with('success', $message);
+        return redirect()->back()->with('success', $result['message']);
     }
 
     public function destroy(Request $request, Wishlist $wishlist)
     {
-        if ($wishlist->user_id !== Auth::id()) {
-            abort(403);
+        try {
+            $result = $this->wishlistService->deleteWishlist($wishlist, Auth::id());
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    ...$result
+                ]);
+            }
+
+            return redirect()->back()->with('success', $result['message']);
+        } catch (Exception $e) {
+             if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode() ?: 500);
+            }
+            abort($e->getCode() ?: 500);
         }
-
-        $wishlist->delete();
-
-        if ($request->wantsJson()) {
-            $count = Wishlist::where('user_id', Auth::id())->count();
-            return response()->json([
-                'success' => true,
-                'message' => 'Produk dihapus dari wishlist',
-                'count' => $count
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'Produk dihapus dari wishlist');
     }
 }

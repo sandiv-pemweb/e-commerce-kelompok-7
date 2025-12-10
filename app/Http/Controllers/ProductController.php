@@ -4,98 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\ProductCategory;
 use App\Models\Store;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
+    public function __construct(protected ProductService $productService)
+    {
+    }
+
     public function index(Request $request)
     {
-        $query = Product::with(['store', 'productCategory', 'productImages', 'productReviews'])
-            ->whereHas('store', function ($query) {
-                $query->where('is_verified', true)
-                    ->whereNotNull('slug');
-            })
-            ->available();
+        $products = $this->productService->listProducts($request->all());
+        $categories = $this->productService->getCategories();
+        $priceRange = $this->productService->getPriceRange();
 
-
-        if ($request->has('search') && $request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%');
-        }
-
-
-        if ($request->has('categories') && is_array($request->categories)) {
-            $query->whereIn('product_category_id', $request->categories);
-        } elseif ($request->has('category') && $request->category) {
-
-            $query->where('product_category_id', $request->category);
-        }
-
-
-        if ($request->has('min_price')) {
-            $query->where('price', '>=', $request->min_price);
-        }
-        if ($request->has('max_price')) {
-            $query->where('price', '<=', $request->max_price);
-        }
-
-
-        if ($request->has('sort')) {
-            switch ($request->sort) {
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
-                    break;
-                case 'newest':
-                    $query->latest();
-                    break;
-                default:
-                    $query->latest();
-                    break;
-            }
-        } else {
-            $query->latest();
-        }
-
-        $products = $query->paginate(12)->withQueryString();
-
-        $categories = ProductCategory::whereNull('parent_id')
-            ->with('children')
-            ->get();
-
-
-        $minPrice = Product::min('price') ?? 0;
-        $maxPrice = Product::max('price') ?? 1000000;
+        $minPrice = $priceRange['min'];
+        $maxPrice = $priceRange['max'];
 
         return view('products.index', compact('products', 'categories', 'minPrice', 'maxPrice'));
     }
 
     public function show(Store $store, Product $product)
     {
-
         if ($product->store_id !== $store->id) {
             abort(404);
         }
-        $product->load(['store', 'productCategory', 'productImages', 'productReviews.transaction.buyer.user']);
 
+        // Re-fetch product through service to ensure consistent eager loading
+        $product = $this->productService->getProduct($product->id);
 
         $averageRating = $product->productReviews()->avg('rating') ?? 0;
         $totalReviews = $product->productReviews()->count();
 
-
-        $relatedProducts = Product::with(['store', 'productImages'])
-            ->whereHas('store', function ($query) {
-                $query->where('is_verified', true)
-                    ->whereNotNull('slug');
-            })
-            ->where('product_category_id', $product->product_category_id)
-            ->where('id', '!=', $product->id)
-            ->available()
-            ->limit(4)
-            ->get();
+        $relatedProducts = $this->productService->getRelatedProducts($product);
 
         return view('products.show', compact('product', 'averageRating', 'totalReviews', 'relatedProducts'));
     }

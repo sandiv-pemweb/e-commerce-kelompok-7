@@ -3,47 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cart;
-use App\Models\Transaction;
-use App\Models\TransactionDetail;
-use App\Models\Buyer;
-use App\Models\Product;
+use App\Services\CartService;
+use App\Services\TransactionService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
+use Exception;
 
 class CheckoutController extends Controller
 {
+    public function __construct(
+        protected CartService $cartService,
+        protected TransactionService $transactionService
+    ) {}
 
     public function index(Request $request)
     {
-
-        $query = Cart::where('user_id', Auth::id())
-            ->with(['product.store', 'product.productImages']);
-
+        $userId = Auth::id();
+        
+        // We can reuse CartService logic here partially or just get cart items
+        // Since filtering by specific stores is a UI feature, we might need a method in Service or just filter collection
+        $cartItems = $this->cartService->getUserCart($userId);
 
         if ($request->has('stores') && is_array($request->stores)) {
-            $query->whereHas('product', function ($q) use ($request) {
-                $q->whereIn('store_id', $request->stores);
+            $storeIds = $request->stores;
+            $cartItems = $cartItems->filter(function ($item) use ($storeIds) {
+                return in_array($item->product->store_id, $storeIds);
             });
         }
-
-        $cartItems = $query->get();
 
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Keranjang belanja kosong');
         }
 
-
         $cartByStore = $cartItems->groupBy(function ($cart) {
             return $cart->product->store_id;
         });
 
-
-        $grandTotal = $cartItems->sum(function ($cart) {
-            return $cart->subtotal;
-        });
+        $grandTotal = $cartItems->sum('subtotal');
 
         return view('checkout.index', compact('cartByStore', 'grandTotal'));
     }
@@ -60,94 +55,10 @@ class CheckoutController extends Controller
             'stores.*.shipping_cost' => 'required|numeric|min:0',
         ]);
 
-        DB::beginTransaction();
         try {
-
-            $buyer = Buyer::firstOrCreate(
-                ['user_id' => Auth::id()],
-                ['phone_number' => Auth::user()->email]
-            );
-
-            $createdOrders = [];
-
-
-            foreach ($request->stores as $storeData) {
-                $storeId = $storeData['store_id'];
-
-
-                $cartItems = Cart::where('user_id', Auth::id())
-                    ->whereHas('product', function ($q) use ($storeId) {
-                        $q->where('store_id', $storeId);
-                    })
-                    ->with('product')
-                    ->get();
-
-                if ($cartItems->isEmpty()) {
-                    continue;
-                }
-
-
-                foreach ($cartItems as $cartItem) {
-                    if (!$cartItem->product->isAvailable($cartItem->quantity)) {
-                        throw new \Exception("Produk {$cartItem->product->name} stok tidak mencukupi");
-                    }
-                }
-
-
-                $subtotal = $cartItems->sum(function ($cart) {
-                    return $cart->subtotal;
-                });
-                $shippingCost = $storeData['shipping_cost'];
-                $tax = $subtotal * 0.11;
-                $grandTotal = $subtotal + $shippingCost + $tax;
-
-
-                $transactionCode = 'TRX-' . strtoupper(Str::random(10));
-
-
-                $transaction = Transaction::create([
-                    'code' => $transactionCode,
-                    'buyer_id' => $buyer->id,
-                    'store_id' => $storeId,
-                    'address' => $request->address,
-                    'address_id' => 'ADDR-' . time(),
-                    'city' => $request->city,
-                    'postal_code' => $request->postal_code,
-                    'shipping' => $storeData['shipping_type'],
-                    'shipping_type' => $storeData['shipping_type'],
-                    'shipping_cost' => $shippingCost,
-                    'tax' => $tax,
-                    'grand_total' => $grandTotal,
-                    'payment_status' => 'unpaid',
-                    'order_status' => 'pending',
-                ]);
-
-
-                foreach ($cartItems as $cartItem) {
-                    TransactionDetail::create([
-                        'transaction_id' => $transaction->id,
-                        'product_id' => $cartItem->product_id,
-                        'qty' => $cartItem->quantity,
-                        'subtotal' => $cartItem->subtotal,
-                    ]);
-
-
-                    $cartItem->product->decrement('stock', $cartItem->quantity);
-                }
-
-
-                $cartItems->each->delete();
-
-                $createdOrders[] = $transaction->id;
-            }
-
-            DB::commit();
-
-
+            $this->transactionService->checkout(Auth::id(), $request->all());
             return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat! Silakan lakukan pembayaran.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'Checkout gagal: ' . $e->getMessage())->withInput();
         }
     }

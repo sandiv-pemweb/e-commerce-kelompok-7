@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Store;
-use App\Models\StoreBalance;
 use Illuminate\Http\Request;
+use App\Services\StoreService;
+use Exception;
 
 class AdminStoreController extends Controller
 {
+    public function __construct(protected StoreService $storeService)
+    {
+    }
 
     public function index(Request $request)
     {
-        $query = Store::with('user')
-            ->withCount('products')
-            ->latest();
-
+        $query = Store::with('user')->withCount('products')->latest();
 
         if ($request->filled('q')) {
             $query->where('name', 'like', "%{$request->q}%");
         }
-
 
         if ($request->filled('status')) {
             if ($request->status === 'pending') {
@@ -31,7 +31,6 @@ class AdminStoreController extends Controller
                 $query->onlyTrashed();
             }
         } else {
-
             $query->withTrashed();
         }
 
@@ -40,67 +39,42 @@ class AdminStoreController extends Controller
         return view('admin.stores.index', compact('stores'));
     }
 
-
     public function show(Store $store)
     {
-        $store->load([
-            'user',
-            'products' => fn($query) => $query->latest()->take(10),
-            'storeBalance'
-        ])
-            ->loadCount(['products', 'transactions']);
+        $store->load(['user', 'products' => fn($query) => $query->latest()->take(10), 'storeBalance'])
+              ->loadCount(['products', 'transactions']);
 
         return view('admin.stores.show', compact('store'));
     }
 
-
     public function verify(Store $store)
     {
-        if ($store->is_verified) {
-            return back()->with('info', 'Toko sudah terverifikasi.');
+        try {
+            $this->storeService->verifyStore($store);
+            return redirect()->route('admin.stores.show', $store)->with('success', 'Toko berhasil diverifikasi.');
+        } catch (Exception $e) {
+            return back()->with('info', $e->getMessage());
         }
-
-        $store->update(['is_verified' => true]);
-
-
-        if (!$store->storeBalance) {
-            $store->storeBalance()->create([
-                'balance' => 0,
-            ]);
-        }
-
-        return redirect()->route('admin.stores.show', $store)
-            ->with('success', 'Toko berhasil diverifikasi.');
     }
-
 
     public function reject(Store $store)
     {
         if ($store->is_verified) {
-            return back()->with('error', 'Toko yang sudah terverifikasi tidak dapat ditolak.');
+             return back()->with('error', 'Toko yang sudah terverifikasi tidak dapat ditolak.');
         }
-
-        $store->delete();
-
-        return redirect()->route('admin.stores.index')
-            ->with('success', 'Pengajuan toko ditolak dan dihapus.');
+        $this->storeService->deleteStore($store);
+        return redirect()->route('admin.stores.index')->with('success', 'Pengajuan toko ditolak dan dihapus.');
     }
-
 
     public function destroy(Store $store)
     {
-        $store->delete();
-
-        return redirect()->route('admin.stores.index')
-            ->with('success', 'Toko berhasil dihapus.');
+        $this->storeService->deleteStore($store);
+        return redirect()->route('admin.stores.index')->with('success', 'Toko berhasil dihapus.');
     }
-
 
     public function restore(Store $store)
     {
-        $store->restore();
-
-        return redirect()->route('admin.stores.index')
-            ->with('success', 'Toko berhasil dipulihkan.');
+        $store->restore(); // Directly reusing model method or can add to service if needed for generic restore by ID
+        return redirect()->route('admin.stores.index')->with('success', 'Toko berhasil dipulihkan.');
     }
 }
