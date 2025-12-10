@@ -149,7 +149,7 @@ window.toggleWishlist = function (button, productId) {
         });
 };
 
-window.addToCart = function (productId, quantity = 1) {
+window.addToCart = function (productId, quantity = 1, redirectToCheckout = false) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]');
     const baseUrl = document.querySelector('meta[name="base-url"]');
 
@@ -177,6 +177,13 @@ window.addToCart = function (productId, quantity = 1) {
         })
         .then(data => {
             if (data.success) {
+                // If redirect requested, go to checkout immediately
+                if (redirectToCheckout) {
+                    const checkoutUrl = baseUrl ? `${baseUrl.getAttribute('content')}/checkout` : '/checkout';
+                    window.location.href = checkoutUrl;
+                    return;
+                }
+
                 // Update ALL cart counts in navbar
                 const cartCounts = document.querySelectorAll('.cart-count');
                 cartCounts.forEach(countEl => {

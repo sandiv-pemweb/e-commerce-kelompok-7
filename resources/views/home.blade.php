@@ -66,10 +66,10 @@
 
                             <div class="mt-10 flex gap-4 sm:justify-center lg:justify-start">
                                 <div class="rounded-xl shadow-lg shadow-brand-orange/20">
-                                    <a href="{{ route('products.show', ['store' => $heroProduct->store->slug, 'product' => $heroProduct->slug]) }}"
+                                    <button onclick="addToCart({{ $heroProduct->id }}, 1, true)"
                                         class="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-white bg-brand-dark hover:bg-brand-orange transition-all transform hover:-translate-y-1 md:text-lg md:px-10">
                                         Beli Sekarang
-                                    </a>
+                                    </button>
                                 </div>
                                 <div>
                                     <a href="{{ route('products.show', ['store' => $heroProduct->store->slug, 'product' => $heroProduct->slug]) }}"
