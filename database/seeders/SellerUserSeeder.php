@@ -23,7 +23,7 @@ class SellerUserSeeder extends Seeder
     {
         // Seller 1 - BookLand Official (Verified)
         $seller1 = User::create([
-            'name' => 'SanDiv Admin',
+            'name' => 'Ikhsan Naufal',
             'email' => 'seller1@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',

@@ -17,7 +17,7 @@ class MemberUserSeeder extends Seeder
     {
         // Regular member 1
         $user1 = User::create([
-            'name' => 'Andi Wijaya',
+            'name' => 'Naufal Rabani',
             'email' => 'buyer1@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',
@@ -27,7 +27,7 @@ class MemberUserSeeder extends Seeder
 
         // Regular member 2
         $user2 = User::create([
-            'name' => 'Rina Marlina',
+            'name' => 'Putra Arviansyah',
             'email' => 'buyer2@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',
@@ -37,7 +37,7 @@ class MemberUserSeeder extends Seeder
 
         // Regular member 3
         $user3 = User::create([
-            'name' => 'Bambang Pamungkas',
+            'name' => 'Eka Putra',
             'email' => 'buyer3@example.com',
             'password' => Hash::make('password'),
             'role' => 'member',

@@ -80,11 +80,11 @@
                                     <div class="space-y-2 pl-16">
                                         <div class="flex justify-between items-center border-b border-blue-200 pb-2">
                                             <span class="text-blue-800">Nomor Rekening</span>
-                                            <span class="font-mono font-bold text-blue-900 text-lg">1234567890</span>
+                                            <span class="font-mono font-bold text-blue-900 text-lg">000693812347</span>
                                         </div>
                                         <div class="flex justify-between items-center pt-2">
                                             <span class="text-blue-800">Atas Nama</span>
-                                            <span class="font-bold text-blue-900">E-Commerce Platform</span>
+                                            <span class="font-bold text-blue-900">SanDiv BookStore</span>
                                         </div>
                                     </div>
                                 </div>
