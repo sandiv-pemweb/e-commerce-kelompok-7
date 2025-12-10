@@ -31,7 +31,6 @@ class ProductController extends Controller
             abort(404);
         }
 
-        // Re-fetch product through service to ensure consistent eager loading
         $product = $this->productService->getProduct($product->id);
 
         $averageRating = $product->productReviews()->avg('rating') ?? 0;

@@ -19,8 +19,6 @@ class CheckoutController extends Controller
     {
         $userId = Auth::id();
         
-        // We can reuse CartService logic here partially or just get cart items
-        // Since filtering by specific stores is a UI feature, we might need a method in Service or just filter collection
         $cartItems = $this->cartService->getUserCart($userId);
 
         if ($request->has('stores') && is_array($request->stores)) {
