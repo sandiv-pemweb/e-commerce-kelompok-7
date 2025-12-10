@@ -7,8 +7,8 @@
 
     <div class="py-6 bg-brand-gray min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Welcome Section -->
-            <div class="bg-white overflow-hidden shadow-sm rounded-3xl mb-8 border border-gray-100 relative">
+
+            <div class="bg-white overflow-hidden shadow-sm rounded-3xl mb-10 border border-gray-100 relative">
                 <!-- Decorative Blob -->
                 <div
                     class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-brand-orange rounded-full opacity-10 blur-2xl">
@@ -43,7 +43,8 @@
 
             @if(Auth::user()->isAdmin())
                 <!-- Admin Dashboard -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <h3 class="text-xl font-bold text-brand-dark mb-6">Ringkasan Admin</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
                     <!-- Store Management Card -->
                     <div
                         class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
@@ -60,8 +61,7 @@
                                 <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Manajemen</span>
                             </div>
                             <h3 class="text-xl font-bold text-brand-dark mb-2">Kelola Toko</h3>
-                            <p class="text-gray-500 mb-6 text-sm">Verifikasi toko baru, kelola status, dan pantau aktivitas
-                                penjual.</p>
+                            <p class="text-gray-500 mb-6 text-sm">Verifikasi toko baru dan kelola status penjual.</p>
                             <a href="{{ route('admin.stores.index') }}"
                                 class="inline-flex items-center text-indigo-600 font-bold hover:text-indigo-800 transition-colors">
                                 Lihat Semua Toko <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
@@ -89,8 +89,7 @@
                                 <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Pengguna</span>
                             </div>
                             <h3 class="text-xl font-bold text-brand-dark mb-2">Kelola Pengguna</h3>
-                            <p class="text-gray-500 mb-6 text-sm">Kelola peran pengguna, izin, dan pantau aktivitas anggota.
-                            </p>
+                            <p class="text-gray-500 mb-6 text-sm">Atur hak akses dan pantau aktivitas pengguna.</p>
                             <a href="{{ route('admin.users.index') }}"
                                 class="inline-flex items-center text-purple-600 font-bold hover:text-purple-800 transition-colors">
                                 Lihat Semua Pengguna <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
@@ -118,7 +117,7 @@
                                 <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Pesanan</span>
                             </div>
                             <h3 class="text-xl font-bold text-brand-dark mb-2">Kelola Pesanan</h3>
-                            <p class="text-gray-500 mb-6 text-sm">Verifikasi pembayaran, lihat detail pesanan, dan pantau status pengiriman.</p>
+                            <p class="text-gray-500 mb-6 text-sm">Cek pembayaran dan pantau status pengiriman.</p>
                             <a href="{{ route('admin.orders.index') }}"
                                 class="inline-flex items-center text-red-600 font-bold hover:text-red-800 transition-colors">
                                 Lihat Semua Pesanan <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
@@ -148,10 +147,10 @@
                             <h3 class="text-xl font-bold text-brand-dark mb-2">Penarikan Dana</h3>
                             <p class="text-gray-500 mb-6 text-sm">
                                 @if(isset($pendingWithdrawalsCount) && $pendingWithdrawalsCount > 0)
-                                    <span class="text-red-500 font-bold">{{ $pendingWithdrawalsCount }} permintaan</span>
-                                    menunggu persetujuan.
+                                    <span class="text-red-500 font-bold">{{ $pendingWithdrawalsCount }} Permintaan</span>
+                                    penarikan dana menunggu persetujuan.
                                 @else
-                                    Tidak ada permintaan penarikan baru saat ini.
+                                    Belum ada permintaan penarikan dana baru.
                                 @endif
                             </p>
                             <a href="{{ route('admin.withdrawals.index') }}"
@@ -166,9 +165,122 @@
                     </div>
                 </div>
 
+                @if(isset($adminSalesChartData) && isset($adminOrderStatusChartData))
+                    <h3 class="text-xl font-bold text-brand-dark mb-6">Analisis Platform</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+                        <!-- Admin Sales Trend Chart -->
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2">
+                            <h4 class="font-bold text-gray-700 mb-4">Total Transaksi (30 Hari Terakhir)</h4>
+                            <div class="relative h-64">
+                                <canvas id="adminSalesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Admin Order Status Chart -->
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-gray-700 mb-4">Distribusi Status Pesanan</h4>
+                            <div class="relative h-64">
+                                <canvas id="adminOrderStatusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart.js Logic for Admin -->
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Admin Sales Chart
+                            if (document.getElementById('adminSalesChart')) {
+                                const adminSalesCtx = document.getElementById('adminSalesChart').getContext('2d');
+                                new Chart(adminSalesCtx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: @json($adminSalesChartData['labels']),
+                                        datasets: [{
+                                            label: 'Total Transaksi',
+                                            data: @json($adminSalesChartData['data']),
+                                            borderColor: '#4F46E5', // Indigo-600
+                                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                                            borderWidth: 2,
+                                            fill: true,
+                                            tension: 0.4,
+                                            pointBackgroundColor: '#fff',
+                                            pointBorderColor: '#4F46E5',
+                                            pointBorderWidth: 2,
+                                            pointRadius: 4,
+                                            pointHoverRadius: 6
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: { display: false },
+                                            tooltip: {
+                                                callbacks: {
+                                                    label: function(context) {
+                                                        let label = context.dataset.label || '';
+                                                        if (label) { label += ': '; }
+                                                        if (context.parsed.y !== null) {
+                                                            label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(context.parsed.y);
+                                                        }
+                                                        return label;
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: { borderDash: [2, 4], color: '#f3f4f6' },
+                                                ticks: {
+                                                    callback: function(value) { return 'Rp ' + (value / 1000) + 'k'; }
+                                                }
+                                            },
+                                            x: { grid: { display: false } }
+                                        },
+                                        interaction: { intersect: false, mode: 'index' }
+                                    }
+                                });
+                            }
+
+                            // Admin Order Status Chart
+                            if (document.getElementById('adminOrderStatusChart')) {
+                                const adminStatusCtx = document.getElementById('adminOrderStatusChart').getContext('2d');
+                                new Chart(adminStatusCtx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: @json($adminOrderStatusChartData['labels']),
+                                        datasets: [{
+                                            data: @json($adminOrderStatusChartData['data']),
+                                            backgroundColor: [
+                                                '#FCD34D', // Amber-300 (Pending)
+                                                '#3B82F6', // Blue-500 (Processing)
+                                                '#8B5CF6', // Purple-500 (Shipped)
+                                                '#10B981', // Emerald-500 (Completed)
+                                                '#EF4444', // Red-500 (Cancelled)
+                                            ],
+                                            borderWidth: 0,
+                                            hoverOffset: 4
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: { position: 'right' }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+                @endif
+
             @elseif(Auth::user()->store)
                 @if(Auth::user()->store->is_verified)
                     <!-- Verified Seller Dashboard -->
+                    <h3 class="text-xl font-bold text-brand-dark mb-6">Ringkasan Toko</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
                         <!-- Total Orders -->
                         <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
@@ -233,6 +345,130 @@
                             </div>
                         </div>
                     </div>
+
+                    @if(isset($salesChartData) && isset($topProductsChartData))
+                        <h3 class="text-xl font-bold text-brand-dark mb-6">Analisis Penjualan</h3>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+                            <!-- Sales Trend Chart -->
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2">
+                                <h4 class="font-bold text-gray-700 mb-4">Pendapatan 30 Hari Terakhir</h4>
+                                <div class="relative h-64">
+                                    <canvas id="salesChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Top Products Chart -->
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                                <h4 class="font-bold text-gray-700 mb-4">5 Produk Terlaris</h4>
+                                <div class="relative h-64">
+                                    <canvas id="topProductsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart.js Logic -->
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Sales Chart
+                                const salesCtx = document.getElementById('salesChart').getContext('2d');
+                                new Chart(salesCtx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: @json($salesChartData['labels']),
+                                        datasets: [{
+                                            label: 'Pendapatan',
+                                            data: @json($salesChartData['data']),
+                                            borderColor: '#FF6B00',
+                                            backgroundColor: 'rgba(255, 107, 0, 0.1)',
+                                            borderWidth: 2,
+                                            fill: true,
+                                            tension: 0.4,
+                                            pointBackgroundColor: '#fff',
+                                            pointBorderColor: '#FF6B00',
+                                            pointBorderWidth: 2,
+                                            pointRadius: 4,
+                                            pointHoverRadius: 6
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: { display: false },
+                                            tooltip: {
+                                                callbacks: {
+                                                    label: function(context) {
+                                                        let label = context.dataset.label || '';
+                                                        if (label) {
+                                                            label += ': ';
+                                                        }
+                                                        if (context.parsed.y !== null) {
+                                                            label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(context.parsed.y);
+                                                        }
+                                                        return label;
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: { borderDash: [2, 4], color: '#f3f4f6' },
+                                                ticks: {
+                                                    callback: function(value, index, values) {
+                                                        return 'Rp ' + (value / 1000) + 'k';
+                                                    }
+                                                }
+                                            },
+                                            x: {
+                                                grid: { display: false }
+                                            }
+                                        },
+                                        interaction: {
+                                            intersect: false,
+                                            mode: 'index',
+                                        },
+                                    }
+                                });
+
+                                // Top Products Chart
+                                const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+                                new Chart(topProductsCtx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: @json($topProductsChartData['labels']),
+                                        datasets: [{
+                                            label: 'Terjual',
+                                            data: @json($topProductsChartData['data']),
+                                            backgroundColor: [
+                                                '#FF6B00', '#10B981', '#3B82F6', '#8B5CF6', '#EF4444'
+                                            ],
+                                            borderRadius: 8,
+                                            barThickness: 30
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: { display: false }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: { borderDash: [2, 4], color: '#f3f4f6' },
+                                                ticks: { stepSize: 1 }
+                                            },
+                                            x: {
+                                                grid: { display: false }
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                    @endif
 
                     <!-- Quick Actions -->
                     <h3 class="text-xl  font-bold text-brand-dark mb-6">Aksi Cepat</h3>
