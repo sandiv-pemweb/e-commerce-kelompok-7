@@ -29,7 +29,7 @@ class ProductReview extends Model
         return $this->belongsTo(Buyer::class);
     }
 
-    // Helper to get user who made the review
+
     public function user()
     {
         return $this->buyer->user;

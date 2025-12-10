@@ -19,7 +19,7 @@
                 <div class="space-y-4 md:space-y-6">
                     @foreach($orders as $order)
                         <div class="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden group">
-                            <!-- Order Header -->
+
                             <div class="bg-gray-50/50 px-4 md:px-6 py-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                 <div class="flex flex-wrap gap-x-6 gap-y-2 w-full md:w-auto">
                                     <div class="w-1/2 md:w-auto">
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
 
-                            <!-- Order Items -->
+
                             <div class="p-4 md:p-6">
                                 <div class="space-y-4 md:space-y-6">
                                     @foreach($order->transactionDetails as $detail)
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
 
-                            <!-- Order Footer -->
+
                             <div class="bg-gray-50/50 px-4 md:px-6 py-4 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
                                 <div class="flex items-center justify-between w-full md:w-auto gap-2">
                                     <span class="text-sm text-gray-500">Total Pesanan:</span>

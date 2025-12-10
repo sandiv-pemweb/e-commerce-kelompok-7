@@ -18,11 +18,11 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-        // Get cart items for selected stores
+
         $query = Cart::where('user_id', Auth::id())
             ->with(['product.store', 'product.productImages']);
 
-        // If specific stores selected
+
         if ($request->has('stores') && is_array($request->stores)) {
             $query->whereHas('product', function ($q) use ($request) {
                 $q->whereIn('store_id', $request->stores);
@@ -35,12 +35,12 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Keranjang belanja kosong');
         }
 
-        // Group by store
+
         $cartByStore = $cartItems->groupBy(function ($cart) {
             return $cart->product->store_id;
         });
 
-        // Calculate grand total
+
         $grandTotal = $cartItems->sum(function ($cart) {
             return $cart->subtotal;
         });
@@ -62,19 +62,19 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            // Get or create buyer
+
             $buyer = Buyer::firstOrCreate(
                 ['user_id' => Auth::id()],
-                ['phone_number' => Auth::user()->email] // Default to email if no phone
+                ['phone_number' => Auth::user()->email]
             );
 
             $createdOrders = [];
 
-            // Process each store separately
+
             foreach ($request->stores as $storeData) {
                 $storeId = $storeData['store_id'];
-                
-                // Get cart items for this store
+
+
                 $cartItems = Cart::where('user_id', Auth::id())
                     ->whereHas('product', function ($q) use ($storeId) {
                         $q->where('store_id', $storeId);
@@ -86,25 +86,25 @@ class CheckoutController extends Controller
                     continue;
                 }
 
-                // Validate stock for all products
+
                 foreach ($cartItems as $cartItem) {
                     if (!$cartItem->product->isAvailable($cartItem->quantity)) {
                         throw new \Exception("Produk {$cartItem->product->name} stok tidak mencukupi");
                     }
                 }
 
-                // Calculate totals
+
                 $subtotal = $cartItems->sum(function ($cart) {
                     return $cart->subtotal;
                 });
                 $shippingCost = $storeData['shipping_cost'];
-                $tax = $subtotal * 0.11; // 11% PPN
+                $tax = $subtotal * 0.11;
                 $grandTotal = $subtotal + $shippingCost + $tax;
 
-                // Generate unique transaction code
+
                 $transactionCode = 'TRX-' . strtoupper(Str::random(10));
 
-                // Create transaction
+
                 $transaction = Transaction::create([
                     'code' => $transactionCode,
                     'buyer_id' => $buyer->id,
@@ -122,7 +122,7 @@ class CheckoutController extends Controller
                     'order_status' => 'pending',
                 ]);
 
-                // Create transaction details
+
                 foreach ($cartItems as $cartItem) {
                     TransactionDetail::create([
                         'transaction_id' => $transaction->id,
@@ -131,11 +131,11 @@ class CheckoutController extends Controller
                         'subtotal' => $cartItem->subtotal,
                     ]);
 
-                    // Update product stock
+
                     $cartItem->product->decrement('stock', $cartItem->quantity);
                 }
 
-                // Remove items from cart
+
                 $cartItems->each->delete();
 
                 $createdOrders[] = $transaction->id;
@@ -143,7 +143,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            // Redirect to orders list with success message
+
             return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat! Silakan lakukan pembayaran.');
 
         } catch (\Exception $e) {

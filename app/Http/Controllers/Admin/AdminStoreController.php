@@ -9,24 +9,19 @@ use Illuminate\Http\Request;
 
 class AdminStoreController extends Controller
 {
-    /**
-     * Display a listing of all stores with user and product count.
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
-     */
+
     public function index(Request $request)
     {
         $query = Store::with('user')
-                     ->withCount('products')
-                     ->latest();
+            ->withCount('products')
+            ->latest();
 
-        // Filter by search query
+
         if ($request->filled('q')) {
             $query->where('name', 'like', "%{$request->q}%");
         }
 
-        // Filter by verification status
+
         if ($request->filled('status')) {
             if ($request->status === 'pending') {
                 $query->where('is_verified', false);
@@ -36,7 +31,7 @@ class AdminStoreController extends Controller
                 $query->onlyTrashed();
             }
         } else {
-            // When no filter is selected, show all stores including trashed ones
+
             $query->withTrashed();
         }
 
@@ -45,9 +40,7 @@ class AdminStoreController extends Controller
         return view('admin.stores.index', compact('stores'));
     }
 
-    /**
-     * Display the specified store with all relationships.
-     */
+
     public function show(Store $store)
     {
         $store->load([
@@ -55,14 +48,12 @@ class AdminStoreController extends Controller
             'products' => fn($query) => $query->latest()->take(10),
             'storeBalance'
         ])
-        ->loadCount(['products', 'transactions']);
+            ->loadCount(['products', 'transactions']);
 
         return view('admin.stores.show', compact('store'));
     }
 
-    /**
-     * Verify (approve) a store registration.
-     */
+
     public function verify(Store $store)
     {
         if ($store->is_verified) {
@@ -71,7 +62,7 @@ class AdminStoreController extends Controller
 
         $store->update(['is_verified' => true]);
 
-        // Create store balance if it doesn't exist
+
         if (!$store->storeBalance) {
             $store->storeBalance()->create([
                 'balance' => 0,
@@ -79,12 +70,10 @@ class AdminStoreController extends Controller
         }
 
         return redirect()->route('admin.stores.show', $store)
-                       ->with('success', 'Toko berhasil diverifikasi.');
+            ->with('success', 'Toko berhasil diverifikasi.');
     }
 
-    /**
-     * Reject a store registration.
-     */
+
     public function reject(Store $store)
     {
         if ($store->is_verified) {
@@ -94,28 +83,24 @@ class AdminStoreController extends Controller
         $store->delete();
 
         return redirect()->route('admin.stores.index')
-                       ->with('success', 'Pengajuan toko ditolak dan dihapus.');
+            ->with('success', 'Pengajuan toko ditolak dan dihapus.');
     }
 
-    /**
-     * Remove the specified store from storage.
-     */
+
     public function destroy(Store $store)
     {
         $store->delete();
 
         return redirect()->route('admin.stores.index')
-                       ->with('success', 'Toko berhasil dihapus.');
+            ->with('success', 'Toko berhasil dihapus.');
     }
 
-    /**
-     * Restore the specified deleted store.
-     */
+
     public function restore(Store $store)
     {
         $store->restore();
 
         return redirect()->route('admin.stores.index')
-                       ->with('success', 'Toko berhasil dipulihkan.');
+            ->with('success', 'Toko berhasil dipulihkan.');
     }
 }

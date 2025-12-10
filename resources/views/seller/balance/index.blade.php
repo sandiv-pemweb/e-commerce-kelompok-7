@@ -21,7 +21,7 @@
                 </div>
             @endif
 
-            <!-- Balance Card -->
+
             <div class="bg-white shadow-sm rounded-3xl border border-gray-100 overflow-hidden">
                 <div class="p-8">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-8">
@@ -42,7 +42,7 @@
                                     <svg class="w-4 h-4 text-gray-300 hover:text-gray-500 cursor-help transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-gray-800 text-white text-xs rounded-xl py-3 px-4 hidden group-hover:block transition-all z-10 text-center shadow-xl">
                                         Dana dari pesanan yang sedang berlangsung. Dana akan masuk ke Saldo Aktif setelah pesanan selesai.
-                                        <!-- Triangle pointing up -->
+
                                         <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-gray-800"></div>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                 </div>
             </div>
 
-            <!-- Tabs -->
+
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100">
                 <div class="border-b border-gray-100 px-8 pt-6">
                     <nav class="-mb-px flex gap-6" aria-label="Tabs">
@@ -85,7 +85,7 @@
                     </nav>
                 </div>
 
-                <!-- Balance History Tab -->
+
                 <div id="content-history" class="tab-content p-8">
                     @if($balanceHistory->isEmpty())
                         <div class="text-center py-6">
@@ -133,7 +133,7 @@
                     @endif
                 </div>
 
-                <!-- Withdrawal Tab -->
+
                 <div id="content-withdrawal" class="tab-content hidden p-8">
                     @if($withdrawals->isEmpty())
                         <div class="text-center py-6">
@@ -201,7 +201,7 @@
         </div>
     </div>
 
-    <!-- Cancel Withdrawal Modals -->
+
     @foreach($withdrawals as $withdrawal)
         @if($withdrawal->status == 'pending')
         <x-confirmation-modal 

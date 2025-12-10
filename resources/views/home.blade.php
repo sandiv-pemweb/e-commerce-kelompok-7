@@ -1,5 +1,5 @@
 <x-store-layout>
-    <!-- Hero Section -->
+
     <section class="relative bg-white overflow-hidden flex flex-col-reverse lg:block">
         <div class="max-w-7xl mx-auto">
             <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
@@ -79,8 +79,7 @@
                                 </div>
                             </div>
                         @else
-                            <h1
-                                class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl ">
+                            <h1 class="text-4xl tracking-tight font-extrabold text-brand-dark sm:text-5xl md:text-6xl ">
                                 <span class="block xl:inline">SanDiv Store</span>
                             </h1>
                             <p class="mt-4 text-gray-500 text-base leading-relaxed max-w-lg">
@@ -88,7 +87,7 @@
                             </p>
                         @endif
 
-                        <!-- Partners -->
+
                         <div class="mt-12 pt-8 border-t border-gray-100">
                             <p class="text-sm text-gray-400 mb-4 font-medium">Mitra Terpercaya Kami</p>
                             <div
@@ -119,9 +118,9 @@
         </div>
         <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-white mb-8 lg:mb-0">
             <div class="relative h-[30rem] w-full sm:h-[32rem] md:h-[40rem] lg:h-full flex items-center justify-center">
-                <!-- Decorative Elements Removed -->
 
-                <!-- Hero Image -->
+
+
                 <div class="relative z-10 h-full w-full flex items-center justify-center p-4 pt-12 sm:p-8 lg:p-16">
                     @if($heroProduct && $heroProduct->productImages->count() > 0)
                         <img class="max-h-full w-auto object-contain rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-700"
@@ -133,7 +132,7 @@
                     @endif
                 </div>
 
-                <!-- Floating Card 1 -->
+
                 <div class="absolute top-20 left-4 scale-75 origin-top-left lg:origin-center lg:scale-100 lg:top-24 lg:left-10 bg-white p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-20 flex items-center gap-4 max-w-xs animate-bounce"
                     style="animation-duration: 3s;">
                     <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
@@ -150,7 +149,7 @@
                     </div>
                 </div>
 
-                <!-- Floating Card 2 -->
+
                 <div class="absolute top-32 right-4 scale-75 origin-top-right lg:origin-center lg:scale-100 lg:top-40 lg:right-20 bg-white p-3 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] z-20 flex flex-col items-center gap-1 animate-bounce"
                     style="animation-duration: 4s; animation-delay: 1s;">
                     <div class="flex -space-x-2">
@@ -169,7 +168,7 @@
         </div>
     </section>
 
-    <!-- Popular Section -->
+
     <section class="py-16 bg-brand-gray">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
@@ -181,7 +180,7 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                <!-- Product Card Loop -->
+
                 @foreach($featuredProducts as $product)
                     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
                         <div class="relative aspect-[2/3] bg-gray-200 overflow-hidden">

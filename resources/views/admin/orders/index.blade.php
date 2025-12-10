@@ -7,7 +7,7 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header & Filter -->
+
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100 mb-8">
                 <div class="p-8">
                     <form method="GET" action="{{ route('admin.orders.index') }}" class="flex flex-col md:flex-row gap-4 items-end">
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <!-- Orders Table -->
+
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100">
                 <div class="p-8">
                     @if($orders->isEmpty())
@@ -78,7 +78,7 @@
                                             </td>
                                             <td class="px-6 py-6">
                                                 <div class="flex flex-col gap-3">
-                                                    <!-- Buyer -->
+
                                                     <div class="flex items-center gap-3">
                                                         <img src="https://ui-avatars.com/api/?name={{ urlencode($order->buyer->user->name ?? 'User') }}&background=random&color=fff&size=32" 
                                                              class="w-8 h-8 rounded-full border border-white shadow-sm" alt="">
@@ -87,7 +87,7 @@
                                                             <p class="text-xs text-brand-orange font-bold">Pembeli</p>
                                                         </div>
                                                     </div>
-                                                    <!-- Store -->
+
                                                     <div class="flex items-center gap-3">
                                                          @if($order->store && $order->store->logo)
                                                             <img src="{{ $order->store->logo_url }}" 
@@ -109,7 +109,7 @@
                                             </td>
                                             <td class="px-6 py-6 whitespace-nowrap">
                                                 <div class="flex flex-col gap-2 items-start">
-                                                    <!-- Order Status -->
+
                                                     <span class="px-3 py-1 inline-flex items-center text-xs font-bold rounded-full 
                                                         {{ match($order->order_status) {
                                                             'completed' => 'bg-green-50 text-green-700 border border-green-100',
@@ -128,7 +128,7 @@
                                                         } }}
                                                     </span>
                                                     
-                                                    <!-- Payment Status -->
+
                                                     <span class="px-3 py-1 inline-flex items-center gap-1.5 text-xs font-bold rounded-full 
                                                         {{ match($order->payment_status) {
                                                             'paid' => 'bg-green-50 text-green-600',

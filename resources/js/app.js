@@ -6,31 +6,21 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-
-
-
-
-// Toast Notification Logic
 window.showToast = function (message, type = 'success') {
 
-
-    // Create toast container if it doesn't exist
     let container = document.getElementById('toast-container');
     if (!container) {
 
         container = document.createElement('div');
         container.id = 'toast-container';
-        // Use inline styles instead of Tailwind classes
         container.style.cssText = 'position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; align-items: center; pointer-events: none; width: 100%; max-width: 400px; padding: 0 16px;';
         document.body.appendChild(container);
 
     }
 
-    // Create toast element
     const toast = document.createElement('div');
     const bgColor = type === 'success' ? '#10b981' : (type === 'error' ? '#ef4444' : '#3b82f6');
 
-    // Use inline styles for guaranteed visibility
     toast.style.cssText = `
         background-color: ${bgColor};
         color: white;
@@ -52,7 +42,6 @@ window.showToast = function (message, type = 'success') {
         transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     `;
 
-    // Icon based on type
     let icon = '';
     if (type === 'success') {
         icon = `<svg style="width: 20px; height: 20px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
@@ -63,15 +52,12 @@ window.showToast = function (message, type = 'success') {
     toast.innerHTML = `${icon} <span>${message}</span>`;
     container.appendChild(toast);
 
-
-    // Animate in - use setTimeout to force reflow
     setTimeout(() => {
         toast.style.opacity = '1';
         toast.style.transform = 'translateY(0)';
 
     }, 10);
 
-    // Remove after 3 seconds
     setTimeout(() => {
         toast.style.opacity = '0';
         toast.style.transform = 'translateY(20px)';
@@ -82,9 +68,7 @@ window.showToast = function (message, type = 'success') {
     }, 3000);
 };
 
-// Global Wishlist & Cart Logic
 window.toggleWishlist = function (button, productId) {
-    // Add click animation
     button.classList.add('scale-75');
     setTimeout(() => button.classList.remove('scale-75'), 150);
 
@@ -112,7 +96,6 @@ window.toggleWishlist = function (button, productId) {
         })
         .then(data => {
             if (data.success) {
-                // Update icon
                 const svg = button.querySelector('svg');
                 if (svg) {
                     if (data.added) {
@@ -120,7 +103,6 @@ window.toggleWishlist = function (button, productId) {
                         button.classList.add('text-red-500');
                         svg.setAttribute('fill', 'currentColor');
 
-                        // Heart beat animation
                         button.classList.add('animate-ping-once');
                         setTimeout(() => button.classList.remove('animate-ping-once'), 500);
                     } else {
@@ -130,13 +112,11 @@ window.toggleWishlist = function (button, productId) {
                     }
                 }
 
-                // Update ALL wishlist counts in navbar
                 const wishlistCounts = document.querySelectorAll('.wishlist-count');
                 wishlistCounts.forEach(countEl => {
                     countEl.textContent = data.count;
                     countEl.style.display = data.count > 0 ? 'inline-flex' : 'none';
 
-                    // Badge pop animation
                     countEl.classList.add('scale-125');
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
@@ -177,30 +157,25 @@ window.addToCart = function (productId, quantity = 1, redirectToCheckout = false
         })
         .then(data => {
             if (data.success) {
-                // If redirect requested, go to checkout immediately
                 if (redirectToCheckout) {
                     const checkoutUrl = baseUrl ? `${baseUrl.getAttribute('content')}/checkout` : '/checkout';
                     window.location.href = checkoutUrl;
                     return;
                 }
 
-                // Update ALL cart counts in navbar
                 const cartCounts = document.querySelectorAll('.cart-count');
                 cartCounts.forEach(countEl => {
                     countEl.textContent = data.cartCount;
                     countEl.style.display = data.cartCount > 0 ? 'inline-flex' : 'none';
 
-                    // Badge pop animation
                     countEl.classList.add('scale-125');
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
 
-                // Show success toast
                 if (window.showToast) {
                     window.showToast(data.message || 'Produk berhasil ditambahkan', 'success');
                 }
             } else {
-                // Show error toast
                 if (window.showToast) {
                     window.showToast(data.message || 'Gagal menambahkan produk', 'error');
                 }
@@ -217,10 +192,8 @@ window.addToCart = function (productId, quantity = 1, redirectToCheckout = false
 };
 
 window.removeFromWishlist = function (button, wishlistId) {
-    // Find the container element to remove (adjust selector based on your layout)
     const itemContainer = button.closest('.group');
 
-    // Add loading state
     const originalContent = button.innerHTML;
     button.innerHTML = '<svg class="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
     button.disabled = true;
@@ -239,7 +212,6 @@ window.removeFromWishlist = function (button, wishlistId) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Animate removal
                 itemContainer.style.transition = 'all 0.5s ease';
                 itemContainer.style.opacity = '0';
                 itemContainer.style.transform = 'scale(0.9)';
@@ -247,13 +219,11 @@ window.removeFromWishlist = function (button, wishlistId) {
                 setTimeout(() => {
                     itemContainer.remove();
 
-                    // Check if empty
                     if (data.count === 0) {
-                        location.reload(); // Simple way to show empty state
+                        location.reload();
                     }
                 }, 500);
 
-                // Update navbar counts
                 const wishlistCounts = document.querySelectorAll('.wishlist-count');
                 wishlistCounts.forEach(countEl => {
                     countEl.textContent = data.count;
@@ -274,9 +244,8 @@ window.removeFromWishlist = function (button, wishlistId) {
 };
 
 window.removeFromCart = function (button, cartId) {
-    const itemContainer = button.closest('.p-6'); // Adjust based on cart layout
+    const itemContainer = button.closest('.p-6');
 
-    // Add loading state
     const originalContent = button.innerHTML;
     button.innerHTML = '<svg class="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Removing...';
     button.disabled = true;
@@ -295,19 +264,16 @@ window.removeFromCart = function (button, cartId) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Animate removal
                 itemContainer.style.transition = 'all 0.5s ease';
                 itemContainer.style.opacity = '0';
                 itemContainer.style.transform = 'translateX(20px)';
 
                 setTimeout(() => {
-                    // Find parent containers before removing
                     const itemsWrapper = itemContainer.parentElement;
                     const storeContainer = itemsWrapper.closest('.bg-white.rounded-xl');
 
                     itemContainer.remove();
 
-                    // Check if store is empty (no more items in the wrapper)
                     if (itemsWrapper.children.length === 0 && storeContainer) {
                         storeContainer.style.transition = 'all 0.5s ease';
                         storeContainer.style.opacity = '0';
@@ -317,7 +283,6 @@ window.removeFromCart = function (button, cartId) {
                         setTimeout(() => {
                             storeContainer.remove();
 
-                            // Update selected stores count
                             const selectedCount = document.querySelectorAll('.store-checkbox:checked').length;
                             const selectedStoresCountEl = document.getElementById('selectedStoresCount');
                             if (selectedStoresCountEl) {
@@ -326,13 +291,11 @@ window.removeFromCart = function (button, cartId) {
                         }, 500);
                     }
 
-                    // Check if cart is completely empty
                     if (data.isEmpty) {
                         location.reload();
                     }
                 }, 500);
 
-                // Update navbar counts
                 const cartCounts = document.querySelectorAll('.cart-count');
                 cartCounts.forEach(countEl => {
                     countEl.textContent = data.cartCount;
@@ -341,7 +304,6 @@ window.removeFromCart = function (button, cartId) {
                     setTimeout(() => countEl.classList.remove('scale-125'), 200);
                 });
 
-                // Update totals
                 const grandTotalEl = document.getElementById('grandTotal');
                 if (grandTotalEl) grandTotalEl.textContent = 'Rp ' + data.grandTotal;
 

@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         $faker = \Faker\Factory::create('id_ID');
@@ -29,7 +27,7 @@ class TransactionSeeder extends Seeder
             return;
         }
 
-        // Indonesian Reviews Dictionary (Positive, Rating 4-5)
+
         $reviews = [
             "Bukunya sangat bagus, kertasnya original. Pengiriman juga cepat.",
             "Packing rapi banget, pake bubble wrap tebal. Bukunya mulus sampai tujuan.",
@@ -48,32 +46,32 @@ class TransactionSeeder extends Seeder
             "Terima kasih, bukunya sangat bermanfaat buat skripsi saya."
         ];
 
-        // 1. Iterate ALL products to ensure everything is sold
+
         foreach ($products as $product) {
-            
+
             // Determine number of sales
             // Special case for "Laut Bercerita" to be Best Seller
             if ($product->slug === 'laut-bercerita') {
-                $salesCount = 25; 
+                $salesCount = 25;
             } else {
-                // Random sales between 3 and 8 for others
+
                 $salesCount = rand(3, 8);
             }
 
             for ($i = 0; $i < $salesCount; $i++) {
-                // Create Completed Order (Sold)
+
                 $reviewText = $reviews[array_rand($reviews)];
                 $this->createOrder($faker, $product, 'paid', 'completed', true, $reviewText);
             }
 
-            // 2. Create some Active/Pending orders for variety (randomly)
+
             if (rand(0, 1)) {
                 $statuses = ['processing', 'shipped'];
                 $this->createOrder($faker, $product, 'paid', $statuses[array_rand($statuses)]);
             }
-            
-            if (rand(0, 10) > 8) { // Occasional unpaid order
-                 $this->createOrder($faker, $product, 'unpaid', 'pending');
+
+            if (rand(0, 10) > 8) {
+                $this->createOrder($faker, $product, 'unpaid', 'pending');
             }
         }
     }
@@ -85,7 +83,7 @@ class TransactionSeeder extends Seeder
             return;
         }
 
-        // Create User & Buyer
+
         $user = User::create([
             'name' => $faker->name,
             'email' => $faker->unique()->safeEmail,
@@ -99,13 +97,13 @@ class TransactionSeeder extends Seeder
             'phone_number' => $faker->phoneNumber,
         ]);
 
-        // Calculate Amounts
+
         $shippingCost = 10000;
-        $tax = 0; // Simplified
+        $tax = 0;
         $productPrice = $product->price;
         $grandTotal = $productPrice + $shippingCost + $tax;
 
-        // Create Transaction
+
         $transaction = Transaction::create([
             'code' => 'TRX-' . Str::upper(Str::random(10)),
             'buyer_id' => $buyer->id,
@@ -126,7 +124,7 @@ class TransactionSeeder extends Seeder
             'tracking_number' => ($orderStatus === 'shipped' || $orderStatus === 'completed') ? 'JNE' . Str::upper(Str::random(10)) : null,
         ]);
 
-        // Create Detail
+
         TransactionDetail::create([
             'transaction_id' => $transaction->id,
             'product_id' => $product->id,
@@ -134,22 +132,22 @@ class TransactionSeeder extends Seeder
             'subtotal' => $product->price,
         ]);
 
-        // Decrement Stock
+
         $product->decrement('stock', 1);
 
-        // If Completed, Credit Balance & Create History
+
         if ($orderStatus === 'completed') {
             $storeBalance = StoreBalance::firstOrCreate(
                 ['store_id' => $product->store_id],
                 ['balance' => 0]
             );
 
-            // LOGIC: Same as SellerOrderController
-            $productSubtotal = $grandTotal - $shippingCost - $tax; 
-            $platformCommission = $productSubtotal * 0.03; // 3%
+
+            $productSubtotal = $grandTotal - $shippingCost - $tax;
+            $platformCommission = $productSubtotal * 0.03;
             $sellerEarnings = $productSubtotal + $shippingCost - $platformCommission;
 
-            // Direct update
+
             $storeBalance->increment('balance', $sellerEarnings);
 
             StoreBalanceHistory::create([
@@ -161,20 +159,19 @@ class TransactionSeeder extends Seeder
                 'remarks' => "Pesanan Diterima User #{$transaction->code}",
             ]);
 
-            // Add Wishlist (Simulate user liked it)
+
             \App\Models\Wishlist::firstOrCreate([
                 'user_id' => $user->id,
                 'product_id' => $product->id,
             ]);
         }
 
-        // Add Review if requested
         if ($addReview && $orderStatus === 'completed') {
             ProductReview::create([
                 'transaction_id' => $transaction->id,
                 'buyer_id' => $buyer->id,
                 'product_id' => $product->id,
-                'rating' => rand(4, 5), // Force High Rating
+                'rating' => rand(4, 5),
                 'review' => $reviewText ?? 'Sangat bagus!',
             ]);
         }

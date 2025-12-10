@@ -26,7 +26,7 @@ class Store extends Model
         'bank_account_number',
     ];
 
-    // relationships one store has one owner (user)
+
     public function user()
     {
         return $this->belongsTo(User::class);

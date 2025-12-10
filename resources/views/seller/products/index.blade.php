@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    <!-- Delete Product Modals -->
+
     @foreach($products as $product)
         @if($product->slug)
             <x-confirmation-modal 

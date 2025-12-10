@@ -1,7 +1,7 @@
 <x-store-layout>
     <div class="py-6 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header -->
+
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
                     <div class="flex items-center gap-3 mb-1">
@@ -35,9 +35,9 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Left Column: Order Items & details -->
+
                 <div class="lg:col-span-2 space-y-6">
-                    <!-- Tracking Number -->
+
                     @if($order->tracking_number)
                         <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 flex items-start gap-4">
                             <div class="p-3 bg-blue-100 rounded-xl text-blue-600">
@@ -51,7 +51,7 @@
                         </div>
                     @endif
 
-                    <!-- Products Card -->
+
                     <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
                         <div class="p-6 border-b border-gray-100 bg-white">
                             <h3 class="font-bold text-gray-800 flex items-center gap-2">
@@ -126,9 +126,9 @@
                     </div>
                 </div>
 
-                <!-- Right Column: Info & Actions -->
+
                 <div class="space-y-6">
-                    <!-- Actions Card -->
+
                     @if($order->payment_status === 'unpaid' || $order->order_status === 'shipped')
                         <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6">
                             <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -168,7 +168,7 @@
                         </div>
                     @endif
 
-                    <!-- Payment Status -->
+
                     <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
                             <svg class="w-5 h-5 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -195,7 +195,7 @@
                         </div>
                     </div>
 
-                    <!-- Store Info -->
+
                     <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
                              <svg class="w-5 h-5 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -231,7 +231,7 @@
                         </div>
                     </div>
 
-                    <!-- Address Info -->
+
                     <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
                             <svg class="w-5 h-5 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -250,7 +250,7 @@
         </div>
     </div>
 
-    <!-- Review Modal -->
+
     <div id="reviewModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeReviewModal()"></div>

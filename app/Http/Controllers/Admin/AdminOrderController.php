@@ -13,23 +13,23 @@ class AdminOrderController extends Controller
     {
         $query = Transaction::with(['store', 'buyer.user'])->latest();
 
-        // Filter status
+
         if ($request->filled('status')) {
             $query->where('order_status', $request->status);
         }
 
-        // Filter payment status
+
         if ($request->filled('payment_status')) {
             $query->where('payment_status', $request->payment_status);
         }
 
-        // Filter order code
+
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
+            $query->where(function ($q) use ($request) {
                 $q->where('code', 'like', '%' . $request->search . '%')
-                  ->orWhereHas('store', function($q) use ($request) {
-                      $q->where('name', 'like', '%' . $request->search . '%');
-                  });
+                    ->orWhereHas('store', function ($q) use ($request) {
+                        $q->where('name', 'like', '%' . $request->search . '%');
+                    });
             });
         }
 
@@ -53,7 +53,7 @@ class AdminOrderController extends Controller
         DB::transaction(function () use ($order) {
             $order->update([
                 'payment_status' => 'paid',
-                'order_status' => 'processing', // Auto-move to processing
+                'order_status' => 'processing',
             ]);
         });
 

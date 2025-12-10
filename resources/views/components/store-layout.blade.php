@@ -9,28 +9,28 @@
 
     <title>{{ config('app.name', 'SanDiv') }}</title>
 
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet">
 
-    <!-- Scripts -->
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans text-brand-dark antialiased bg-brand-gray">
     <div class="min-h-screen flex flex-col">
-        <!-- Header -->
+
         @include('layouts.navigation')
 
-        <!-- Main Content -->
+
         <main class="flex-grow">
             {{ $slot }}
         </main>
 
-        <!-- Footer -->
+
         <x-footer />
     </div>
 </body>

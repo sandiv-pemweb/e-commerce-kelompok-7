@@ -22,17 +22,17 @@ class ProductReviewController extends Controller
         $user = Auth::user();
         $transaction = Transaction::findOrFail($request->transaction_id);
 
-        // Ensure transaction belongs to user
+
         if ($transaction->buyer_id !== $user->buyer->id) {
             abort(403, 'Unauthorized action.');
         }
 
-        // Ensure transaction is completed
+
         if ($transaction->order_status !== 'completed' || $transaction->payment_status !== 'paid') {
             return back()->with('error', 'You can only review products from completed orders.');
         }
 
-        // Check if review already exists
+
         $existingReview = ProductReview::where('transaction_id', $transaction->id)
             ->where('product_id', $request->product_id)
             ->first();

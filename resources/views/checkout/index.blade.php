@@ -12,9 +12,9 @@
             <form action="{{ route('checkout.process') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Shipping Information -->
+
                     <div class="lg:col-span-2 space-y-8">
-                        <!-- Address Section -->
+
                         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                             <div class="flex items-center gap-3 mb-6">
                                 <div class="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold">1</div>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        <!-- Order Items by Store -->
+
                         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                             <div class="flex items-center gap-3 mb-6">
                                 <div class="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold">2</div>
@@ -84,7 +84,7 @@
                                             @endforeach
                                         </div>
 
-                                        <!-- Shipping Options for this store -->
+
                                         <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
                                             <input type="hidden" name="stores[{{ $loop->index }}][store_id]" value="{{ $storeId }}">
                                             
@@ -115,7 +115,7 @@
                         </div>
                     </div>
 
-                    <!-- Order Summary -->
+
                     <div class="lg:col-span-1">
                         <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 border border-gray-100">
                             <h3 class="text-xl  font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>

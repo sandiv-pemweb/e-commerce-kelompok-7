@@ -6,15 +6,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     * 
-     * Seeding order:
-     * 1. Admin users
-     * 2. Seller users with stores
-     * 3. Regular member users (buyers)
-     * 4. Products and categories
-     */
+
     public function run(): void
     {
         $this->call([

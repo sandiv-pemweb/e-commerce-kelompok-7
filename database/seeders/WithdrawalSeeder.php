@@ -10,28 +10,21 @@ use App\Models\Store;
 
 class WithdrawalSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
-        // Only run for stores that have balance/transactions
         $storeBalances = StoreBalance::with('store')->where('balance', '>', 0)->get();
 
         foreach ($storeBalances as $storeBalance) {
-            // 1. Create an Approved Withdrawal (Past)
-            // We assume the current balance is AFTER this withdrawal.
-            // So we need to create history and ensuring the math works.
-            // However, since TransactionSeeder pushed balance UP, 
-            // and we want to show some widthdrawals, we can just deduct from current balance.
-            
+
+
             if ($storeBalance->balance > 1000000) {
                 $amount = 500000;
-                
-                // Deduct balance
+
+
                 $storeBalance->decrement('balance', $amount);
-                
-                // Create Withdrawal Record
+
+
                 $withdrawal = Withdrawal::create([
                     'store_balance_id' => $storeBalance->id,
                     'amount' => $amount,
@@ -43,7 +36,7 @@ class WithdrawalSeeder extends Seeder
                     'updated_at' => now()->subDays(1),
                 ]);
 
-                // Create History Record (Manual, as Controller doesn't do it yet)
+
                 StoreBalanceHistory::create([
                     'store_balance_id' => $storeBalance->id,
                     'reference_id' => $withdrawal->id,
@@ -55,11 +48,11 @@ class WithdrawalSeeder extends Seeder
                 ]);
             }
 
-            // 2. Create a Pending Withdrawal (Current)
+
             if ($storeBalance->balance > 200000) {
                 $pendingAmount = 100000;
-                
-                // Deduct balance (Held)
+
+
                 $storeBalance->decrement('balance', $pendingAmount);
 
                 Withdrawal::create([
@@ -74,10 +67,9 @@ class WithdrawalSeeder extends Seeder
                 ]);
             }
 
-            // 3. Create a Rejected Withdrawal (Past)
-            // Balance shouldn't change (was deducted then refunded)
-            $rejectedAmount = 5000000; // Large amount rejected
-            
+
+            $rejectedAmount = 5000000;
+
             Withdrawal::create([
                 'store_balance_id' => $storeBalance->id,
                 'amount' => $rejectedAmount,
@@ -88,8 +80,8 @@ class WithdrawalSeeder extends Seeder
                 'created_at' => now()->subDays(5),
                 'updated_at' => now()->subDays(4),
             ]);
-            
-            // Note: No history for rejected withdrawals as net impact is 0
+
+
         }
     }
 }

@@ -19,7 +19,7 @@
             @if($cartByStore->count() > 0)
                     <form action="{{ route('checkout.index') }}" method="GET" id="checkoutForm">
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <!-- Cart Items -->
+
                             <div class="lg:col-span-2 space-y-6">
                                 @foreach($cartByStore as $storeId => $items)
                                     @php
@@ -28,7 +28,7 @@
                                             return $cart->subtotal; });
                                     @endphp
                                     <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 store-card">
-                                        <!-- Store Header -->
+
                                         <div
                                             class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                                             <div class="flex items-center gap-3">
@@ -54,11 +54,11 @@
                                                 checked>
                                         </div>
 
-                                        <!-- Store Items -->
+
                                         <div class="divide-y divide-gray-100">
                                             @foreach($items as $cart)
                                                 <div class="p-6 flex flex-col sm:flex-row gap-6 item-row">
-                                                    <!-- Product Image -->
+
                                                     <div
                                                         class="w-full sm:w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                                                         @if($cart->product->productImages->count() > 0)
@@ -67,7 +67,7 @@
                                                         @endif
                                                     </div>
 
-                                                    <!-- Product Details -->
+
                                                     <div class="flex-1">
                                                         <div class="flex justify-between items-start mb-2">
                                                             <h4 class="font-bold text-brand-dark text-lg">
@@ -85,7 +85,7 @@
                                                             unit</p>
 
                                                         <div class="flex items-center justify-between">
-                                                            <!-- Quantity Controls -->
+
                                                             <div
                                                                 class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
                                                                 <input type="number" value="{{ $cart->quantity }}" min="0"
@@ -94,7 +94,7 @@
                                                                     onchange="updateQuantity(this, {{ $cart->id }})">
                                                             </div>
 
-                                                            <!-- Remove Button -->
+
                                                             <button onclick="removeFromCart(this, {{ $cart->id }})"
                                                                 class="text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1 text-sm font-medium">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -113,7 +113,7 @@
                                 @endforeach
                             </div>
 
-                            <!-- Order Summary -->
+
                             <div class="lg:col-span-1">
                                 <div class="bg-white rounded-xl shadow-sm p-6 sticky top-8 border border-gray-100">
                                     <h3 class="text-xl  font-bold text-brand-dark mb-6">Ringkasan Pesanan</h3>

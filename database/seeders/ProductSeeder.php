@@ -11,45 +11,34 @@ use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     * 
-     * Responsibilities:
-     * 1. Create Product Categories
-     * 2. Create Products
-     * 3. Attach Product Images
-     * 
-     * Notes:
-     * - Does NOT creating transactions or reviews (moved to TransactionSeeder)
-     */
+
     public function run(): void
     {
-        // 1. Get Stores
+
         $bookland = Store::where('name', 'SanDiv Official')->firstOrFail();
         $gramedia = Store::where('name', 'Gramedia Digital')->firstOrFail();
         $periplus = Store::where('name', 'Periplus')->firstOrFail();
         $indie = Store::where('name', 'Indie Book Corner')->firstOrFail();
 
-        // 2. Create Categories
-        // SanDiv Categories
+
         $catBusiness = ProductCategory::firstOrCreate(['store_id' => $bookland->id, 'name' => 'Business & Strategy', 'slug' => 'business-strategy']);
         $catSelfHelp = ProductCategory::firstOrCreate(['store_id' => $bookland->id, 'name' => 'Self Help', 'slug' => 'self-help']);
-        
-        // Gramedia Categories
+
+
         $catFiction = ProductCategory::firstOrCreate(['store_id' => $gramedia->id, 'name' => 'Fiction', 'slug' => 'fiction']);
         $catRomance = ProductCategory::firstOrCreate(['store_id' => $gramedia->id, 'name' => 'Romance', 'slug' => 'romance', 'parent_id' => $catFiction->id]);
-        
-        // Periplus Categories
+
+
         $catEnglish = ProductCategory::firstOrCreate(['store_id' => $periplus->id, 'name' => 'English Books', 'slug' => 'english-books']);
         $catBio = ProductCategory::firstOrCreate(['store_id' => $periplus->id, 'name' => 'Biography', 'slug' => 'biography']);
 
-        // Indie Categories -> Now Moved to Gramedia (since Indie is unverified)
+
         $catSocial = ProductCategory::firstOrCreate(['store_id' => $gramedia->id, 'name' => 'Social & Politics', 'slug' => 'social-politics']);
         $catLit = ProductCategory::firstOrCreate(['store_id' => $gramedia->id, 'name' => 'Literature', 'slug' => 'literature']);
 
-        // 3. Define Books Data
+
         $books = [
-            // SanDiv Official (Business & Self Help)
+
             [
                 'store_id' => $bookland->id,
                 'category_id' => $catBusiness->id,
@@ -90,7 +79,7 @@ class ProductSeeder extends Seeder
                 'image' => 'https://cdn.gramedia.com/uploads/items/psychology_of_money.jpg'
             ],
 
-            // Gramedia Digital (Indonesian Fiction)
+
             [
                 'store_id' => $gramedia->id,
                 'category_id' => $catFiction->id,
@@ -144,7 +133,7 @@ class ProductSeeder extends Seeder
                 'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ938zLq7VNoof2AFRwnH8KAhFca6xoefqHUw&s'
             ],
 
-            // Periplus (Imported)
+
             [
                 'store_id' => $periplus->id,
                 'category_id' => $catEnglish->id,
@@ -185,7 +174,7 @@ class ProductSeeder extends Seeder
                 'image' => 'https://upload.wikimedia.org/wikipedia/id/thumb/e/e4/Steve_Jobs_by_Walter_Isaacson.jpg/250px-Steve_Jobs_by_Walter_Isaacson.jpg'
             ],
 
-            // Indie Book Corner -> Moved to Gramedia
+
             [
                 'store_id' => $gramedia->id,
                 'category_id' => $catSocial->id,
@@ -214,7 +203,7 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        // 4. Seed Products
+
         foreach ($books as $bookData) {
             $product = Product::create([
                 'store_id' => $bookData['store_id'],

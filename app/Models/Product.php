@@ -58,21 +58,21 @@ class Product extends Model
         return $this->hasMany(Wishlist::class);
     }
 
-    // Scopes
+
     public function scopeAvailable($query)
     {
         return $query->where('stock', '>', 0);
     }
 
-    // Accessors
+
     public function getFormattedPriceAttribute()
     {
-        return 'Rp ' . number_format($this->price, 0, ',', '.');
+        return 'Rp ' . number_format((float) $this->price, 0, ',', '.');
     }
 
     public function getFormattedDiscountPriceAttribute()
     {
-        return 'Rp ' . number_format($this->discount_price, 0, ',', '.');
+        return 'Rp ' . number_format((float) $this->discount_price, 0, ',', '.');
     }
 
     public function getDiscountPercentageAttribute()
@@ -101,15 +101,15 @@ class Product extends Model
 
     public function getSoldCountAttribute()
     {
-        // Sum of quantity sold from transaction details where payment is completed
+
         return $this->transactionDetails()
-            ->whereHas('transaction', function($query) {
+            ->whereHas('transaction', function ($query) {
                 $query->where('payment_status', 'paid');
             })
             ->sum('qty');
     }
 
-    // Helper Methods
+
     public function isAvailable($quantity = 1)
     {
         return $this->stock >= $quantity;

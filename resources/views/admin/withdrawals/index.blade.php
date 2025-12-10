@@ -17,7 +17,7 @@
                 </div>
             @endif
 
-            <!-- Filter -->
+
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100 mb-8">
                 <div class="p-8">
                     <form method="GET" class="flex flex-col md:flex-row gap-4 items-end">
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <!-- Table -->
+
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl border border-gray-100">
                 <div class="p-8">
                     @if($withdrawals->isEmpty())

@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="bg-white overflow-hidden shadow-sm rounded-3xl mb-10 border border-gray-100 relative">
-                <!-- Decorative Blob -->
+
                 <div
                     class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-brand-orange rounded-full opacity-10 blur-2xl">
                 </div>
@@ -42,10 +42,10 @@
             </div>
 
             @if(Auth::user()->isAdmin())
-                <!-- Admin Dashboard -->
+
                 <h3 class="text-xl font-bold text-brand-dark mb-6">Ringkasan Admin</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-                    <!-- Store Management Card -->
+
                     <div
                         class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
 
-                    <!-- User Management Card -->
+
                     <div
                         class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
@@ -101,14 +101,13 @@
                         </div>
                     </div>
 
-                    <!-- Order Management Card -->
+
                     <div
                         class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-6">
                                 <div class="p-3 bg-red-50 rounded-2xl group-hover:bg-red-100 transition-colors">
-                                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z">
                                         </path>
@@ -129,7 +128,7 @@
                         </div>
                     </div>
 
-                    <!-- Withdrawal Management Card -->
+
                     <div
                         class="bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border border-gray-100">
                         <div class="p-6">
@@ -168,7 +167,7 @@
                 @if(isset($adminSalesChartData) && isset($adminOrderStatusChartData))
                     <h3 class="text-xl font-bold text-brand-dark mb-6">Analisis Platform</h3>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-                        <!-- Admin Sales Trend Chart -->
+
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2">
                             <h4 class="font-bold text-gray-700 mb-4">Total Transaksi (30 Hari Terakhir)</h4>
                             <div class="relative h-64">
@@ -176,7 +175,7 @@
                             </div>
                         </div>
 
-                        <!-- Admin Order Status Chart -->
+
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                             <h4 class="font-bold text-gray-700 mb-4">Distribusi Status Pesanan</h4>
                             <div class="relative h-64">
@@ -185,10 +184,10 @@
                         </div>
                     </div>
 
-                    <!-- Chart.js Logic for Admin -->
+
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
+                        document.addEventListener('DOMContentLoaded', function () {
                             // Admin Sales Chart
                             if (document.getElementById('adminSalesChart')) {
                                 const adminSalesCtx = document.getElementById('adminSalesChart').getContext('2d');
@@ -218,7 +217,7 @@
                                             legend: { display: false },
                                             tooltip: {
                                                 callbacks: {
-                                                    label: function(context) {
+                                                    label: function (context) {
                                                         let label = context.dataset.label || '';
                                                         if (label) { label += ': '; }
                                                         if (context.parsed.y !== null) {
@@ -234,7 +233,7 @@
                                                 beginAtZero: true,
                                                 grid: { borderDash: [2, 4], color: '#f3f4f6' },
                                                 ticks: {
-                                                    callback: function(value) { return 'Rp ' + (value / 1000) + 'k'; }
+                                                    callback: function (value) { return 'Rp ' + (value / 1000) + 'k'; }
                                                 }
                                             },
                                             x: { grid: { display: false } }
@@ -279,10 +278,10 @@
 
             @elseif(Auth::user()->store)
                 @if(Auth::user()->store->is_verified)
-                    <!-- Verified Seller Dashboard -->
+
                     <h3 class="text-xl font-bold text-brand-dark mb-6">Ringkasan Toko</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-                        <!-- Total Orders -->
+
                         <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-50 rounded-full opacity-50 group-hover:scale-110 transition-transform">
@@ -303,7 +302,7 @@
                             </div>
                         </div>
 
-                        <!-- Total Products -->
+
                         <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-brand-orange/10 rounded-full opacity-50 group-hover:scale-110 transition-transform">
@@ -324,7 +323,7 @@
                             </div>
                         </div>
 
-                        <!-- Total Balance -->
+
                         <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-50 rounded-full opacity-50 group-hover:scale-110 transition-transform">
@@ -349,7 +348,7 @@
                     @if(isset($salesChartData) && isset($topProductsChartData))
                         <h3 class="text-xl font-bold text-brand-dark mb-6">Analisis Penjualan</h3>
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-                            <!-- Sales Trend Chart -->
+
                             <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2">
                                 <h4 class="font-bold text-gray-700 mb-4">Pendapatan 30 Hari Terakhir</h4>
                                 <div class="relative h-64">
@@ -357,7 +356,7 @@
                                 </div>
                             </div>
 
-                            <!-- Top Products Chart -->
+
                             <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                                 <h4 class="font-bold text-gray-700 mb-4">5 Produk Terlaris</h4>
                                 <div class="relative h-64">
@@ -366,10 +365,10 @@
                             </div>
                         </div>
 
-                        <!-- Chart.js Logic -->
+
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                         <script>
-                            document.addEventListener('DOMContentLoaded', function() {
+                            document.addEventListener('DOMContentLoaded', function () {
                                 // Sales Chart
                                 const salesCtx = document.getElementById('salesChart').getContext('2d');
                                 new Chart(salesCtx, {
@@ -398,7 +397,7 @@
                                             legend: { display: false },
                                             tooltip: {
                                                 callbacks: {
-                                                    label: function(context) {
+                                                    label: function (context) {
                                                         let label = context.dataset.label || '';
                                                         if (label) {
                                                             label += ': ';
@@ -416,7 +415,7 @@
                                                 beginAtZero: true,
                                                 grid: { borderDash: [2, 4], color: '#f3f4f6' },
                                                 ticks: {
-                                                    callback: function(value, index, values) {
+                                                    callback: function (value, index, values) {
                                                         return 'Rp ' + (value / 1000) + 'k';
                                                     }
                                                 }
@@ -470,7 +469,7 @@
                         </script>
                     @endif
 
-                    <!-- Quick Actions -->
+
                     <h3 class="text-xl  font-bold text-brand-dark mb-6">Aksi Cepat</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                         <a href="{{ route('seller.products.create') }}"
@@ -525,7 +524,7 @@
                     </div>
 
                 @else
-                    <!-- Unverified Seller Dashboard -->
+
                     <div class="bg-yellow-50 border border-yellow-200 rounded-3xl p-8 text-center">
                         <div
                             class="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4 text-yellow-600">
@@ -545,7 +544,7 @@
                 @endif
 
             @else
-                <!-- Member Dashboard (No Store) -->
+
                 @unless(Auth::user()->isAdmin())
                     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-10 text-center">
                         <div

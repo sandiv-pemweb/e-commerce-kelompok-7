@@ -12,16 +12,10 @@ use Illuminate\Support\Str;
 
 class SellerUserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     * 
-     * Creates seller accounts with their stores.
-     * Note: Sellers are identified by having a Store relationship, not by role.
-     * All sellers have 'member' role - this allows them to also be buyers.
-     */
+
     public function run(): void
     {
-        // Seller 1 - BookLand Official (Verified)
+
         $seller1 = User::create([
             'name' => 'Ikhsan Naufal',
             'email' => 'seller1@example.com',
@@ -52,7 +46,7 @@ class SellerUserSeeder extends Seeder
             'balance' => 0,
         ]);
 
-        // Seller 2 - Gramedia Digital (Verified)
+
         $seller2 = User::create([
             'name' => 'Gramedia Admin',
             'email' => 'seller2@example.com',
@@ -83,7 +77,7 @@ class SellerUserSeeder extends Seeder
             'balance' => 0,
         ]);
 
-        // Seller 3 - Periplus (Verified)
+
         $seller3 = User::create([
             'name' => 'Periplus Admin',
             'email' => 'seller3@example.com',
@@ -114,7 +108,7 @@ class SellerUserSeeder extends Seeder
             'balance' => 0,
         ]);
 
-        // Seller 4 - Indie Book Corner (Pending)
+
         $seller4 = User::create([
             'name' => 'Indie Admin',
             'email' => 'seller4@example.com',
@@ -140,10 +134,10 @@ class SellerUserSeeder extends Seeder
             'bank_account_number' => '1122334455',
         ]);
 
-        // Add StoreBalance for seller 4 (was missing before)
+
         StoreBalance::create([
             'store_id' => $store4->id,
-            'balance' => 0, // Start with 0 since it's pending verification
+            'balance' => 0,
         ]);
     }
 }

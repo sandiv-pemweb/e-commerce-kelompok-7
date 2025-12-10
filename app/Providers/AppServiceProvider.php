@@ -11,17 +11,13 @@ use App\Models\Wishlist;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+
     public function boot(): void
     {
         View::composer(['components.store-layout', 'layouts.navigation'], function ($view) {

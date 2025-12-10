@@ -1,9 +1,9 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
-    <!-- Primary Navigation Menu -->
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20">
             <div class="flex">
-                <!-- Logo -->
+
                 <div class="shrink-0 flex items-center gap-3">
                     <a href="{{ route('home') }}" class="flex items-center gap-2">
                         <div
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <!-- Search Bar -->
+
             <div class="flex flex-1 items-center max-w-lg mx-4 md:mx-8 hidden md:flex">
                 <form action="{{ route('products.index') }}" method="GET" class="relative w-full">
                     <input type="text" name="search" value="{{ request('search') }}"
@@ -37,7 +37,7 @@
                 </form>
             </div>
 
-            <!-- Right Navigation -->
+
             <div class="flex items-center gap-2 md:gap-6">
                 <a href="{{ route('products.index') }}"
                     class="flex items-center text-sm font-medium text-gray-700 hover:text-brand-orange transition-colors {{ request()->routeIs('products.*') ? 'text-brand-orange font-bold' : '' }}">
@@ -49,7 +49,7 @@
                 </a>
 
                 @auth
-                    <!-- Wishlist & Cart -->
+
                     <a href="{{ route('wishlist.index') }}"
                         class="relative p-2 text-brand-dark hover:text-brand-orange transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -103,7 +103,7 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <!-- Account Management -->
+
                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                     Akun
                                 </div>
@@ -128,7 +128,7 @@
                                     Pembelian Saya
                                 </x-dropdown-link>
 
-                                <!-- Store Management -->
+
                                 @if(Auth::user()->store)
                                     <div class="border-t border-gray-100 my-1"></div>
                                     <div class="block px-4 py-2 text-xs text-gray-400">
@@ -258,14 +258,14 @@
                                     </x-dropdown-link>
                                 @endif
 
-                                <!-- System -->
+
                                 <div class="border-t border-gray-100 my-1"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
 
                                     <x-dropdown-link :href="route('logout')"
                                         class="hover:text-brand-orange hover:bg-orange-50 flex items-center gap-3" onclick="event.preventDefault();
-                                                                    this.closest('form').submit();">
+                                                                        this.closest('form').submit();">
                                         <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -279,15 +279,15 @@
                     </div>
                 @else
                     <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
-                        <!-- Desktop: Log in text -->
+
                         <a href="{{ route('login') }}"
                             class="hidden md:inline text-sm font-semibold text-brand-dark hover:text-brand-orange">Masuk</a>
 
-                        <!-- Mobile: Log in button -->
+
                         <a href="{{ route('login') }}"
                             class="md:hidden px-4 py-2 text-sm font-bold text-white bg-brand-dark rounded-lg hover:bg-brand-orange transition-colors shadow-sm">Masuk</a>
 
-                        <!-- Register: Hidden on mobile -->
+
                         <a href="{{ route('register') }}"
                             class="hidden md:inline-flex px-4 py-2 text-sm font-semibold text-white bg-brand-dark rounded-lg hover:bg-brand-orange transition-colors">Daftar</a>
                     </div>

@@ -1,14 +1,14 @@
 <x-store-layout>
     <div class="bg-brand-gray min-h-screen py-6" x-data="{ showFilters: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header -->
+
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>
                     <h2 class="text-3xl  font-bold text-brand-dark">Koleksi Kami</h2>
                     <p class="mt-2 text-gray-500">Jelajahi berbagai macam buku dan produk kami.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-3 w-full md:flex md:w-auto md:items-center">
-                    <!-- Mobile Filter Toggle -->
+
                     <button @click="showFilters = !showFilters" class="lg:hidden w-full bg-white border border-gray-200 text-brand-dark font-medium py-2.5 px-4 rounded-xl flex items-center justify-between shadow-sm hover:shadow-md transition-all h-11">
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-brand-orange">
@@ -22,7 +22,7 @@
                     </button>
 
                     <form id="sortForm" method="GET" action="{{ route('products.index') }}" class="relative w-full md:w-auto">
-                        <!-- Preserve existing filters -->
+
                         @if(request('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
                         @if(request('categories')) 
                             @foreach(request('categories') as $cat)
@@ -50,14 +50,14 @@
 
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                <!-- Sidebar Filters -->
+
                 <div class="lg:col-span-1 lg:!block" x-show="showFilters" x-transition.origin.top x-cloak>
                     <div class="sticky top-24 space-y-6">
                         <form method="GET" action="{{ route('products.index') }}" id="filterForm">
                             @if(request('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
                             @if(request('sort')) <input type="hidden" name="sort" value="{{ request('sort') }}"> @endif
 
-                            <!-- Categories -->
+
                             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                                 <div class="p-6 border-b border-gray-100 bg-gray-50/50">
                                     <h3 class="font-bold text-brand-dark">Kategori</h3>
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
 
-                            <!-- Price Range -->
+
                             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mt-6">
                                 <div class="p-6 border-b border-gray-100 bg-gray-50/50">
                                     <h3 class="font-bold text-brand-dark">Rentang Harga</h3>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
 
-                <!-- Product Grid -->
+
                 <div class="lg:col-span-3">
 
 
@@ -211,7 +211,7 @@
                             @endforeach
                         </div>
 
-                        <!-- Pagination -->
+
                         <div class="mt-12">
                             {{ $products->links() }}
                         </div>

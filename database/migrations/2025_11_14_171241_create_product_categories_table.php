@@ -6,11 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\text;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
+
     public function up(): void
     {
         Schema::create('product_categories', function (Blueprint $table) {
@@ -26,9 +23,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('product_categories');

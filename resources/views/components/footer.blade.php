@@ -17,7 +17,7 @@
                     berkomitmen untuk memberikan pelayanan terbaik bagi pelanggan kami.
                 </p>
                 <div class="flex gap-4">
-                    <!-- Social Icons -->
+
                     <a href="#" class="text-gray-400 hover:text-brand-orange transition-colors"><span
                             class="sr-only">Facebook</span><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"

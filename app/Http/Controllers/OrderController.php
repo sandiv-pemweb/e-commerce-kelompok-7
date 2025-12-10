@@ -17,7 +17,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        // Get buyer
+
         $buyer = Buyer::where('user_id', Auth::id())->first();
 
         if (!$buyer) {
@@ -34,9 +34,9 @@ class OrderController extends Controller
 
     public function show(Transaction $order)
     {
-        // Ensure user owns this order
+
         $buyer = Buyer::where('user_id', Auth::id())->first();
-        
+
         if (!$buyer || $order->buyer_id !== $buyer->id) {
             abort(403, 'Unauthorized access to this order');
         }
@@ -48,9 +48,9 @@ class OrderController extends Controller
 
     public function complete(Transaction $order)
     {
-        // Ensure user owns this order
+
         $buyer = Buyer::where('user_id', Auth::id())->first();
-        
+
         if (!$buyer || $order->buyer_id !== $buyer->id) {
             abort(403, 'Unauthorized access to this order');
         }
@@ -61,26 +61,25 @@ class OrderController extends Controller
 
         try {
             DB::transaction(function () use ($order) {
-                // Lock the order record to prevent double processing
+
                 $lockedOrder = Transaction::where('id', $order->id)->lockForUpdate()->first();
 
-                // Verify status again after lock
+
                 if ($lockedOrder->order_status !== 'shipped') {
                     throw new Exception('Pesanan tidak dalam status dikirim.');
                 }
-                
+
                 $lockedOrder->update(['order_status' => 'completed']);
-                
-                // Use lockedOrder for subsequent checks
+
+
                 $order = $lockedOrder;
-                
-                // --- BALANCE CREDIT LOGIC ---
-                // Calculate seller earnings
+
+
                 $productSubtotal = $order->grand_total - $order->shipping_cost - $order->tax;
-                $platformCommission = $productSubtotal * 0.03; // 3% commission
+                $platformCommission = $productSubtotal * 0.03;
                 $sellerEarnings = $productSubtotal + $order->shipping_cost - $platformCommission;
-                
-                // Check duplicate credit
+
+
                 if ($order->balance_credited_at === null) {
                     $store = $order->store;
                     $storeBalance = StoreBalance::firstOrCreate(
@@ -88,10 +87,10 @@ class OrderController extends Controller
                         ['balance' => 0]
                     );
 
-                    // Increment balance
+
                     $storeBalance->increment('balance', $sellerEarnings);
 
-                    // Record history
+
                     StoreBalanceHistory::create([
                         'store_balance_id' => $storeBalance->id,
                         'type' => 'income',
@@ -101,7 +100,7 @@ class OrderController extends Controller
                         'remarks' => "Pesanan Diterima User #{$order->code} (Produk: Rp " . number_format($productSubtotal, 0, ',', '.') . " + Ongkir: Rp " . number_format($order->shipping_cost, 0, ',', '.') . " - Komisi 3%: Rp " . number_format($platformCommission, 0, ',', '.') . ")",
                     ]);
 
-                    // Mark as credited
+
                     $order->balance_credited_at = now();
                     $order->save();
                 }

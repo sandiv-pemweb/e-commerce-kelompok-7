@@ -12,7 +12,7 @@ class Cart extends Model
         'quantity',
     ];
 
-    // Relationships
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -23,13 +23,13 @@ class Cart extends Model
         return $this->belongsTo(Product::class);
     }
 
-    // Helper Methods
+
     public function getSubtotalAttribute()
     {
         return $this->product->price * $this->quantity;
     }
 
-    // Scopes
+
     public function scopeGroupedByStore($query)
     {
         return $query->with(['product.store', 'product.productImages'])

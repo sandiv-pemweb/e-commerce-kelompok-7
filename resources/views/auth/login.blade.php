@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <!-- Page Title -->
+
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-900 text-center">
             Masuk ke Akun Anda
@@ -9,13 +9,13 @@
         </p>
     </div>
 
-    <!-- Session Status -->
+
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Email Address -->
+
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
@@ -23,7 +23,7 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
+
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
@@ -33,7 +33,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me & Forgot Password -->
+
         <div class="flex items-center justify-between mt-4">
             <label for="remember_me" class="inline-flex items-center">
                 <input id="remember_me" type="checkbox"
@@ -56,7 +56,7 @@
         </div>
     </form>
 
-    <!-- Register Link -->
+
     <div class="mt-6 text-center border-t pt-4">
         <p class="text-sm text-gray-600">
             Belum punya akun?

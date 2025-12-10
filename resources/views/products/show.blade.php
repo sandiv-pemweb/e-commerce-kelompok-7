@@ -2,10 +2,10 @@
     <div class="bg-gray-50 min-h-screen py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Top Section: Image & Main Info -->
+
             <div class="bg-white rounded-3xl shadow-sm p-8 mb-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <!-- Product Image (Left) -->
+
                     <div class="lg:col-span-4">
                         <div class="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 shadow-lg group">
                             @if($product->productImages->count() > 0)
@@ -21,7 +21,7 @@
                                 </div>
                             @endif
                         </div>
-                        <!-- Thumbnails -->
+
                         @if($product->productImages->count() > 1)
                             <div class="flex gap-3 mt-4 overflow-x-auto pb-2">
                                 @foreach($product->productImages as $image)
@@ -35,12 +35,12 @@
                         @endif
                     </div>
 
-                    <!-- Main Info (Right) -->
+
                     <div class="lg:col-span-8 flex flex-col">
                         <div class="flex justify-between items-start mb-4">
                             <h1 class="text-4xl  font-bold text-brand-dark leading-tight">{{ $product->name }}
                             </h1>
-                            <!-- Wishlist Button -->
+
                             <button onclick="toggleWishlist(this, {{ $product->id }})"
                                 class="p-3 bg-gray-50 rounded-full {{ Auth::user() && Auth::user()->wishlists->contains('product_id', $product->id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500' }} hover:bg-red-50 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@
                             </button>
                         </div>
 
-                        <!-- Rating & Social -->
+
                         <div class="flex items-center gap-6 mb-8">
                             <div class="flex items-center gap-2">
                                 <div class="flex text-brand-orange">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
 
-                        <!-- Meta Info -->
+
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 border-y border-gray-100 py-6">
                             <div>
                                 <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Penulis</p>
@@ -125,12 +125,12 @@
                             </div>
                         </div>
 
-                        <!-- Description -->
+
                         <div class="prose prose-sm text-gray-500 mb-8 max-w-none">
                             <p class="line-clamp-3">{{ $product->description }}</p>
                         </div>
 
-                        <!-- Price & Actions -->
+
                         <div class="mt-auto">
                             <div class="flex items-center gap-4 mb-8">
                                 @if($product->discount_price > 0)
@@ -150,7 +150,7 @@
                             <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
                                 @auth
                                     @if($product->stock > 0)
-                                        <!-- Quantity -->
+
                                         <div
                                             class="flex items-center justify-between md:justify-start border border-gray-200 rounded-lg w-full md:w-auto">
                                             <button type="button" id="decrement-button"
@@ -187,12 +187,12 @@
                 </div>
             </div>
 
-            <!-- Bottom Section: Details & Related -->
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Left: Tabs & Content -->
+
                 <div class="lg:col-span-8">
                     <div class="bg-white rounded-3xl shadow-sm p-8 min-h-[500px]" x-data="{ activeTab: 'details' }">
-                        <!-- Tabs -->
+
                         <div class="flex items-center gap-8 border-b border-gray-100 mb-8 overflow-x-auto no-scrollbar">
                             <button @click="activeTab = 'details'"
                                 :class="{ 'border-brand-orange text-brand-dark': activeTab === 'details', 'border-transparent text-gray-400 hover:text-gray-600': activeTab !== 'details' }"
@@ -206,7 +206,7 @@
                             </button>
                         </div>
 
-                        <!-- Details Content -->
+
                         <div x-show="activeTab === 'details'" x-transition:enter="transition ease-out duration-300"
                             x-transition:enter-start="opacity-0 transform scale-95"
                             x-transition:enter-end="opacity-100 transform scale-100">
@@ -260,7 +260,7 @@
                             </div>
                         </div>
 
-                        <!-- Reviews Content -->
+
                         <div x-show="activeTab === 'reviews'" x-cloak
                             x-transition:enter="transition ease-out duration-300"
                             x-transition:enter-start="opacity-0 transform scale-95"
@@ -315,7 +315,7 @@
                     </div>
                 </div>
 
-                <!-- Right: Related Books -->
+
                 <div class="lg:col-span-4">
                     <div class="bg-white rounded-3xl shadow-sm p-6">
                         <h3 class="font-bold text-xl text-brand-dark mb-6">Buku Terkait</h3>

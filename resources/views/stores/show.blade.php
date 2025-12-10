@@ -1,7 +1,7 @@
 <x-store-layout>
     <div class="py-6 bg-brand-gray min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Store Header -->
+
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
                 <div class="h-40 bg-gradient-to-r from-brand-dark to-brand-orange"></div>
                 <div class="px-8 pb-8">
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <!-- Store Products -->
+
             <div class="mb-6">
                 <h2 class=" font-bold text-2xl text-brand-dark mb-4">Products</h2>
                 @if($products->count() > 0)
