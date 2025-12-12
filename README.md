@@ -1,6 +1,8 @@
 # E-Commerce Kelompok 7
 
-Project E-Commerce ini dibangun menggunakan **Laravel 12** dan **Vite** untuk frontend tooling.
+Project E-Commerce ini dibangun menggunakan **Laravel 12** dan **Vite** untuk frontend tooling. Project ini dibuat oleh kelompok 7 untuk UAP Pemrograman Web.
+
+**Live Demo:** [sandiv.siam.my.id](https://sandiv.siam.my.id)
 
 ## Struktur Database
 
@@ -73,13 +75,19 @@ php artisan migrate:fresh --seed
 ```
 *Tips: Gunakan opsi ini jika Anda ingin langsung melihat tampilan aplikasi yang terisi penuh.*
 
-### 7. Install Frontend Dependencies
+### 7. Setup Storage Link
+Buat symlink agar file di `storage/app/public` dapat diakses dari web:
+```bash
+php artisan storage:link
+```
+
+### 8. Install Frontend Dependencies
 Install library JavaScript yang dibutuhkan:
 ```bash
 npm install
 ```
 
-### 8. Build Assets
+### 9. Build Assets
 Compile aset frontend (CSS/JS) untuk development:
 ```bash
 npm run build
